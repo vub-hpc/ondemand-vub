@@ -1,0 +1,93 @@
+/* import VUB Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* define VUB colors as variables */
+:root {
+  --vubblue: #223F7A;
+  --vuborange: #E36539;
+  /* dark grey */
+  --defaultcol: #505050;
+}
+
+/* set default font to Roboto */
+body {
+  font-family: Roboto, sans-serif;
+}
+
+/* new "All Apps" button */
+/* replaces "all available apps" link */
+.allapps_button {
+  color: var(--defaultcol);
+  background-color: white;
+  border: 0px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  font-weight: 300;
+  font-size: 24px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 5px;
+  float: right;
+}
+
+/* scale "All Apps" button when hovering over it (press effect) */
+.allapps_button:hover {
+  transform: scale(0.96);
+}
+
+/* override app-launcher border and color */
+/* changes app tiles style */
+.app-launcher .launcher-click {
+  border: 0px;
+  color: var(--defaultcol);
+}
+
+/* override h4 font-weight (light weight) */
+/* changes "VUB Ondemand" title */
+h4 {
+  font-weight: 300;
+}
+
+/* override h3 color, background-color and font-weight */
+/* changes "Pinnned Apps" style */
+h2, h3 {
+  color: var(--defaultcol);
+  background-color: lightgrey;
+  font-weight: 300;
+  font-size: 24px;
+  width: 100%;
+  padding-left: 105px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+/* override apps-section-header-blue color and background-color */
+/* changes "Recently Used Apps" style */
+.apps-section-header-blue {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  color: var(--defaultcol);
+  background-color: lightgrey;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* override text-muted font-size */
+/* removes "System Installed App" text */
+.text-muted {
+  font-size: 0;
+}
+
+/* override app-launcher icon size and margins */
+/* makes icons smaller and more centered */
+.app-launcher i, .app-launcher img {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 4rem;
+}
+
+/* override app-launcher title margin-bottom */
+/* removes excessive space below the title */
+.app-launcher p.app-title {
+  margin-bottom: -5px;
+}
