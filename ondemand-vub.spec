@@ -19,6 +19,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %install
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers
 %{__install} -pm644 ood.rb %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers/
+%{__install} -pm644 ood/profile %{buildroot}%{_sysconfdir}/ood/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
@@ -26,8 +27,10 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__mkdir_p} %{buildroot}/%{_localstatedir}/www/ood/public
 %{__install} -pm644 html/* %{buildroot}/%{_localstatedir}/www/ood/public/
 
+
 %files
 %defattr(-,root,root,-)
+/etc/ood/profile
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /var/www/ood/public

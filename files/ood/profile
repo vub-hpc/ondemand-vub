@@ -1,0 +1,20 @@
+PUNUSER=""
+
+for ((i = 1; i <= $#; i++)); do
+  arg="${!i}"
+
+  # Check if the argument is "-u" followed by a username
+  if [[ "$arg" == "-u" ]]; then
+    next_index=$((i + 1))
+    PUNUSER="${!next_index}"
+    break
+  fi
+done
+
+if [ -n "$PUNUSER" ]; then
+    logger -- "Setting the VSC variables for $PUNUSER"
+    eval "$(runuser -u "${PUNUSER}" -- python3 /usr/bin/vsc_env bash)"
+    export OOD_DATAROOT=${VSC_DATA}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/
+
+    runuser -u "${PUNUSER}" /usr/local/bin/vscautokey.sh &
+fi
