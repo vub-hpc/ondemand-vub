@@ -3,9 +3,6 @@ Rails.application.config.after_initialize do
 
   OodFilesApp.candidate_favorite_paths.tap do |paths|
     paths.clear()
-    # add general paths
-    paths << FavoritePath.new(User.new.home.sub("/user", "/data"), title: "Personal Data Directory")
-    paths << FavoritePath.new(User.new.home.sub("/user", "/scratch"), title: "Personal Scratch Directory")
 
     # add VSC paths
     envs = ["VSC_DATA", "VSC_SCRATCH", "VSC_DATA_VO_USER", "VSC_SCRATCH_VO_USER", "VSC_DATA_VO", "VSC_SCRATCH_VO"]
