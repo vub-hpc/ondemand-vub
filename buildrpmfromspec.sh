@@ -57,7 +57,7 @@ find $rpmbasedir/RPMS -name ${name}-[0-9]\* -exec rm -vf {} \;
 
 echo "----> Copying files"
 cp -vr files/* $src_dir
-cp -vr apps/* $src_dir
+cp -vr apps $src_dir
 if [ -d data ]
 then
   cp -vr data/* $src_dir
