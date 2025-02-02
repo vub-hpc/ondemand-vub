@@ -16,5 +16,5 @@ if [ -n "$PUNUSER" ]; then
     eval "$(runuser -u "${PUNUSER}" -- python3 /usr/bin/vsc_env bash)"
     export OOD_DATAROOT=${VSC_DATA}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/
 
-    runuser -u "${PUNUSER}" /usr/local/bin/vscautokey.sh &
+    runuser -u "${PUNUSER}" bash /etc/profile.d/vscautokey.sh &
 fi
