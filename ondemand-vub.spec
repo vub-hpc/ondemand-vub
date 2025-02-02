@@ -1,3 +1,6 @@
+# Disable debuginfo as it causes issues with bundled gems that build libraries
+%global debug_package %{nil}
+
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
 Version: 1.0
@@ -7,6 +10,12 @@ License: GPL
 Group: Applications/System
 Source: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+
+Requires: ondemand
+
+# Disable automatic dependencies as it causes issues with bundled gems and
+# node.js packages used in the apps
+AutoReqProv: no
 
 %description
 Scripts, customizations and tools for Open OnDemand as used at the VUB.
@@ -27,6 +36,9 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__mkdir_p} %{buildroot}/%{_localstatedir}/www/ood/public
 %{__install} -pm644 html/* %{buildroot}/%{_localstatedir}/www/ood/public/
 
+%{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/apps/sys
+%{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
+
 
 %files
 %defattr(-,root,root,-)
@@ -34,6 +46,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /var/www/ood/public
+/var/www/ood/apps/sys
 
 %changelog
 * Fri Jan 31 2025 Ward Poelmans <ward.poelmans@vub.be>
