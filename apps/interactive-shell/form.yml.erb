@@ -1,0 +1,50 @@
+---
+cluster: "*"
+
+# Define attribute values that aren't meant to be modified by the user within
+# the Dashboard form
+attributes:
+  num_cores:
+    widget: "number_field"
+    label: "Number of cores"
+    value: 1
+    required: true
+    min: 1
+    max: 64
+    step: 1
+  bc_num_gpu_slots:
+    label: "Number of GPUs"
+    help: 'Specify the total number of GPUs for the job.'
+    widget: "number_field"
+    value: 0
+    min: 0
+    max: 2
+    step: 1
+  bc_num_hours:
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
+  prerun:
+    label: "Pre-run scriptlet"
+    required: false
+    widget: "text_area"
+    help: "Bash commands to be executed before starting application"
+  working_dir:
+    label: Working Directory
+    help: |
+      - Optionally select your working directory
+      - The default is your home directory ($HOME) when left empty."
+    widget: "path_selector"
+    show_files: false
+
+form:
+  - auto_queues
+  - num_cores
+  - bc_num_slots
+  - bc_num_gpu_slots
+  - bc_num_hours
+  - working_dir
+  - prerun
+  - bc_email_on_started

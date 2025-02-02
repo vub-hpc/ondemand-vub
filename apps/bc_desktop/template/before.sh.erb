@@ -1,0 +1,10 @@
+# Export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+# Set User Defined Working Directory
+<%- if context.working_dir.blank? -%>
+OOD_WD="$HOME"
+<%- else -%>
+OOD_WD="<%= context.working_dir.to_s %>"
+<%- end -%>
+export OOD_WD

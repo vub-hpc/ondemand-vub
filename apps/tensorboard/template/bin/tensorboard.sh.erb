@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# This runs inside the network namespace
+# We can use any port we like
+
+bin/authrevproxy.py \
+  --app-port=8080 \
+  --proxy-port=80 \
+  --bind-host="0.0.0.0" &> proxy.log &
+
+TOOLCHAIN=<%= context.toolchain %>
+
+modules_to_load=()
+
+case "${TOOLCHAIN}" in
+  2022a )
+    modules_to_load+=("TensorFlow/2.11.0-foss-2022a")
+    ;;
+  2023a )
+    modules_to_load+=("TensorFlow/2.13.0-foss-2023a")
+    ;;
+  * )
+    echo "ERROR: Unsupported toolchain selected"
+    exit 1
+    ;;
+esac
+
+module load "${modules_to_load[@]}"
+
+<%- unless context.prerun.empty? -%>
+<%= context.prerun %>
+<%- end -%>
+
+tensorboard \
+  --port 8080 \
+  --logdir "$OOD_WD"

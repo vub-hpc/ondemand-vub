@@ -1,0 +1,42 @@
+#!/usr/bin/env -S bash -l
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+export UNSHARE_PID_FILE="<%= session.staged_root %>/pid"
+
+# slirp4netns complains about log socket names, so can't use session.staged_root
+export SLIRP_SOCKET="$(mktemp)"
+
+#
+# Start TensorBoard
+#
+echo "TIMING - Starting TensorBoard at: $(date)"
+# start tensorboard in a network namespace
+unshare -nr bin/tensorboard.sh &> tensorboard.log &
+UNSHARE_PID=$!
+
+# give the tensorboard.sh a second or two to boot up
+sleep 3
+
+echo "Starting network interface"
+# This creates a tap0 device in the network namespace and provides a socket to configure
+slirp4netns \
+  --configure \
+  --api-socket "$SLIRP_SOCKET" \
+  $UNSHARE_PID \
+  tap0 > network.log &
+
+# now given network interface a second to boot
+sleep 2
+
+# now we've to to add the routing rule to the network
+# This configures that $port in the host network namespace connects to port 80 inside the tensorboard namespace
+echo "configuring network interface to use port $port"
+SLIRP_CFG="{\"execute\": \"add_hostfwd\", \"arguments\": {\"proto\": \"tcp\", \"host_addr\": \"0.0.0.0\", \"host_port\": $port, \"guest_addr\": \"10.0.2.100\", \"guest_port\": 80}}"
+echo -n "$SLIRP_CFG" | nc -U "$SLIRP_SOCKET"
+
+echo "" # output from nc ^ doesn't end in a newline
+
+# tail the unshared environment just for something to hang on to
+tail --pid $UNSHARE_PID -f /proc/$UNSHARE_PID/fd/1

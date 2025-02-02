@@ -1,0 +1,21 @@
+# export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+# data dir generation
+# Set User Defined Working Directory
+<%- if context.working_dir.blank? -%>
+OOD_WD="$HOME"
+<%- else -%>
+OOD_WD="<%= context.working_dir.to_s %>"
+<%- end -%>
+export OOD_WD
+
+# find available port to run the AuthRevProxy on
+export port=$(find_port ${host})
+
+# generate password
+password="$(create_passwd 32)"
+
+# export token for cookie verification by authrevproxy
+# replace dashes by underscores in session.id
+export _ood_token_<%= session.id.gsub("-","_") %>="${password}"

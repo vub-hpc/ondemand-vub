@@ -1,0 +1,23 @@
+#!/usr/bin/env -S bash -l
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+# Set working directory
+cd "$OOD_WD" || true
+
+module load code-server/4.93.1
+
+mkdir -p "${VSC_DATA}/.config/code-server/extensions"
+
+<%- unless context.prerun.empty? -%>
+<%= context.prerun.gsub("\r", "") %>
+<%- end -%>
+
+code-server \
+    --auth="password" \
+    --bind-addr="0.0.0.0:${port}" \
+    --disable-telemetry \
+    --extensions-dir="${VSC_DATA}/.config/code-server/extensions" \
+    --user-data-dir="${VSC_DATA}" \
+    --log debug

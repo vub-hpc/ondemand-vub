@@ -1,0 +1,9 @@
+---
+name: Interactive Shell v2
+category: Interactive Apps
+subcategory: Testing
+role: batch_connect
+description: |
+  This app will launch a persistant and interactive shell on a compute node in the cluster.
+  Your default shell, will be launched by tmux.
+

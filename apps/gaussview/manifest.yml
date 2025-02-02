@@ -1,0 +1,8 @@
+---
+name: GaussView
+category: Interactive Apps
+subcategory: Visualization
+role: batch_connect
+description: |
+    This app will launch GaussView on one node.
+

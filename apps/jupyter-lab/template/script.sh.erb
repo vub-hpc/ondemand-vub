@@ -1,0 +1,52 @@
+#!/usr/bin/env -S bash -l
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+# Set working directory to home directory
+cd "$OOD_WD" || true
+
+TOOLCHAIN=<%= context.toolchain %>
+LOAD_SCIPY=<%= context.load_scipy %>
+LOAD_MATPLOTLIB=<%= context.load_matplotlib %>
+LOAD_DASK=<%= context.load_dask %>
+
+modules_to_load=()
+
+case "${TOOLCHAIN}" in
+  2022a )
+    modules_to_load+=("JupyterHub/3.1.1-GCCcore-11.3.0")
+    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2022.05-foss-2022a")
+    [[ "${LOAD_MATPLOTLIB}" == 'yes' ]] && modules_to_load+=("ipympl/0.9.3-foss-2022a")
+    [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/6.0.0-foss-2022a" "xarray/2022.6.0-foss-2022a" "zarr/2.13.3-foss-2022a")
+    ;;
+  2023a )
+    modules_to_load+=("Jupyter-bundle/20240522-GCCcore-12.3.0")
+    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2023.07-gfbf-2023a")
+    [[ "${LOAD_MATPLOTLIB}" == 'yes' ]] && modules_to_load+=("ipympl/0.9.4-gfbf-2023a")
+    [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/7.0.0-foss-2023a" "xarray/2023.9.0-gfbf-2023a" "zarr/2.17.1-foss-2023a")
+    ;;
+  * )
+    echo "ERROR: Unsupported toolchain selected"
+    exit 1
+    ;;
+esac
+
+module load "${modules_to_load[@]}"
+
+<%- unless context.prerun.empty? -%>
+<%= context.prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Append user’s server config to $CONFIG_FILE so it takes precedence
+USER_CONFIG_FILE="$(jupyter --config-dir)/jupyter_server_config.py"
+if [[ -f "$USER_CONFIG_FILE" ]]; then
+    echo "appending $USER_CONFIG_FILE to ${CONFIG_FILE}"
+    cat "$USER_CONFIG_FILE" >> "${CONFIG_FILE}"
+fi
+
+#
+# Start Jupyter Notebook Server
+#
+echo "TIMING - Starting jupyter at: $(date)"
+${EBROOTJUPYTERLAB}/bin/jupyter-lab -y --no-browser --config="${CONFIG_FILE}"

@@ -1,0 +1,15 @@
+# Job submission configuration file
+#
+---
+
+#
+# Configure the content of the job script for the batch job here
+# @see http://www.rubydoc.info/gems/ood_core/OodCore/BatchConnect/Template
+#
+batch_connect:
+  template: "basic"
+
+script:
+  native:
+    - "--cpus-per-task=<%= num_cores.to_i %>"
+    - "--gpus-per-node=<%= bc_num_gpu_slots.blank? ? 0 : bc_num_gpu_slots.to_i %>"

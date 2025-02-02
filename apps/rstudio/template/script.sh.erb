@@ -1,0 +1,58 @@
+#!/usr/bin/env -S bash -l
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+cd "$OOD_WD" || true
+
+TOOLCHAIN=<%= context.toolchain %>
+R_BUNDLE_CRAN=<%= context.r_bundle_cran %>
+R_BUNDLE_BIOCONDUCTOR=<%= context.r_bundle_bioconductor %>
+
+modules_to_load=()
+
+case "${TOOLCHAIN}" in
+  2022a )
+    modules_to_load+=("RStudio-Server/2022.07.2+576-foss-2022a-Java-11-R-4.2.1")
+    # (there is no R-bundle-CRAN for 2022a, all packages are in the R module)
+    if [[ ${R_BUNDLE_BIOCONDUCTOR} == "yes" ]]; then modules_to_load+=("R-bundle-Bioconductor/3.15-foss-2022a-R-4.2.1"); fi
+    ;;
+  2023a )
+    modules_to_load+=("RStudio-Server/2023.12.1+402-gfbf-2023a-Java-11-R-4.3.2")
+    if [[ ${R_BUNDLE_CRAN} == "yes" ]]; then modules_to_load+=("R-bundle-CRAN/2023.12-foss-2023a"); fi
+    if [[ ${R_BUNDLE_BIOCONDUCTOR} == "yes" ]]; then modules_to_load+=("R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2"); fi
+    ;;
+  * )
+    echo "ERROR: Unsupported toolchain selected"
+    exit 1
+    ;;
+esac
+
+module load "${modules_to_load[@]}"
+
+# PAM auth helper used by RStudio
+export RSTUDIO_AUTH="$OOD_SESSION_STAGED_ROOT/bin/auth"
+export RSESSION_LOG_FILE="$OOD_SESSION_STAGED_ROOT/rsession.log"
+
+<%- unless context.prerun.empty? -%>
+<%= context.prerun.gsub("\r", "") %>
+<%- end -%>
+
+# write environment to a file.
+export > "$OOD_SESSION_STAGED_ROOT/env.sh"
+
+RSESSION_WRAPPER_SCRIPT="$OOD_SESSION_STAGED_ROOT/rsession.sh"
+
+# Launch the RStudio Server
+echo "Starting up rserver on $HOSTNAME with password $RSTUDIO_PASSWORD for $USER"
+
+$EBROOTRSTUDIOMINSERVER/bin/rserver \
+  --rsession-path "${RSESSION_WRAPPER_SCRIPT}" \
+  --www-port "${port}" \
+  --auth-none 0 \
+  --auth-pam-helper-path "${RSTUDIO_AUTH}" \
+  --auth-encrypt-password 0 \
+  --database-config-file "$OOD_SESSION_STAGED_ROOT/bin/database.conf" \
+  --server-data-dir "/tmp/run-$USER" \
+  --server-working-dir "$OOD_WD" \
+  --server-user "$USER"

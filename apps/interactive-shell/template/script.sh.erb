@@ -1,0 +1,12 @@
+#!/usr/bin/env -S bash -l
+
+#exec prerun
+<%- unless context.prerun.empty? -%>
+<%= context.prerun.gsub("\r", "") %>
+<%- end -%>
+
+tmux new-session -c ~/ -d -s ondemand
+
+while true; do
+  sleep infinity
+done

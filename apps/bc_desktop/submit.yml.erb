@@ -1,0 +1,10 @@
+---
+batch_connect:
+  template: vnc
+  websockify_cmd: "/usr/bin/websockify"
+  geometry: "<%= resolution %>"
+
+script:
+  native:
+    - "--cpus-per-task=<%= num_cores.to_i %>"
+    - "--gpus-per-node=<%= bc_num_gpu_slots.blank? ? 0 : bc_num_gpu_slots.to_i %>"

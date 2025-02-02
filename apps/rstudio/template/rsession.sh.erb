@@ -1,0 +1,17 @@
+#!/usr/bin/env -S bash -l
+
+# rsession.sh doesn't share the same env as the outside script
+# so environment variables need to be set explicitly
+
+envfile="<%= session.staged_root %>/env.sh"
+
+# set environment from environment file
+source "${envfile}"
+
+# Launch the R session
+echo "Launching rsession..."
+"${EBROOTRSTUDIOMINSERVER}/bin/rsession" \
+  --r-libs-user "${R_LIBS_USER}" \
+  --session-default-working-dir "$OOD_WD" \
+  --session-default-new-project-dir "$OOD_WD" \
+  "${@}"
