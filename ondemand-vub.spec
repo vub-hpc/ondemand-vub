@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.4
+Version: 1.5
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -51,6 +51,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %changelog
 * Thu Feb 06 2025 Samuel Moors <samuel.moors@vub.be>
 - Add nglview and py3dmol extensions to jupyterlab
+- Fix execute permissions for RStudio rsession.sh script
 * Mon Feb 03 2025 Ward Poelmans <ward.poelmans@vub.be>
 - Fix shebangs so rpmbuild leaves them alone
 * Sun Feb 02 2025 Ward Poelmans <ward.poelmans@vub.be>
