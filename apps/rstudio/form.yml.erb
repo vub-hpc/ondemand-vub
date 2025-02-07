@@ -52,6 +52,10 @@ attributes:
       - The default is your home directory ($HOME) when left empty."
     widget: "path_selector"
     show_files: false
+  clean_workspace:
+    label: "Clean workspace at startup"
+    widget: "check_box"
+    checked_value: "yes"
 
 form:
   - auto_queues
@@ -65,3 +69,4 @@ form:
   - bc_num_hours
   - prerun
   - bc_email_on_started
+  - clean_workspace
