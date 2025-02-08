@@ -12,7 +12,7 @@ ARGS=( "$@" )
 CLEAN_WORKSPACE=<%= context.clean_workspace %>
 
 # rserver passess "--r-restore-workspace 2" to rsession, let's update it inplace
-if [[ ${CLEAN_WORKSPACE} == "yes" ]]; then
+if [[ "${CLEAN_WORKSPACE}" == "yes" ]]; then
     ARGS=()
     while [[ $# -gt 0 ]]; do
         if [[ "$1" == "--r-restore-workspace" ]]; then
