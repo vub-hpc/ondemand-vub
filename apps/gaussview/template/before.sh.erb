@@ -31,7 +31,7 @@
 
 # Set User Defined Working Directory
 <%- if context.working_dir.blank? -%>
-OOD_WD="$HOME"
+OOD_WD="$VSC_DATA"
 <%- else -%>
 OOD_WD="<%= context.working_dir.to_s %>"
 <%- end -%>
