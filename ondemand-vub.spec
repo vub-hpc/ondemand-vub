@@ -3,8 +3,8 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.6
-Release: 2
+Version: 1.7
+Release: 1
 BuildArch: noarch
 License: GPL
 Group: Applications/System
@@ -49,6 +49,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Mon Feb 10 2025 Samuel Moors <samuel.moors@vub.be>
+- Fix clean workspace option
 * Sat Feb 08 2025 Samuel Moors <samuel.moors@vub.be>
 - Add checkbox to start with clean workspace for RStudio
 * Thu Feb 06 2025 Samuel Moors <samuel.moors@vub.be>
