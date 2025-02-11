@@ -17,6 +17,10 @@ attributes:
     label: "Load R-bundle-Bioconductor module for additional packages"
     widget: "check_box"
     checked_value: "yes"
+  clean_workspace:
+    label: "Clean workspace at startup"
+    widget: "check_box"
+    checked_value: "yes"
 
 form:
   - auto_queues
@@ -29,4 +33,5 @@ form:
   - global_bc_num_hours
   - global_working_dir
   - global_prerun
+  - clean_workspace
   - bc_email_on_started

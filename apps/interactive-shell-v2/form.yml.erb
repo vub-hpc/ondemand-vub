@@ -19,7 +19,7 @@ attributes:
     label: "Tmux: Use Bundled Config File"
     help: |
       - Checked = load config included with this interactive app
-      - Unchecked = No config file is specified and Tmux will look in the default locations (usually '$HOME/.tmux.conf')
+      - Unchecked = No config file is specified and Tmux will look in the default locations (usually <code>$HOME/.tmux.conf</code>)
         - Ensure your config file is compatible with Tmux 3.1b!
     widget: check_box
     value: "1"
@@ -31,8 +31,8 @@ form:
   - bc_num_slots
   - global_bc_num_gpu_slots
   - global_bc_num_hours
-  - global_working_dir
   - advanced_font_size
   - advanced_tmux_config
+  - global_working_dir
   - global_prerun
   - bc_email_on_started

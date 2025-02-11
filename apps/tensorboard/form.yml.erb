@@ -9,6 +9,13 @@ attributes:
     options:
       - ["2023a: tensorboard/2.15.1-gfbf-2023a", "2023a"]
       - ["2022a: tensorboard/2.10.0-foss-2022a", "2022a"]
+  working_dir:
+    label: TensorBoard log directory
+    help: |
+      - Optionally select your TensorBoard log directory.
+      - The default is your <i>data</i> directory (<code>$VSC_DATA</code>) when left empty.
+    widget: "path_selector"
+    show_files: false
 
 form:
   - auto_queues
@@ -17,6 +24,6 @@ form:
   - bc_num_slots
   - global_bc_num_gpu_slots
   - global_bc_num_hours
-  - global_working_dir
+  - working_dir
   - global_prerun
   - bc_email_on_started
