@@ -20,8 +20,8 @@ else
   export VGL_DISPLAY=$DISPLAY
 fi
 
-<%- unless context.prerun.empty? -%>
-<%= context.prerun.gsub("\r", "") %>
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
 # Start up desktop

@@ -27,8 +27,8 @@ esac
 
 module load "${modules_to_load[@]}"
 
-<%- unless context.prerun.empty? -%>
-<%= context.prerun %>
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun %>
 <%- end -%>
 
 tensorboard \
