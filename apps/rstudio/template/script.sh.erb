@@ -34,8 +34,8 @@ module load "${modules_to_load[@]}"
 export RSTUDIO_AUTH="$OOD_SESSION_STAGED_ROOT/bin/auth"
 export RSESSION_LOG_FILE="$OOD_SESSION_STAGED_ROOT/rsession.log"
 
-<%- unless context.prerun.empty? -%>
-<%= context.prerun.gsub("\r", "") %>
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
 CLEAN_WORKSPACE=<%= context.clean_workspace %>

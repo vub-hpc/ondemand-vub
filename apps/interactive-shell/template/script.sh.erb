@@ -1,8 +1,8 @@
 #!/usr/bin/bash -l
 
 #exec prerun
-<%- unless context.prerun.empty? -%>
-<%= context.prerun.gsub("\r", "") %>
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
 tmux new-session -c ~/ -d -s ondemand

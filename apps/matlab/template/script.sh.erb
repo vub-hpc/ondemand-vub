@@ -15,8 +15,8 @@ echo "Selected MATLAB/<%= context.matlab_version %>"
 
 module load MATLAB/<%= context.matlab_version %> matlab-proxy
 
-<%- unless context.prerun.empty? -%>
-<%= context.prerun.gsub("\r", "") %>
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
 echo "TIMING - Starting MATLAB at: $(date)"

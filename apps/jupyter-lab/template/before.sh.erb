@@ -38,10 +38,10 @@ password="$(create_passwd 16)"
 PASSWORD_SHA1="$(echo -n "${password}${SALT}" | openssl dgst -sha1 | awk '{print $NF}')"
 # data dir generation
 # Set User Defined Working Directory
-<%- if context.working_dir.blank? -%>
-OOD_WD="$HOME"
+<%- if context.global_working_dir.blank? -%>
+OOD_WD="$VSC_DATA"
 <%- else -%>
-OOD_WD="<%= context.working_dir.to_s %>"
+OOD_WD="<%= context.global_working_dir.to_s %>"
 <%- end -%>
 export OOD_WD
 
