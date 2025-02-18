@@ -18,6 +18,10 @@ case "${TOOLCHAIN}" in
     ;;
   2023a )
     modules_to_load+=("TensorFlow/2.13.0-foss-2023a")
+    # avoid "TypeError: Descriptors cannot not be created directly", causing tensorboard-plugin-wit to be unavailable
+    # due to incompatibility with protobuf v4
+    # https://github.com/tensorflow/tensorboard/issues/6195
+    export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
     ;;
   * )
     echo "ERROR: Unsupported toolchain selected"
