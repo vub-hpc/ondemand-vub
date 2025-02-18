@@ -1,6 +1,3 @@
 source "<%= session.staged_root %>/common_before.sh"
 
-# Define a password and export it
-export password="$(create_passwd 20)"
-
 export OOD_CONTEXT_CLEANUP_LOGIN=<%= context.advanced_cleanup_login %>
