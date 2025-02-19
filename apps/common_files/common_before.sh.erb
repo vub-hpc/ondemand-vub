@@ -1,0 +1,31 @@
+# export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+<%-
+  if defined?(context.working_dir)
+    working_dir = context.working_dir
+  elsif defined?(context.global_working_dir)
+    working_dir = context.global_working_dir
+  else
+    working_dir = ""
+  end
+  if working_dir.blank?
+    working_dir = ENV['VSC_DATA']
+  end
+-%>
+
+# Set User Defined Working Directory
+export OOD_WD="<%= working_dir.to_s %>"
+echo "working dir: $OOD_WD"
+
+if [[ -z $port ]]; then
+    export port=$(find_port ${host})
+    echo "port: $port"
+fi
+
+if [[ -z $password ]]; then
+    export password="$(create_passwd 32)"
+    echo "password set"
+fi
+
+export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
