@@ -9,15 +9,14 @@
   else
     working_dir = ""
   end
+  if working_dir.blank?
+    working_dir = ENV['VSC_DATA']
+  end
 -%>
 
 # Set User Defined Working Directory
-<%- if working_dir.blank? -%>
-OOD_WD="$VSC_DATA"
-<%- else -%>
-OOD_WD="<%= working_dir.to_s %>"
-<%- end -%>
-export OOD_WD
+export OOD_WD="<%= working_dir.to_s %>"
+echo "working dir: $OOD_WD"
 
 if [[ -z $port ]]; then
     export port=$(find_port ${host})
@@ -26,6 +25,7 @@ fi
 
 if [[ -z $password ]]; then
     export password="$(create_passwd 32)"
+    echo "password set"
 fi
 
 export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
