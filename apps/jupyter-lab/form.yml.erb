@@ -3,6 +3,13 @@ cluster: "*"
 
 # app-specific attributes
 attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
   toolchain:
     label: "Toolchain and Python versions"
     widget: "select"
@@ -15,17 +22,17 @@ attributes:
     checked_value: "yes"
     unchecked_value: "no"
   load_matplotlib:
-    label: "Load the matplotlib module"
+    label: "Load the matplotlib module (incl. matplotlib labextension)"
     widget: "check_box"
     checked_value: "yes"
     unchecked_value: "no"
   load_dask:
-    label: "Load the dask module"
+    label: "Load the dask module (incl. Dask labextension)"
     widget: "check_box"
     checked_value: "yes"
     unchecked_value: "no"
   load_molecules:
-    label: "Load the nglview and py3Dmol modules"
+    label: "Load the nglview and py3Dmol modules (incl. nglview and py3Dmol labextensions)"
     widget: "check_box"
     checked_value: "yes"
     unchecked_value: "no"
@@ -40,7 +47,7 @@ form:
   - global_num_cores
   - bc_num_slots
   - global_bc_num_gpu_slots
-  - global_bc_num_hours
+  - bc_num_hours
   - global_working_dir
   - global_prerun
   - bc_email_on_started

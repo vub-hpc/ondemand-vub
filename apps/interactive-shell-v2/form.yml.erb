@@ -3,13 +3,20 @@ cluster: "*"
 
 # app-specific attributes
 attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
   advanced_font_size:
     label: Font Size
     help: |
       Default terminal (xterm.js) font size.
 
       - Dynamic font/zoom adjustments via Ctrl+(Plus|Minux|0) has UI bugs.
-      - To change font size you will need to Delete the running interactive app card and then launch a new job with the desired font size.
+      - To change font size, cancel your running interactive shell session and launch a new job with the desired font size.
     widget: number_field
     max: 30
     min: 10
@@ -24,13 +31,12 @@ attributes:
     widget: check_box
     value: "1"
 
-
 form:
   - auto_queues
   - global_num_cores
   - bc_num_slots
   - global_bc_num_gpu_slots
-  - global_bc_num_hours
+  - bc_num_hours
   - advanced_font_size
   - advanced_tmux_config
   - global_working_dir

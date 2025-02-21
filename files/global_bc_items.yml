@@ -15,13 +15,6 @@ global_bc_form_items:
     min: 0
     max: 2
     step: 1
-  global_bc_num_hours:
-    label: "Number of hours"
-    widget: "number_field"
-    value: 12
-    min: 1
-    max: 120
-    step: 1
   global_prerun:
     label: "Pre-run scriptlet"
     required: false
