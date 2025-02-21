@@ -3,6 +3,13 @@ cluster: "*"
 
 # app-specific attributes
 attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
   toolchain:
     label: "Select TensorBoard version"
     widget: "select"
@@ -23,7 +30,7 @@ form:
   - global_num_cores
   - bc_num_slots
   - global_bc_num_gpu_slots
-  - global_bc_num_hours
+  - bc_num_hours
   - working_dir
   - global_prerun
   - bc_email_on_started

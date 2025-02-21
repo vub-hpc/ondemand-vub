@@ -3,6 +3,6 @@ name: Interactive Shell
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
+icon: fa://greater-than
 description: |
-    This app will launch an interactive shell on a node.
-
+  This app will launch an interactive shell on the compute nodes.

@@ -4,5 +4,4 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch a Tensorboard server on one node.
-
+    This app will launch Tensorboard on the compute nodes.

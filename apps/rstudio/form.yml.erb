@@ -3,6 +3,13 @@ cluster: "*"
 
 # app-specific attributes
 attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
   toolchain:
     label: "Select RStudio version"
     widget: "select"
@@ -21,6 +28,8 @@ attributes:
     label: "Clean workspace at startup"
     widget: "check_box"
     checked_value: "yes"
+    help: |
+      Note: user preferences take priority over this option.
 
 form:
   - auto_queues
@@ -30,7 +39,7 @@ form:
   - global_num_cores
   - bc_num_slots
   - global_bc_num_gpu_slots
-  - global_bc_num_hours
+  - bc_num_hours
   - global_working_dir
   - global_prerun
   - clean_workspace

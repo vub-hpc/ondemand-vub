@@ -4,5 +4,5 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch a MATLAB session on one node.
+    This app will launch MATLAB on the compute nodes.
 

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+module load code-cli
+
+OOD_CONTEXT_CLEANUP_LOGIN=<%= context.advanced_cleanup_login %>
+
 if [[ "$OOD_CONTEXT_CLEANUP_LOGIN" -eq 1 ]]; then
     tokfn=~/.vscode/cli/token.json
     echo "Cleaning up local token file $fn"
