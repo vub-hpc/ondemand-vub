@@ -86,7 +86,7 @@ chmod +x "$waitfor"
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
-# Launch VS Code tunnel
+# Launch tmux
 echo "TIMING - Starting tmux at: $(date)"
 
 # already start tmux, don't wait till a connection is made to ttyd

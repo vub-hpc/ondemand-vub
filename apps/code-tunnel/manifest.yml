@@ -4,8 +4,6 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-  This app will launch a [VS Code tunnel] for remote development.
-  (The tunnel URL can also be used directly to connect to a VS Code
-  server using a browser; but we recommend the VS Code app for that).
+  This app will launch a [VS Code tunnel] for remote development in your locally installed VS Code application.
 
   [VS Code tunnel]: https://code.visualstudio.com/docs/remote/tunnels
