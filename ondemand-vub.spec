@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.9
+Version: 1.10
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -52,6 +52,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Fri Feb 21 2025 Samuel Moors <samuel.moors@vub.be>
+- Various updates
 * Sat Feb 15 2025 Samuel Moors <samuel.moors@vub.be>
 - Use common before.sh file for all apps
 * Wed Feb 12 2025 Samuel Moors <samuel.moors@vub.be>
