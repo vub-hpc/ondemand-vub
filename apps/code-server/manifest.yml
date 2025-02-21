@@ -4,4 +4,4 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch Visual Studio Code server on one or more nodes.
+    This app will launch VS Code Server on the compute nodes.

@@ -5,6 +5,4 @@ subcategory: Servers
 role: batch_connect
 icon: fa://greater-than
 description: |
-  This app will launch a persistant and interactive shell on a compute node in the cluster.
-  Your default shell, will be launched by tmux.
-
+  This app will launch an interactive shell on the compute nodes.
