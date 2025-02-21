@@ -1,7 +1,7 @@
 ---
 name: VS Code Tunnel
 category: Interactive Apps
-subcategory: Testing
+subcategory: Servers
 role: batch_connect
 description: |
   This app will launch a [VS Code tunnel] for remote development.

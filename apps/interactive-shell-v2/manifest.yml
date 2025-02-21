@@ -1,7 +1,7 @@
 ---
-name: Interactive Shell v2
+name: Interactive Shell
 category: Interactive Apps
-subcategory: Testing
+subcategory: Servers
 role: batch_connect
 description: |
   This app will launch a persistant and interactive shell on a compute node in the cluster.

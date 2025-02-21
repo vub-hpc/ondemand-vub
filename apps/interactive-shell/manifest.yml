@@ -1,8 +1,0 @@
----
-name: Interactive Shell
-category: Interactive Apps
-subcategory: Servers
-role: batch_connect
-description: |
-    This app will launch an interactive shell on a node.
-
