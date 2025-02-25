@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.12
+Version: 1.13
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -52,6 +52,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Feb 25 2025 Ward Poelmans <ward.poelmans@vub.be>
+- Unversioned code-server module load
 * Mon Feb 24 2025 Samuel Moors <samuel.moors@vub.be>
 - Revert to bc_num_hours also for desktop and gaussview
 * Fri Feb 21 2025 Samuel Moors <samuel.moors@vub.be>
