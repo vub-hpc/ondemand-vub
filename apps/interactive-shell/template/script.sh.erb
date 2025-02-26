@@ -2,14 +2,6 @@
 
 cd "$OOD_WD" || true
 
-# Make symlinks for ~/.vscode and ~/.vscode-server
-for dir in .vscode .vscode-server; do
-    if [[ ! -e ~/"$dir" ]]; then
-        mkdir -v -p "$VSC_DATA/$dir"
-        ln -v -s "$VSC_DATA/$dir" ~/"$dir"
-    fi
-done
-
 # Unset bash timeout
 unset TMOUT
 
