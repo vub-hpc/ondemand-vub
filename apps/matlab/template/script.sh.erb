@@ -11,6 +11,12 @@ export MWI_AUTH_TOKEN="$password"
 # Set working directory
 cd "$OOD_WD" || true
 
+# Make symlink for ~/.MathWorks
+if [[ ! -e ~/.MathWorks ]]; then
+    mkdir -v -p "$VSC_DATA/.MathWorks"
+    ln -v -s "$VSC_DATA/.MathWorks" ~/.MathWorks
+fi
+
 echo "Selected MATLAB/<%= context.matlab_version %>"
 
 module load MATLAB/<%= context.matlab_version %> matlab-proxy
