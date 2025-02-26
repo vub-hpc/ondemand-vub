@@ -6,9 +6,21 @@ echo "TIMING - Starting main script at: $(date)"
 # Set working directory
 cd "$OOD_WD" || true
 
+# Make symlinks for ~/.vscode and ~/.vscode-server
+for dir in .vscode .vscode-server; do
+    if [[ ! -e ~/"$dir" ]]; then
+        mkdir -v -p "$VSC_DATA/$dir"
+        ln -v -s "$VSC_DATA/$dir" ~/"$dir"
+    fi
+done
+
 module load code-server
 
-mkdir -p "${VSC_DATA}/.config/code-server/extensions"
+extensions_dir="${VSC_DATA}/.config/code-server/extensions"
+data_dir="${VSC_DATA}/.config/code-server/data"
+
+mkdir -p "$extensions_dir"
+mkdir -p "$data_dir"
 
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
@@ -18,6 +30,6 @@ code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \
-    --extensions-dir="${VSC_DATA}/.config/code-server/extensions" \
-    --user-data-dir="${VSC_DATA}" \
+    --extensions-dir="$extensions_dir" \
+    --user-data-dir="$data_dir" \
     --log debug

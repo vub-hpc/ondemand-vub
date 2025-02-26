@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.13
+Version: 1.14
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -52,6 +52,10 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Wed Feb 26 2025 Samuel Moors <samuel.moors@vub.be>
+- Add symlinks for MATLAB and VS Code
+- Set XDG_DATA_HOME for RStudio
+- Change user-data-dir for code-server
 * Tue Feb 25 2025 Ward Poelmans <ward.poelmans@vub.be>
 - Unversioned code-server module load
 * Mon Feb 24 2025 Samuel Moors <samuel.moors@vub.be>
