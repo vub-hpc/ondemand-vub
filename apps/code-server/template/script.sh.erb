@@ -16,7 +16,11 @@ done
 
 module load code-server
 
-mkdir -p "${VSC_DATA}/.config/code-server/extensions"
+extensions_dir="${VSC_DATA}/.config/code-server/extensions"
+data_dir="${VSC_DATA}/.config/code-server/data"
+
+mkdir -p "$extensions_dir"
+mkdir -p "$data_dir"
 
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
@@ -26,6 +30,6 @@ code-server \
     --auth="password" \
     --bind-addr="0.0.0.0:${port}" \
     --disable-telemetry \
-    --extensions-dir="${VSC_DATA}/.config/code-server/extensions" \
-    --user-data-dir="${VSC_DATA}" \
+    --extensions-dir="$extensions_dir" \
+    --user-data-dir="$data_dir" \
     --log debug
