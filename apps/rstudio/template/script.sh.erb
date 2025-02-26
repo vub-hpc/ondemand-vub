@@ -7,8 +7,8 @@ cd "$OOD_WD" || true
 
 # Set XDG_DATA_HOME to redirect the rstudio cache
 if [[ -z "$XDG_DATA_HOME" ]]; then
-    echo "setting XDG_DATA_HOME=$VSC_DATA/.local/share"
     export XDG_DATA_HOME="$VSC_DATA/.local/share"
+    echo "setting XDG_DATA_HOME=$XDG_DATA_HOME"
 fi
 
 TOOLCHAIN=<%= context.toolchain %>
