@@ -16,8 +16,8 @@ echo "TIMING - Starting TensorBoard at: $(date)"
 unshare -nr bin/tensorboard.sh &> tensorboard.log &
 UNSHARE_PID=$!
 
-# give the tensorboard.sh some time to load the modules and boot up
-sleep 20
+# give tensorboard.sh some time to load the modules and boot up
+sleep 2
 
 echo "Starting network interface"
 # This creates a tap0 device in the network namespace and provides a socket to configure
