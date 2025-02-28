@@ -78,11 +78,19 @@ h2, h3 {
   font-size: 0;
 }
 
-/* override app-launcher icon size and margins */
-/* makes icons smaller and more centered */
-.app-launcher i, .app-launcher img {
+/* override app-launcher image size and margins */
+/* makes images smaller and more centered */
+.app-launcher img {
   margin-top: 20px;
   margin-bottom: 10px;
+  font-size: 4rem;
+}
+
+/* override app-launcher icon size and margins */
+/* makes icons smaller and more centered */
+.app-launcher i {
+  margin-top: 35px;
+  margin-bottom: 20px;
   font-size: 4rem;
 }
 
@@ -90,4 +98,9 @@ h2, h3 {
 /* removes excessive space below the title */
 .app-launcher p.app-title {
   margin-bottom: -5px;
+}
+
+/* override interactive apps header background-color on interactive sessions page */
+.system-and-shared-apps-header {
+  background-color: var(--vubblue);
 }
