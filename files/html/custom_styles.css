@@ -7,6 +7,7 @@
   --vuborange: #E36539;
   /* dark grey */
   --defaultcol: #505050;
+  --defaultbg: #e9ecef;
 }
 
 /* set default font to Roboto */
@@ -51,7 +52,7 @@ h4 {
 /* changes "Pinnned Apps" style */
 h2, h3 {
   color: var(--defaultcol);
-  background-color: lightgrey;
+  background-color: var(--defaultbg);
   font-weight: 300;
   font-size: 24px;
   width: 100%;
@@ -67,7 +68,7 @@ h2, h3 {
   margin-top: 20px;
   margin-bottom: 15px;
   color: var(--defaultcol);
-  background-color: lightgrey;
+  background-color: var(--defaultbg);
   padding-top: 5px;
   padding-bottom: 5px;
 }
