@@ -103,6 +103,12 @@ h2, h3 {
   background-color: var(--vubblue);
 }
 
+/* set background color of the dashboard */
 .col-md-8 {
    background-color: var(--defaultbg);
+}
+
+/* increase VUB logo size */
+.py-2 {
+  height: 5rem;
 }
