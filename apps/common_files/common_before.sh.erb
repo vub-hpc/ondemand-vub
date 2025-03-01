@@ -29,6 +29,3 @@ if [[ -z $password ]]; then
 fi
 
 export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
-
-# make sure we are in the staged root dir in case users 'cd' into another dir in their .bashrc
-cd "$OOD_SESSION_STAGED_ROOT"
