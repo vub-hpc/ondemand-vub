@@ -54,6 +54,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %changelog
 * Sat Mar 01 2025 Samuel Moors <samuel.moors@vub.be>
 - Use absolute paths for TensorBoard
+- More css tweaks
 * Fri Feb 28 2025 Samuel Moors <samuel.moors@vub.be>
 - Update icons + some css tweaks
 * Thu Feb 27 2025 Samuel Moors <samuel.moors@vub.be>
