@@ -6,5 +6,5 @@ role: batch_connect
 description: |
   This app will launch [RStudio Server] (an IDE for [R]) on the compute nodes.
 
-  [RStudio Server]: https://www.rstudio.com/products/rstudio-server/
+  [RStudio Server]: https://posit.co/products/open-source/rstudio-server/
   [R]: https://www.r-project.org/
