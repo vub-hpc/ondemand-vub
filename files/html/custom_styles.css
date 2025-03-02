@@ -28,7 +28,8 @@ body {
 /* scale "All Apps" button when hovering over it (press effect) */
 .allapps_button:hover {
   transform: scale(0.96);
-  background-color: white;
+  color: white;
+  background-color: var(--defaultbg);
 }
 
 /* override app-launcher border and color */
