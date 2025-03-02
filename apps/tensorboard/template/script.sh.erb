@@ -13,7 +13,7 @@ export SLIRP_SOCKET="$(mktemp)"
 #
 echo "TIMING - Starting TensorBoard at: $(date)"
 # start tensorboard in a network namespace
-unshare -nr bin/tensorboard.sh &> tensorboard.log &
+unshare -nr "$OOD_SESSION_STAGED_ROOT/bin/tensorboard.sh" &> "$OOD_SESSION_STAGED_ROOT/tensorboard.log" &
 UNSHARE_PID=$!
 
 # give tensorboard.sh some time to load the modules and boot up
@@ -25,7 +25,7 @@ slirp4netns \
   --configure \
   --api-socket "$SLIRP_SOCKET" \
   $UNSHARE_PID \
-  tap0 > network.log &
+  tap0 > "$OOD_SESSION_STAGED_ROOT/network.log" &
 
 # now given network interface a second to boot
 sleep 2

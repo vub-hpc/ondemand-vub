@@ -3,10 +3,10 @@
 # This runs inside the network namespace
 # We can use any port we like
 
-bin/authrevproxy.py \
+"$OOD_SESSION_STAGED_ROOT/bin/authrevproxy.py" \
   --app-port=8080 \
   --proxy-port=80 \
-  --bind-host="0.0.0.0" &> proxy.log &
+  --bind-host="0.0.0.0" &> "$OOD_SESSION_STAGED_ROOT/proxy.log" &
 
 TOOLCHAIN=<%= context.toolchain %>
 

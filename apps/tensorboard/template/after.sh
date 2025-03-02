@@ -25,7 +25,7 @@ function wait_until_tb_ready () {
 
 echo "$(date): waiting for TensorBoard server to get ready..."
 
-if wait_until_tb_ready tensorboard.log 180; then
+if wait_until_tb_ready "$OOD_SESSION_STAGED_ROOT/tensorboard.log" 180; then
     echo "$(date): TensorBoard server ready!"
 
 else

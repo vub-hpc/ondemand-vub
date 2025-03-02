@@ -37,7 +37,7 @@ class TokenResource(Resource):
 
         # get ood token cookie
         # - cookie name depends on the ood interactive session id ($PWD)
-        ood_session_id = os.path.basename(os.getcwd())
+        ood_session_id = os.path.basename(os.getenv('OOD_SESSION_STAGED_ROOT', os.getcwd()))
         cookie_name = str.encode(f"_ood_token_{ood_session_id}")
         cookie_bytes = request.getCookie(cookie_name)
 

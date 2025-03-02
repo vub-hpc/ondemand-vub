@@ -7,6 +7,7 @@
   --vuborange: #E36539;
   /* dark grey */
   --defaultcol: #505050;
+  --defaultbg: #e9ecef;
 }
 
 /* set default font to Roboto */
@@ -18,20 +19,16 @@ body {
 /* replaces "all available apps" link */
 .allapps_button {
   color: var(--defaultcol);
-  background-color: white;
   border: 0px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   font-weight: 300;
   font-size: 24px;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-right: 5px;
   float: right;
 }
 
 /* scale "All Apps" button when hovering over it (press effect) */
 .allapps_button:hover {
-  transform: scale(0.96);
+  transform: scale(0.9);
+  background-color: var(--defaultbg);
 }
 
 /* override app-launcher border and color */
@@ -39,6 +36,7 @@ body {
 .app-launcher .launcher-click {
   border: 0px;
   color: var(--defaultcol);
+  background-color: white;
 }
 
 /* override h4 font-weight (light weight) */
@@ -51,7 +49,7 @@ h4 {
 /* changes "Pinnned Apps" style */
 h2, h3 {
   color: var(--defaultcol);
-  background-color: lightgrey;
+  background-color: var(--defaultbg);
   font-weight: 300;
   font-size: 24px;
   width: 100%;
@@ -67,7 +65,7 @@ h2, h3 {
   margin-top: 20px;
   margin-bottom: 15px;
   color: var(--defaultcol);
-  background-color: lightgrey;
+  background-color: var(--defaultbg);
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -103,4 +101,14 @@ h2, h3 {
 /* override interactive apps header background-color on interactive sessions page */
 .system-and-shared-apps-header {
   background-color: var(--vubblue);
+}
+
+/* set background color of the dashboard */
+.col-md-8 {
+   background-color: var(--defaultbg);
+}
+
+/* increase VUB logo size */
+.py-2 {
+  height: 5rem;
 }
