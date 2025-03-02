@@ -27,8 +27,7 @@ body {
 
 /* scale "All Apps" button when hovering over it (press effect) */
 .allapps_button:hover {
-  transform: scale(0.96);
-  color: white;
+  transform: scale(0.9);
   background-color: var(--defaultbg);
 }
 
