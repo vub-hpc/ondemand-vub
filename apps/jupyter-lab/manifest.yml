@@ -4,4 +4,6 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch JupyterLab on the compute nodes.
+    Launch [JupyterLab] on the compute nodes.
+
+    [JupyterLab]: https://jupyterlab.readthedocs.io/

@@ -4,4 +4,6 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch VS Code Server on the compute nodes.
+    Launch [VS Code Server] on the compute nodes.
+
+    [VS Code Server]: https://code.visualstudio.com/docs/remote/vscode-server

@@ -5,4 +5,4 @@ category: Interactive Apps
 subcategory: Desktops
 role: batch_connect
 description: |
-  This app will launch a graphical desktop on the compute nodes.
+  Launch a graphical desktop on the compute nodes.

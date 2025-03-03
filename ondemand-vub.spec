@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.17
+Version: 1.18
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -52,6 +52,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Mon Mar 03 2025 Samuel Moors <samuel.moors@vub.be>
+- Small updates
 * Sat Mar 01 2025 Samuel Moors <samuel.moors@vub.be>
 - Use absolute paths for TensorBoard
 - More css tweaks
