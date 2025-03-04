@@ -4,5 +4,6 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    This app will launch MATLAB on the compute nodes.
+    Launch [MATLAB] on the compute nodes.
 
+    [MATLAB]: https://www.mathworks.com/products/matlab.html

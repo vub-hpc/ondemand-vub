@@ -4,4 +4,6 @@ category: Interactive Apps
 subcategory: Visualization
 role: batch_connect
 description: |
-    This app will launch GaussView on the compute nodes.
+    Launch [GaussView] on the compute nodes.
+
+    [GaussView]: https://gaussian.com/
