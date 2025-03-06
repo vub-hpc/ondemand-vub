@@ -1,0 +1,12 @@
+---
+en:
+  dashboard:
+    pinned_apps_caption_html: <button class='allapps_button' onclick="window.location.href='%{all_apps_url}'"><span
+      class='fas fa-th' aria-hidden='true' title='All Apps'></span></button>
+    quota_reload_message: Quotas are updated every day
+    recently_used_apps_title: Recently Launched App Sessions
+    shell_app_title: Login Shell Access
+    welcome_html: '<div style=''display: flex; align-items: center;''>%{logo_img_tag}<div
+      style=''margin-left: 10px;''><h4 style=''color: var(--vuborange); margin: 0;''>VUB
+      OnDemand</h4><p class=''lead'' style=''margin: 0; color: var(--vubblue);''>Integrated,
+      single access point for all your HPC resources</p></div></div><br>'
