@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.18
+Version: 1.19
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -40,18 +40,25 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/ondemand.d
-%{__install} -pm644 global_bc_items.yml %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
+%{__install} -pm644 ondemand.d/* %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
+
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/locales
+%{__install} -pm644 locales/* %{buildroot}%{_sysconfdir}/ood/config/locales/
 
 %files
 %defattr(-,root,root,-)
-/etc/ood/profile
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
+/etc/ood/config/locales/en.yml
+/etc/ood/config/ondemand.d/general_options.yml
 /etc/ood/config/ondemand.d/global_bc_items.yml
+/etc/ood/profile
 /var/www/ood/public
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Mar 06 2025 Samuel Moors <samuel.moors@vub.be>
+- Move locales and general options out of quattor into files
 * Mon Mar 03 2025 Samuel Moors <samuel.moors@vub.be>
 - Small updates
 * Sat Mar 01 2025 Samuel Moors <samuel.moors@vub.be>

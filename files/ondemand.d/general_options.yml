@@ -1,0 +1,35 @@
+---
+bc_clean_old_dirs: true
+bc_clean_old_dirs_days: 14
+bc_dynamic_js: true
+cancel_session_enabled: true
+custom_css_files:
+- custom_styles.css
+dashboard_header_img_logo: /public/vub-logo-long.svg
+dashboard_layout:
+  rows:
+  - columns:
+    - widgets:
+      - pinned_apps
+      - recently_used_apps
+      - motd
+      width: 8
+files_enable_shell_button: true
+help_bar:
+- help
+- user
+help_menu:
+- group: Documentation
+- icon: fas://book
+  new_tab: true
+  title: VUB HPC docs
+  url: https://hpc.vub.be/docs/
+- icon: fas://book
+  new_tab: true
+  title: VSC docs
+  url: https://docs.vscentrum.be/
+pinned_apps:
+- sys/activejobs
+- sys/files
+- sys/interactive-shell
+- sys/shell
