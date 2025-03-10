@@ -29,3 +29,7 @@ if [[ -z $password ]]; then
 fi
 
 export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
+
+export MAXWAIT=300
+echo "max wait time: $MAXWAIT"
+

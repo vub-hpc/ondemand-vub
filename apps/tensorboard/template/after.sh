@@ -1,7 +1,8 @@
 # wait for the Tensorboard server to start
 echo "$(date): waiting for TensorBoard server to open port ${port}..."
+time1=$(date +%s)
 
-if wait_until_port_used "${host}:${port}" 180; then
+if wait_until_port_used "${host}:${port}" $MAXWAIT; then
     echo "$(date): discovered TensorBoard server listening on port ${port}!"
 
 else
@@ -24,8 +25,9 @@ function wait_until_tb_ready () {
 }
 
 echo "$(date): waiting for TensorBoard server to get ready..."
+time2=$(date +%s)
 
-if wait_until_tb_ready "$OOD_SESSION_STAGED_ROOT/tensorboard.log" 180; then
+if wait_until_tb_ready "$OOD_SESSION_STAGED_ROOT/tensorboard.log" $(( MAXWAIT - time2 + time1 )); then
     echo "$(date): TensorBoard server ready!"
 
 else
