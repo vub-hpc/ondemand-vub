@@ -27,7 +27,7 @@ function wait_until_tb_ready () {
 echo "$(date): waiting for TensorBoard server to get ready..."
 time2=$(date +%s)
 
-if wait_until_tb_ready "$OOD_SESSION_STAGED_ROOT/tensorboard.log" $(( ${MAXWAIT:-180} - time2 + time1 )); then
+if wait_until_tb_ready "$OOD_SESSION_STAGED_ROOT/tensorboard.log" $(( MAXWAIT - time2 + time1 )); then
     echo "$(date): TensorBoard server ready!"
 
 else

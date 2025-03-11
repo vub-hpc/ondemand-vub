@@ -1,7 +1,7 @@
 # Wait for the MATLAB to start
 echo "Waiting for MATLAB to open port ${port}..."
 echo "TIMING - Starting wait at: $(date)"
-if wait_until_port_used "${host}:${port}" $MAXWAIT; then
+if wait_until_port_used "${host}:${port}" ${MAXWAIT:-180}; then
   echo "Discovered MATLAB listening on port ${port}!"
   echo "TIMING - Wait ended at: $(date)"
 else
