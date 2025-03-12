@@ -28,6 +28,10 @@ help_menu:
   new_tab: true
   title: VSC docs
   url: https://docs.vscentrum.be/
+- icon: fas://book
+  new_tab: true
+  title: VUB HPC Open Ondemand docs
+  url: https://hpc.vub.be/docs/web-portal/ondemand/
 pinned_apps:
 - sys/activejobs
 - sys/files
