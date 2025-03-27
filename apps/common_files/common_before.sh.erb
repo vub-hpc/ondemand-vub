@@ -30,6 +30,8 @@ fi
 
 export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
 
-export MAXWAIT=300
+export MAXWAIT=600
 echo "max wait time: $MAXWAIT"
 
+echo "JobID: $SLURM_JOB_ID"
+echo "Node: $HOSTNAME"
