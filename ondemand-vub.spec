@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.24
+Version: 1.25
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Apr 22 2025 Alex Domingo <alex.domingo.toro@vub.be>
+- Disable session locking in RStudio
 * Thu Mar 27 2025 Ward Poelmans <ward.poelmans@vub.be>
 - Bump wait time to 10 minutes and some debugging output
 * Wed Mar 12 2025 Ward Poelmans <ward.poelmans@vub.be>
