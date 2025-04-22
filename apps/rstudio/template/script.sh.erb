@@ -55,12 +55,14 @@ fi
 export > "$OOD_SESSION_STAGED_ROOT/env.sh"
 
 RSESSION_WRAPPER_SCRIPT="$OOD_SESSION_STAGED_ROOT/rsession.sh"
+RSESSION_CONFIG="$OOD_SESSION_STAGED_ROOT/etc/rsession.conf"
 
 # Launch the RStudio Server
 echo "Starting up rserver on $HOSTNAME with password $RSTUDIO_PASSWORD for $USER"
 
 $EBROOTRSTUDIOMINSERVER/bin/rserver \
   --rsession-path "${RSESSION_WRAPPER_SCRIPT}" \
+  --rsession-config-file "${RSESSION_CONFIG}" \
   --www-port "${port}" \
   --auth-none 0 \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
