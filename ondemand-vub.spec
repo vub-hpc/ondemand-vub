@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.25
+Version: 1.26
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Mon Apr 28 2025 Ward Poelmans <ward.poelmans@vub.be>
+- The new zen5 have 128 cores per node
 * Tue Apr 22 2025 Alex Domingo <alex.domingo.toro@vub.be>
 - Disable session locking in RStudio
 * Thu Mar 27 2025 Ward Poelmans <ward.poelmans@vub.be>
