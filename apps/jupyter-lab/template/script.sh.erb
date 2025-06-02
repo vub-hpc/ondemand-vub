@@ -29,6 +29,10 @@ case "${TOOLCHAIN}" in
     [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/7.0.0-foss-2023a" "xarray/2023.9.0-gfbf-2023a" "zarr/2.17.1-foss-2023a")
     [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.2-foss-2023a" "py3Dmol/2.1.0-GCCcore-12.3.0")
     ;;
+  2024a )
+    modules_to_load+=("Jupyter-bundle/20250530-GCCcore-13.3.0")
+    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2024.05-gfbf-2024a")
+    ;;
   * )
     echo "ERROR: Unsupported toolchain selected"
     exit 1
