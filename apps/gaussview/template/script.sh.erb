@@ -11,6 +11,8 @@ module load GaussView/6.0.16
 
 if [ ${SLURM_GPUS_ON_NODE:-0} -gt 0 ]; then
   gpu_bus_id=$(nvidia-smi --query-gpu=gpu_bus_id --format=csv,noheader)
+  # to lowercase
+  gpu_bus_id=${gpu_bus_id,,}
   # Need to strip off first 4 zeros
   dri_device=$(ls -d /sys/bus/pci/devices/${gpu_bus_id:4}/drm/card*)
   export VGL_DISPLAY=/dev/dri/${dri_device##*/}
