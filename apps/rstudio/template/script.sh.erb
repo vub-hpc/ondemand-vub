@@ -12,21 +12,21 @@ if [[ -z "$XDG_DATA_HOME" ]]; then
 fi
 
 TOOLCHAIN=<%= context.toolchain %>
-R_BUNDLE_CRAN=<%= context.r_bundle_cran %>
-R_BUNDLE_BIOCONDUCTOR=<%= context.r_bundle_bioconductor %>
 
 modules_to_load=()
 
 case "${TOOLCHAIN}" in
   2022a )
     modules_to_load+=("RStudio-Server/2022.07.2+576-foss-2022a-Java-11-R-4.2.1")
-    # (there is no R-bundle-CRAN for 2022a, all packages are in the R module)
-    if [[ ${R_BUNDLE_BIOCONDUCTOR} == "yes" ]]; then modules_to_load+=("R-bundle-Bioconductor/3.15-foss-2022a-R-4.2.1"); fi
+    modules_to_load+=("R-bundle-Bioconductor/3.15-foss-2022a-R-4.2.1")
     ;;
   2023a )
     modules_to_load+=("RStudio-Server/2023.12.1+402-gfbf-2023a-Java-11-R-4.3.2")
-    if [[ ${R_BUNDLE_CRAN} == "yes" ]]; then modules_to_load+=("R-bundle-CRAN/2023.12-foss-2023a"); fi
-    if [[ ${R_BUNDLE_BIOCONDUCTOR} == "yes" ]]; then modules_to_load+=("R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2"); fi
+    modules_to_load+=("R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2")
+    ;;
+  2024a )
+    modules_to_load+=("RStudio-Server/2024.12.0+467-foss-2024a-R-4.4.2")
+    modules_to_load+=("R-bundle-Bioconductor/3.20-foss-2024a-R-4.4.2")
     ;;
   * )
     echo "ERROR: Unsupported toolchain selected"

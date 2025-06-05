@@ -14,16 +14,11 @@ attributes:
     label: "Toolchain and R version"
     widget: "select"
     options:
+      - ["2024a: RStudio-Server/2024.12.0+467 + R/4.4.2", "2024a"]
       - ["2023a: RStudio-Server/2023.12.1+402 + R/4.3.2", "2023a"]
       - ["2022a: RStudio-Server/2022.07.2+576 + R/4.2.1", "2022a"]
-  r_bundle_cran:
-    label: "Load R-bundle-CRAN module for additional packages"
-    widget: "check_box"
-    checked_value: "yes"
-  r_bundle_bioconductor:
-    label: "Load R-bundle-Bioconductor module for additional packages"
-    widget: "check_box"
-    checked_value: "yes"
+    help: |
+      R-bundle-CRAN and R-bundle-Bioconductor are loaded by default.
   clean_workspace:
     label: "Clean workspace at startup"
     widget: "check_box"
@@ -34,10 +29,7 @@ attributes:
 form:
   - auto_queues
   - toolchain
-  - r_bundle_cran
-  - r_bundle_bioconductor
   - global_num_cores
-  - bc_num_slots
   - global_bc_num_gpu_slots
   - bc_num_hours
   - global_working_dir
