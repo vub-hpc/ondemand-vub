@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.27
+Version: 1.28
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Jun 05 2025 Alex Domingo <alex.domingo.toro@vub.be>
+- Update Rstudio with 2024a environment and simplify its form
 * Fri May 23 2025 Ward Poelmans <ward.poelmans@vub.be>
 - Fix tmux option
 * Mon Apr 28 2025 Ward Poelmans <ward.poelmans@vub.be>
