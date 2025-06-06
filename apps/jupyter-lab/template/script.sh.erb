@@ -60,8 +60,20 @@ if [[ -f "$USER_CONFIG_FILE" ]]; then
     cat "$USER_CONFIG_FILE" >> "${CONFIG_FILE}"
 fi
 
+jupyterlab_options=("-y")
+# avoid loading any local browser
+jupyterlab_options+=("--no-browser")
+# disable download of unreviewed extensions from the manager
+if [[ "${TOOLCHAIN}" =~ 202[34]a ]]; then
+    jupyterlab_options+=("--LabApp.extension_manager=readonly")
+fi
+# use our config files
+jupyterlab_options+=("--config=${CONFIG_FILE}")
+
 #
 # Start Jupyter Notebook Server
 #
 echo "TIMING - Starting jupyter at: $(date)"
-${EBROOTJUPYTERLAB}/bin/jupyter-lab -y --no-browser --config="${CONFIG_FILE}"
+jupyterlab_cmd="${EBROOTJUPYTERLAB}/bin/jupyter-lab ${jupyterlab_options[@]}"
+echo "Executing: $jupyterlab_cmd"
+$jupyterlab_cmd
