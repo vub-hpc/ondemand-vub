@@ -7,8 +7,6 @@ echo "TIMING - Starting main script at: $(date)"
 cd "$OOD_WD" || true
 
 TOOLCHAIN=<%= context.toolchain %>
-LOAD_SCIPY=<%= context.load_scipy %>
-LOAD_MATPLOTLIB=<%= context.load_matplotlib %>
 LOAD_DASK=<%= context.load_dask %>
 LOAD_MOLECULES=<%= context.load_molecules %>
 
@@ -17,22 +15,22 @@ modules_to_load=()
 case "${TOOLCHAIN}" in
   2022a )
     modules_to_load+=("JupyterHub/3.1.1-GCCcore-11.3.0")
-    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2022.05-foss-2022a")
-    [[ "${LOAD_MATPLOTLIB}" == 'yes' ]] && modules_to_load+=("ipympl/0.9.3-foss-2022a")
+    modules_to_load+=("SciPy-bundle/2022.05-foss-2022a")
+    modules_to_load+=("ipympl/0.9.3-foss-2022a")
     [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/6.0.0-foss-2022a" "xarray/2022.6.0-foss-2022a" "zarr/2.13.3-foss-2022a")
     [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.0.3-foss-2022a" "py3Dmol/2.0.1.post1-GCCcore-11.3.0")
     ;;
   2023a )
     modules_to_load+=("Jupyter-bundle/20240522-GCCcore-12.3.0")
-    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2023.07-gfbf-2023a")
-    [[ "${LOAD_MATPLOTLIB}" == 'yes' ]] && modules_to_load+=("ipympl/0.9.4-gfbf-2023a")
+    modules_to_load+=("SciPy-bundle/2023.07-gfbf-2023a")
+    modules_to_load+=("ipympl/0.9.4-gfbf-2023a")
     [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/7.0.0-foss-2023a" "xarray/2023.9.0-gfbf-2023a" "zarr/2.17.1-foss-2023a")
     [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.2-foss-2023a" "py3Dmol/2.1.0-GCCcore-12.3.0")
     ;;
   2024a )
     modules_to_load+=("Jupyter-bundle/20250530-GCCcore-13.3.0")
-    [[ "${LOAD_SCIPY}" == 'yes' ]] && modules_to_load+=("SciPy-bundle/2024.05-gfbf-2024a")
-    [[ "${LOAD_MATPLOTLIB}" == 'yes' ]] && modules_to_load+=("ipympl/0.9.7-gfbf-2024a")
+    modules_to_load+=("SciPy-bundle/2024.05-gfbf-2024a")
+    modules_to_load+=("ipympl/0.9.7-gfbf-2024a")
     [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/7.0.0-foss-2024a" "xarray/2024.11.0-gfbf-2024a" "zarr/2.18.4-foss-2024a")
     [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.4-foss-2024a" "py3Dmol/2.5.0-GCCcore-13.3.0")
     ;;
