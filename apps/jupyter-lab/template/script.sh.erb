@@ -8,6 +8,8 @@ cd "$OOD_WD" || true
 
 TOOLCHAIN=<%= context.toolchain %>
 
+# restrict available modules to those that correspond to the same generation as the loaded JupyterLab
+# modules in other generations will fail to load and pollute the jupyterlmod panel
 MODULES_DIR="/apps/brussel/${VSC_OS_LOCAL}/${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX:-}/modules"
 MODULES_TOOLCHAIN="${MODULES_DIR}/${TOOLCHAIN}/all"
 MODULES_SYSTEM="${MODULES_DIR}/system/all"
