@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.29
+Version: 1.30
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Jun 10 2025 Alex Domingo <alex.domingo.toro@vub.be>
+- Pin modules of matlab-proxy to each MATLAB version
 * Fri Jun 06 2025 Alex Domingo <alex.domingo.toro@vub.be>
 - Update JupyterLab with 2024a environment and simplify its form
 * Thu Jun 05 2025 Alex Domingo <alex.domingo.toro@vub.be>
