@@ -17,9 +17,27 @@ if [[ ! -e ~/.MathWorks ]]; then
     ln -v -s "$VSC_DATA/.MathWorks" ~/.MathWorks
 fi
 
-echo "Selected MATLAB/<%= context.matlab_version %>"
+MATLAB_VERSION="<%= context.matlab_version %>"
+modules_to_load=("MATLAB/$MATLAB_VERSION")
 
-module load MATLAB/<%= context.matlab_version %> matlab-proxy
+case "${MATLAB_VERSION}" in
+  2022a* )
+    modules_to_load+=("matlab-proxy/0.18.1-GCCcore-11.3.0")
+    ;;
+  2023a* )
+    modules_to_load+=("matlab-proxy/0.23.1-GCCcore-12.3.0")
+    ;;
+  2024a* )
+    modules_to_load+=("matlab-proxy/0.25.1-GCCcore-13.3.0")
+    ;;
+  * )
+    echo "ERROR: Unsupported toolchain selected"
+    exit 1
+    ;;
+esac
+
+echo "Loading ${modules_to_load[@]}"
+module load "${modules_to_load[@]}"
 
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
