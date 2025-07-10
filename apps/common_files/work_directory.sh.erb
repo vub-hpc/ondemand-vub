@@ -1,0 +1,16 @@
+<%
+  if defined?(context.working_dir)
+    working_dir = context.working_dir
+  elsif defined?(context.global_working_dir)
+    working_dir = context.global_working_dir
+  else
+    working_dir = ""
+  end
+  if working_dir.blank?
+    working_dir = ENV['VSC_DATA']
+  end
+%>
+
+# Set User Defined Working Directory
+export OOD_WD="<%= working_dir.to_s %>"
+echo "working dir: $OOD_WD"

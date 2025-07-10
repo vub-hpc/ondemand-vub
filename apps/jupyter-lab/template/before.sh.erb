@@ -1,8 +1,7 @@
-source "<%= session.staged_root %>/common_before.sh"
-
-# Generate SHA1 encrypted password (requires OpenSSL installed)
-SALT="$(create_passwd 16)"
-PASSWORD_SHA1="$(echo -n "${password}${SALT}" | openssl dgst -sha1 | awk '{print $NF}')"
+<%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/work_directory.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/sha1_password.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # The `$CONFIG_FILE` environment variable is exported as it is used in the main
 # `script.sh.erb` file when launching the Jupyter Notebook server.

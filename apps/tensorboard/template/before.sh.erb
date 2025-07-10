@@ -1,4 +1,6 @@
-source "<%= session.staged_root %>/common_before.sh"
+<%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/work_directory.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # export token for cookie verification by authrevproxy
 # replace dashes by underscores in session.id
