@@ -1,3 +1,5 @@
 <%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
 <%= ERB.new(File.read('../common_files/work_directory.sh.erb'), eoutvar: 'child').result(binding) %>
 <%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
+
+export OOD_APP_NAME="Desktop"
