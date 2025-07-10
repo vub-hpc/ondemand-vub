@@ -1,7 +1,6 @@
 #!/usr/bin/bash -l
 
-# Set working directory
-cd "$OOD_WD" || true
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # Ensure that the user's configured login shell is used
 export SHELL="$(getent passwd $USER | cut -d: -f7)"

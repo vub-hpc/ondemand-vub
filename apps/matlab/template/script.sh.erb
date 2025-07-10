@@ -1,5 +1,7 @@
 #!/usr/bin/bash -l
 
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
 # Benchmark info
 echo "TIMING - Starting main script at: $(date)"
 
@@ -7,9 +9,6 @@ export MWI_APP_HOST="0.0.0.0"
 export MWI_APP_PORT="$port"
 export MWI_ENABLE_TOKEN_AUTH="True"
 export MWI_AUTH_TOKEN="$password"
-
-# Set working directory
-cd "$OOD_WD" || true
 
 # Make symlink for ~/.MathWorks
 if [[ ! -e ~/.MathWorks ]]; then

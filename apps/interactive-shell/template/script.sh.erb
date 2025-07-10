@@ -1,6 +1,6 @@
 #!/usr/bin/bash -l
 
-cd "$OOD_WD" || true
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # Unset bash timeout
 unset TMOUT
