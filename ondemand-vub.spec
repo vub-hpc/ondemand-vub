@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 1.31
+Version: 2.00
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Jul 10 2025 Alex Domingo <alex.domingo.toro@vub.be>
+- Reorganize app scripts by reusing common template snippets
 * Sun Jun 29 2025 Ward Poelmans <ward.poelmans@vub.be>
 - Use VSC url for ood docs
 * Tue Jun 10 2025 Alex Domingo <alex.domingo.toro@vub.be>
