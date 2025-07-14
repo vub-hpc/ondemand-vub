@@ -5,6 +5,10 @@
 
 export OOD_APP_NAME="JupyterLab"
 
+# JupyterLab might need a longer timeout depending on user loads (default: 180s)
+export MAXWAIT=300
+echo "increased server wait time: ${MAXWAIT}s"
+
 # The `$CONFIG_FILE` environment variable is exported as it is used in the main
 # `script.sh.erb` file when launching the Jupyter Notebook server.
 export CONFIG_FILE="<%= session.staged_root %>/config.py"
