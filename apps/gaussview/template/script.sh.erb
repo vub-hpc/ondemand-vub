@@ -1,10 +1,9 @@
 #!/usr/bin/bash -l
 
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
 # Benchmark info
 echo "TIMING - Starting main script at: $(date)"
-
-# Set working directory
-cd "$OOD_WD" || true
 
 # Reset module environment (may require login shell for some HPC clusters)
 module load GaussView/6.0.16

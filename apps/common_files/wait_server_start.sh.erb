@@ -1,0 +1,12 @@
+# Wait for the application server to start
+echo "$(date): waiting for ${OOD_APP_NAME} server to listen on port ${port} (waittime is ${MAXWAIT:-180})..."
+
+if wait_until_port_used "${host}:${port}" ${MAXWAIT:-180}; then
+    echo "$(date): discovered ${OOD_APP_NAME} server listening on port ${port}!"
+else
+    echo "$(date): timed out waiting for ${OOD_APP_NAME} server to open port ${port}!"
+    pkill -P ${SCRIPT_PID}
+    clean_up 1
+fi
+
+sleep 2

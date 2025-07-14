@@ -1,0 +1,5 @@
+# export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+echo "Job ID: $SLURM_JOB_ID"
+echo "Job Node: $HOSTNAME"

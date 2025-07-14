@@ -1,1 +1,4 @@
-../../interactive-shell/template/script.sh.erb
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/launch_ttyd_tmux.sh.erb'), eoutvar: 'child').result(binding) %>
