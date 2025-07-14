@@ -1,9 +1,5 @@
 export OOD_SESSION_STAGED_ROOT=<%= session.staged_root %>
 
-# timeout for apps that need to wait for a server response
-export MAXWAIT=600
-echo "max wait time: $MAXWAIT"
-
 if [[ -z $port ]]; then
     export port=$(find_port ${host})
     echo "port: $port"

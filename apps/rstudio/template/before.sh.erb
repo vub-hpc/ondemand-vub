@@ -4,6 +4,10 @@
 
 export OOD_APP_NAME="RStudio"
 
+# RStudio needs a longer timeout (default: 180s)
+export MAXWAIT=300
+echo "increased server wait time: ${MAXWAIT}s"
+
 # rstudio 1.4+ needs a csrf token
 csrf_token=<%= SecureRandom.uuid %>
 
