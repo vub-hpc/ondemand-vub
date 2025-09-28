@@ -49,7 +49,7 @@ export RSESSION_LOG_FILE="$OOD_SESSION_STAGED_ROOT/rsession.log"
 export RSTUDIO_CONFIG_DIR="$OOD_SESSION_STAGED_ROOT/config_dir"
 
 CLEAN_WORKSPACE=<%= context.clean_workspace %>
-if [[ "${CLEAN_WORKSPACE}" != "yes" ]]; then
+if [[ "${CLEAN_WORKSPACE}" == "no" ]]; then
     # default value for "load_workspace" is true
     sed -i '/load_workspace/d' $RSTUDIO_CONFIG_DIR/rstudio-prefs.json
 fi
