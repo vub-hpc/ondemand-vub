@@ -44,11 +44,14 @@ export RSESSION_LOG_FILE="$OOD_SESSION_STAGED_ROOT/rsession.log"
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
+# System preferences at $RSTUDIO_CONFIG_DIR/rstudio-prefs.json (default location = /etc/rstudio)
+# User preferences have priority over system preferences
+export RSTUDIO_CONFIG_DIR="$OOD_SESSION_STAGED_ROOT/config_dir"
+
 CLEAN_WORKSPACE=<%= context.clean_workspace %>
-if [[ "${CLEAN_WORKSPACE}" == "yes" ]]; then
-    # System preferences at $RSTUDIO_CONFIG_DIR/rstudio-prefs.json (default location = /etc/rstudio)
-    # User preferences have priority
-    export RSTUDIO_CONFIG_DIR="$OOD_SESSION_STAGED_ROOT/clean_workspace"
+if [[ "${CLEAN_WORKSPACE}" == "no" ]]; then
+    prefs_file=$RSTUDIO_CONFIG_DIR/rstudio-prefs.json
+    prefs=$(<$prefs_file) && jq '.load_workspace = true' <<<$prefs >$prefs_file
 fi
 
 # write environment to a file.
