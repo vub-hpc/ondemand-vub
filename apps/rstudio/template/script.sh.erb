@@ -50,8 +50,8 @@ export RSTUDIO_CONFIG_DIR="$OOD_SESSION_STAGED_ROOT/config_dir"
 
 CLEAN_WORKSPACE=<%= context.clean_workspace %>
 if [[ "${CLEAN_WORKSPACE}" == "no" ]]; then
-    # default value for "load_workspace" is true
-    sed -i '/load_workspace/d' $RSTUDIO_CONFIG_DIR/rstudio-prefs.json
+    prefs_file=$RSTUDIO_CONFIG_DIR/rstudio-prefs.json
+    prefs=$(<$prefs_file) && jq '.load_workspace = true' <<<$prefs >$prefs_file
 fi
 
 # write environment to a file.
