@@ -1,0 +1,53 @@
+---
+cluster: "*"
+
+# app-specific attributes
+attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 12
+    min: 1
+    max: 120
+    step: 1
+  advanced_font_size:
+    label: Font Size
+    help: |
+      Default terminal (xterm.js) font size.
+
+      - Dynamic font/zoom adjustments via Ctrl+(Plus|Minux|0) has UI bugs.
+      - To change font size, cancel your running interactive shell session and launch a new job with the desired font size.
+    widget: number_field
+    max: 30
+    min: 10
+    step: 1
+    value: 16
+  advanced_tmux_config:
+    label: "Tmux: Use Bundled Config File"
+    help: |
+      - Checked = load config included with this interactive app
+      - Unchecked = No config file is specified and Tmux will look in the default locations (usually <code>$HOME/.tmux.conf</code>)
+        - Ensure your config file is compatible with Tmux 3.1b!
+    widget: check_box
+    value: "1"
+  working_dir:
+    label: "Model weights directory"
+    help: |
+      - Optionally select a nnInteractive model weights directory.
+      - Default = <code>/apps/brussel/singularity/nninteractive-slicer-server/20250404/weights</code>
+    widget: "path_selector"
+    show_files: false
+
+
+form:
+  - auto_queues
+  - global_num_cores
+  - bc_num_slots
+  - global_bc_num_gpu_slots
+  - bc_num_hours
+  - working_dir
+  - global_prerun
+  - global_advanced
+  - advanced_font_size
+  - advanced_tmux_config
+  - bc_email_on_started

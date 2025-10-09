@@ -1,0 +1,7 @@
+---
+name: SlicerNNInteractive Server
+category: Interactive Apps
+subcategory: Testing
+role: batch_connect
+description: |
+  Launch an SlicerNNInteractive Server on the compute nodes.

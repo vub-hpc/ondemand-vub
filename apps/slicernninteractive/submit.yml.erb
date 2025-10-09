@@ -1,0 +1,15 @@
+---
+#
+# Configure the content of the job script for the batch job here
+# @see http://www.rubydoc.info/gems/ood_core/OodCore/BatchConnect/Template
+#
+batch_connect:
+  # We use the basic web server template for generating the job script
+  #
+  # @note Do not change this unless you know what you are doing!
+  template: "basic"
+
+script:
+  native:
+    - "--cpus-per-task=<%= global_num_cores.to_i %>"
+    - "--gpus-per-node=<%= global_bc_num_gpu_slots.blank? ? 0 : global_bc_num_gpu_slots.to_i %>"

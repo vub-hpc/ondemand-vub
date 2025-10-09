@@ -1,0 +1,22 @@
+<%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
+
+<%
+  if defined?(context.working_dir)
+    working_dir = context.working_dir
+  elsif defined?(context.global_working_dir)
+    working_dir = context.global_working_dir
+  else
+    working_dir = ""
+  end
+  if working_dir.blank?
+    working_dir = '/apps/brussel/singularity/nninteractive-slicer-server/20250404/weights'
+  end
+%>
+
+# Set User Defined Working Directory
+export OOD_WD="<%= working_dir.to_s %>"
+echo "working dir: $OOD_WD"
+
+<%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
+
+export OOD_APP_NAME="Interactive Shell"

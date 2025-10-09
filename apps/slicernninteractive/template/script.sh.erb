@@ -1,0 +1,11 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+[[ -z $APPTAINERENV_HF_HUB_OFFLINE ]] && export APPTAINERENV_HF_HUB_OFFLINE=1
+
+apptainer run --nv \
+    /apps/brussel/singularity/nninteractive-slicer-server/20250404/nninteractive-slicer-server-20250404.sif \
+    python /opt/server/main.py --host 0.0.0.0 --port 1527 2>&1 | tee /tmp/server.log &
+
+<%= ERB.new(File.read('../common_files/launch_ttyd_tmux.sh.erb'), eoutvar: 'child').result(binding) %>
