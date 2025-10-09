@@ -3,8 +3,6 @@
 <%
   if defined?(context.working_dir)
     working_dir = context.working_dir
-  elsif defined?(context.global_working_dir)
-    working_dir = context.global_working_dir
   else
     working_dir = ""
   end
@@ -19,4 +17,4 @@ echo "working dir: $OOD_WD"
 
 <%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
 
-export OOD_APP_NAME="Interactive Shell"
+export OOD_APP_NAME="SlicerNNInteractive Server"
