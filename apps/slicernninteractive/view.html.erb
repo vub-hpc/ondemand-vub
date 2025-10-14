@@ -17,7 +17,7 @@
 
   <ul>
     <li>Server log file: <code>/tmp/server.log</code></li>
-    <li>SSH tunnel: <code>ssh -NL <%= port %>:<%= host %>:<%= port %> <%= CurrentUser.name %>@login.hpc.vub.be</code></li>
-    <li>nnInteractive client host: <code>127.0.0.1</code> port: <code>1527</code></li>
+    <li>SSH tunnel: <code>ssh -NL <%= app_server_port %>:<%= host %>:<%= app_server_port %> <%= CurrentUser.name %>@login.hpc.vub.be</code></li>
+    <li>Server URL: <code>127.0.0.1:<%= app_server_port %></code></li>
   </ul>
 </form>

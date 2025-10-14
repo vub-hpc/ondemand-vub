@@ -18,3 +18,9 @@ echo "working dir: $OOD_WD"
 <%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
 
 export OOD_APP_NAME="SlicerNNInteractive Server"
+
+while true; do
+  app_server_port=$(find_port $host)
+  [[ $app_server_port -ne $port ]] && break
+done
+export app_server_port
