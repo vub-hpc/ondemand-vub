@@ -1,0 +1,9 @@
+---
+name: ParaView
+category: Interactive Apps
+subcategory: Visualization
+role: batch_connect
+description: |
+    Launch [ParaView] on the compute nodes.
+
+    [ParaView]: https://www.paraview.org/
