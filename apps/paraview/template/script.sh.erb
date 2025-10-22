@@ -22,9 +22,6 @@ case "${TOOLCHAIN}" in
     ;;
 esac
 
-echo "Loading ${modules_to_load[@]}"
-module load "${modules_to_load[@]}"
-
 if [ ${SLURM_GPUS_ON_NODE:-0} -gt 0 ]; then
   gpu_bus_id=$(nvidia-smi --query-gpu=gpu_bus_id --format=csv,noheader)
   # to lowercase
@@ -42,13 +39,12 @@ fi
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
+cat >$OOD_SESSION_STAGED_ROOT/autostart.sh <<EOF
+bash -c 'echo Starting ParaView ... && module load ${modules_to_load[@]} && paraview'
+EOF
+
 # Start up desktop
 echo "Launching desktop '<%= context.desktop %>'..."
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
-
-# Launch ParaView
-echo "Launching: $(which paraview)"
-
-vglrun paraview
 
 echo "Desktop '<%= context.desktop %>' ended with $? status..."
