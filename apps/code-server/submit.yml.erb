@@ -6,5 +6,6 @@ batch_connect:
 
 script:
   native:
+    - "--nodes=<%= global_advanced_num_nodes.to_i %>"
     - "--cpus-per-task=<%= global_num_cores.to_i %>"
     - "--gpus-per-node=<%= global_bc_num_gpu_slots.blank? ? 0 : global_bc_num_gpu_slots.to_i %>"
