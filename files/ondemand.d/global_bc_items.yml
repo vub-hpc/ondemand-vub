@@ -2,10 +2,11 @@ global_bc_form_items:
   global_num_cores:
     widget: "number_field"
     label: "Number of cores"
+    help: 'Specify the total number of CPU cores per node for the job.'
     value: 1
     required: true
     min: 1
-    max: 128
+    max: 16
     step: 1
   global_bc_num_gpu_slots:
     label: "Number of GPUs"
