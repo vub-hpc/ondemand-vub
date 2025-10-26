@@ -1,8 +1,8 @@
-if [ "$OOD_CONTEXT_DEBUG" -gt 0 ]; then
+if [ "${OOD_CONTEXT_DEBUG:-0}" -gt 0 ]; then
     set -x
 fi
 
-CONFIG_DIR="$HOME/.config"
+CONFIG_DIR=${XDG_CONFIG_HOME:-~/.config}
 
 # Remove any preconfigured monitors
 if [ -f "$CONFIG_DIR/monitors.xml" ]; then
@@ -26,10 +26,6 @@ dbus_envs=$(dbus-launch --sh-syntax)
 eval $(echo "$dbus_envs")
 echo "dbus-launch rc $? set envs $dbus_envs"
 ps axfu | grep dbus-daemon | grep -v grep
-
-# xfce.sh is source'd, so cannot use $0
-source $(dirname "$BASH_SOURCE")/oodegl.sh
-
 
 # Disable startup services
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
@@ -118,12 +114,10 @@ mkdir $AUTOSTART_XFCE_DESKTOP
 AUTOSTART_HIDE_ICONS=$OOD_SESSION_STAGED_ROOT/hide_icons.desktop
 
 cat > $AUTOSTART_HIDE_ICONS <<EOF
-
 xfconf-query -c xfce4-desktop -p /desktop-icons/style -n -t int -s 1
 for dontshow in home filesystem trash removable; do
     xfconf-query -c  xfce4-desktop -p /desktop-icons/file-icons/show-$dontshow -n -t bool -s false
 done
-
 EOF
 
 chmod +x $AUTOSTART_HIDE_ICONS
@@ -145,7 +139,7 @@ AUTOSTART_SCRIPT=$OOD_SESSION_STAGED_ROOT/autostart.sh
 
 if [ -e "$AUTOSTART_SCRIPT" ]; then
     chmod +x $AUTOSTART_SCRIPT
-    sed 's/^ \{4\}//' > "$AUTOSTART_XFCE_DESKTOP/ood.desktop" << EOL
+    sed 's/^ \{4\}//' > "$AUTOSTART_XFCE_DESKTOP/ood_autostart.desktop" << EOL
     [Desktop Entry]
     Version=1.0
     Encoding=UTF-8
@@ -153,13 +147,13 @@ if [ -e "$AUTOSTART_SCRIPT" ]; then
     Type=Application
     Exec=$AUTOSTART_SCRIPT
     Terminal=${OOD_APP_USE_TERMINAL:-false}
-    StartupNotify=false
+    StartupNotify=true
     Hidden=false
 EOL
 
     # Also make an application so you can restart it
-    realname=${OOD_APP_NAME:-OOD Autostart}
-    sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/OOD_autostart.desktop" << EOL
+    realname=${OOD_APP_NAME:-OOD App}
+    sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/ood_app.desktop" << EOL
     [Desktop Entry]
     Encoding=UTF-8
     Name=$realname
@@ -170,10 +164,10 @@ EOL
 
     Exec=$AUTOSTART_SCRIPT
     Icon=${OOD_APP_ICON:-org.xfce.session}
-    Terminal=${OOD_APP_TERMINAL:-false}
+    Terminal=${OOD_APP_USE_TERMINAL:-false}
     StartupNotify=true
     Type=Application
-    Categories=X-Xfce-Toplevel;
+    Categories=X-Xfce-Toplevel;OODApplication;
 EOL
 
 fi
@@ -190,7 +184,7 @@ function make_desktop_path {
     sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/${name}.desktop" << EOL
     [Desktop Entry]
     Encoding=UTF-8
-    Name=$whitespace_name File Manager
+    Name=$whitespace_name
     GenericName=$whitespace_name
 
     Exec=Thunar $path
@@ -226,20 +220,18 @@ function make_desktop_env {
 #         make_desktop_env $env_var
 #     done
 # else
-#     for env_var in VSC_HOME VSC_DATA VSC_SCRATCH;do
-#         make_desktop_env $env_var
-#     done
-#     COURSES="/data/gent/courses/.members/$USER"
+
+#     COURSES="/data/brussel/courses/.members/$USER"
 #     if [ -e "$COURSES" ]; then
 #         for coursedata in $(cat $COURSES | jq  -r '.courses[] | "\(.path):\(.code):\(.year):\(.nickname)"'); do
 #             read -r path code year nick <<<$(echo $coursedata | tr ':' ' ')
 #             make_desktop_path "course_${nick}_${code}_${year}" "$path"
 #         done
 #     fi
-#     for env_var in VSC_DATA_VO_USER VSC_SCRATCH_VO_USER VSC_DATA_VO VSC_SCRATCH_VO VSC_SCRATCH_ARCANINE VSC_SCRATCH_ARCANINE_VO_USER VSC_SCRATCH_ARCANINE_VO; do
-#         make_desktop_env $env_var
-#     done
-# fi
+
+for env_var in VSC_HOME VSC_DATA VSC_SCRATCH VSC_DATA_VO_USER VSC_SCRATCH_VO_USER VSC_DATA_VO VSC_SCRATCH_VO; do
+    make_desktop_env $env_var
+done
 
 
 CUSTOM="$(dirname "${BASH_SOURCE[0]}")/custom.sh"
@@ -248,8 +240,4 @@ if [ -f "$CUSTOM" ]; then
 fi
 
 # Start up xfce desktop (block until user logs out of desktop)
-if [ ${SLURM_GPUS_ON_NODE:-0} -gt 0 ]; then
-    vglrun xfce4-session
-else
-    xfce4-session
-fi
+xfce4-session

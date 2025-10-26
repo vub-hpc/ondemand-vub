@@ -37,5 +37,6 @@ form:
   - bc_num_slots
   - global_bc_num_gpu_slots
   - bc_num_hours
+  - global_working_dir
   - global_prerun
   - bc_email_on_started
