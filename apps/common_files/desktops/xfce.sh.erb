@@ -31,9 +31,8 @@ ps axfu | grep dbus-daemon | grep -v grep
 xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 
-AUTOSTART="$CONFIG_DIR/autostart"
+AUTOSTART="$OOD_SESSION_STAGED_ROOT/autostart"
 # Disable useless services on autostart
-rm -rf "$AUTOSTART"    # clean up previous autostarts
 mkdir -p "$AUTOSTART"
 for service in "pulseaudio" "rhsm-icon" "spice-vdagent" "tracker-extract" "tracker-miner-apps" "tracker-miner-user-guides" "xfce4-power-manager" "xfce-polkit"; do
     echo -e "[Desktop Entry]\nHidden=true" > "$AUTOSTART/$service.desktop"
@@ -239,5 +238,17 @@ if [ -f "$CUSTOM" ]; then
     source $CUSTOM
 fi
 
-# Start up xfce desktop (block until user logs out of desktop)
-xfce4-session
+# Start up xfce desktop with bwrap (block until user logs out of desktop)
+bwrap_cmd=(
+    bwrap
+    --bind / /
+    --bind $(readlink -f "$AUTOSTART") $(readlink -f "$CONFIG_DIR/autostart")
+    --dev /dev
+    --bind /dev/log /dev/log
+)
+# also bind mount the NVIDIA device files
+shopt -s nullglob
+for x in /dev/nvidia*; do
+    bwrap_cmd+=(--dev-bind "$x" "$x")
+done
+${bwrap_cmd[*]} xfce4-session
