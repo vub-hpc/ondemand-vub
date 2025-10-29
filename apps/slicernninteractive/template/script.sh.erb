@@ -6,6 +6,6 @@
 
 apptainer run --nv \
     /apps/brussel/singularity/nninteractive-slicer-server/20250404/nninteractive-slicer-server-20250404.sif \
-    python /opt/server/main.py --host 0.0.0.0 --port $app_server_port 2>&1 | tee /tmp/server.log &
+    python /opt/server/main.py --host 127.0.0.1 --port $app_server_port 2>&1 | tee /tmp/server.log &
 
 <%= ERB.new(File.read('../common_files/launch_ttyd_tmux.sh.erb'), eoutvar: 'child').result(binding) %>

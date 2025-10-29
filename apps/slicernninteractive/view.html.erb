@@ -17,7 +17,7 @@
 
   <ul>
     <li>Server log file: <code>/tmp/server.log</code></li>
-    <li>SSH tunnel: <code>ssh -NL <%= app_server_port %>:<%= host %>:<%= app_server_port %> <%= CurrentUser.name %>@login.hpc.vub.be</code></li>
-    <li>Server URL: <code>127.0.0.1:<%= app_server_port %></code></li>
+    <li>SSH tunnel: <code>ssh <%= host %> -NL 127.0.0.1:<%= app_server_port %>:127.0.0.1:<%= app_server_port %> -J <%= CurrentUser.name %>@login.hpc.vub.be</code></li>
+    <li>Server URL: <code>http://127.0.0.1:<%= app_server_port %></code></li>
   </ul>
 </form>
