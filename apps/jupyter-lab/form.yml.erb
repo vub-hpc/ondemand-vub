@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -29,15 +27,18 @@ attributes:
     widget: "check_box"
     checked_value: "yes"
     unchecked_value: "no"
+<%= ERB.new(File.read(File.join(File.dirname(__FILE__), "../common_files/_extra_attributes.yml.erb")), eoutvar: "@cluster").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
   - toolchain
   - load_dask
   - load_molecules
   - global_num_cores
   - bc_num_slots
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
   - global_working_dir
   - global_prerun

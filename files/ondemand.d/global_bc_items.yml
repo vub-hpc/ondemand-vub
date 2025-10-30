@@ -7,14 +7,17 @@ global_bc_form_items:
     min: 1
     max: 128
     step: 1
-  global_bc_num_gpu_slots:
-    label: "Number of GPUs"
-    help: 'Specify the total number of GPUs for the job.'
-    widget: "number_field"
-    value: 0
-    min: 0
-    max: 2
-    step: 1
+  global_bc_num_shards:
+    label: "Fraction of GPU to use"
+    help: 'Specify how much of a GPU to use for the job.'
+    widget: "select"
+    value: "0"
+    options:
+      - ["0%", "0"]
+      - ["25%", "0.25"]
+      - ["50%", "0.5"]
+      - ["75%", "0.75"]
+      - ["100%", "1"]
   global_prerun:
     label: "Pre-run scriptlet"
     required: false
