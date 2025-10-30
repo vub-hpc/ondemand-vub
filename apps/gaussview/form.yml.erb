@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -14,14 +12,17 @@ attributes:
   bc_vnc_resolution:
     required: true
   desktop: "minimal"
+<%= ERB.new(File.read(File.join(File.dirname(__FILE__), "../common_files/_extra_attributes.yml.erb")), eoutvar: "@cluster").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
   - bc_vnc_idle
   - bc_vnc_resolution
   - global_num_cores
   - bc_num_slots
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
   - global_prerun
   - bc_email_on_started

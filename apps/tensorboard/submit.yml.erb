@@ -4,4 +4,9 @@ batch_connect:
 script:
   native:
     - "--cpus-per-task=<%= global_num_cores.to_i %>"
-    - "--gpus-per-node=<%= global_bc_num_gpu_slots.blank? ? 0 : global_bc_num_gpu_slots.to_i %>"
+<% if dynamic_num_gpu_slots.to_i != 0 %>
+    - "--gpus-per-node=<%= dynamic_num_gpu_slots.to_i %>"
+<% end %>
+<% if global_bc_num_shards.to_f != 0  %>
+    - "--gres=shard:<%= (global_bc_num_shards.to_f * 4).to_i %>"
+<% end %>
