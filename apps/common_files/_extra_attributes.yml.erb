@@ -33,16 +33,24 @@
         # Get all partitions of all clusters
         queues = SmartAttributes::AttributeFactory.send(:queues)
 
-        # Filter non-gpu ones
+        # Get gpu and non-gpu partitions (assumes gpu partitions end with 'gpu')
+        gpu_queues = queues.select { |label, _, _| label.to_s.end_with?('gpu') }.map { |label, _, _| label }
         non_gpu_queues = queues.select { |label, _, _| !label.to_s.end_with?('gpu') }.map { |label, _, _| label }
 
-        # Hide the option for every non-gpu-queue
-        gpu_options_lines = non_gpu_queues.map do |q|
+        # Build a string of `data-option-for-auto-queues-*` attributes to hide all gpu partitions
+        hide_for_gpu = gpu_queues.map do |q|
           q = q.to_s.gsub('_', '-')
           "data-option-for-auto-queues-#{q}: false,"
         end.join("\n")
 
+        # Build a string of `data-option-for-auto-queues-*` attributes to hide all non-gpu partitions
+        hide_for_non_gpu = non_gpu_queues.map do |q|
+          q = q.to_s.gsub('_', '-')
+          "data-option-for-auto-queues-#{q}: false,"
+        end.join("\n")
+
+
         %>
-      - "0"
-      - ["1", "1", <%= gpu_options_lines %>]
-      - ["2", "2", <%= gpu_options_lines %>]
+      - ["0", "0", <%= hide_for_gpu %>]
+      - ["1", "1", <%= hide_for_non_gpu %>]
+      - ["2", "2", <%= hide_for_non_gpu %>]
