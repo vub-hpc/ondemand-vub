@@ -10,6 +10,6 @@ script:
 <% if dynamic_num_gpu_slots.to_i != 0 %>
     - "--gpus-per-node=<%= dynamic_num_gpu_slots.to_i %>"
 <% end %>
-<% if global_bc_num_shards.to_f != 0  %>
-    - "--gres=shard:<%= (global_bc_num_shards.to_f * 4).to_i %>"
+<% if global_bc_num_shards.to_i != 0  %>
+    - "--gres=shard:<%= global_bc_num_shards.to_i %>"
 <% end %>

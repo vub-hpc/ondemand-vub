@@ -14,10 +14,10 @@ global_bc_form_items:
     value: "0"
     options:
       - ["0%", "0"]
-      - ["25%", "0.25"]
-      - ["50%", "0.5"]
-      - ["75%", "0.75"]
-      - ["100%", "1"]
+      - ["25%", "1"]
+      - ["50%", "2"]
+      - ["75%", "3"]
+      - ["100%", "4"]
   global_prerun:
     label: "Pre-run scriptlet"
     required: false
