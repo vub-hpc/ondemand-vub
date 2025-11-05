@@ -1,0 +1,56 @@
+  cluster:
+    widget: "select"
+    options: <%
+      cluster_options = SmartAttributes::AttributeFactory.send(:cluster_options)
+
+      # Hide gpu item on anansi, hide shard item elsewhere
+      # When swapping to anansi, set shard to 25%
+      # When swapping to other cluster, set gpus to 1
+      # (might get overwritten by partition selection)
+      cluster_opts = cluster_options.map do |label, value, data|
+        if label.to_s == "anansi"
+          data = data.merge(
+            "data-hide-dynamic-num-gpu-slots" => true,
+            "data-set-dynamic-num-gpu-slots" => "",
+            "data-set-global-bc-num-shards" => "0"
+          )
+        else
+          data = data.merge(
+            "data-hide-global-bc-num-shards" => true,
+            "data-set-global-bc-num-shards" => "",
+            "data-set-dynamic-num-gpu-slots" => "1"
+          )
+        end
+
+        [label, value, data]
+      end
+    %><%= cluster_opts.to_json %>
+  dynamic_num_gpu_slots:
+    label: "Number of GPUs"
+    help: 'Specify the total number of GPUs for the job.'
+    widget: "select"
+    options: <%
+        # Get all partitions of all clusters
+        queues = SmartAttributes::AttributeFactory.send(:queues)
+
+        # Get gpu and non-gpu partitions (assumes gpu partitions end with 'gpu')
+        gpu_queues = queues.select { |label, _, _| label.to_s.end_with?('gpu') }.map { |label, _, _| label }
+        non_gpu_queues = queues.select { |label, _, _| !label.to_s.end_with?('gpu') }.map { |label, _, _| label }
+
+        # Build a string of `data-option-for-auto-queues-*` attributes to hide all gpu partitions
+        hide_for_gpu = gpu_queues.map do |q|
+          q = q.to_s.gsub('_', '-')
+          "data-option-for-auto-queues-#{q}: false,"
+        end.join("\n")
+
+        # Build a string of `data-option-for-auto-queues-*` attributes to hide all non-gpu partitions
+        hide_for_non_gpu = non_gpu_queues.map do |q|
+          q = q.to_s.gsub('_', '-')
+          "data-option-for-auto-queues-#{q}: false,"
+        end.join("\n")
+
+
+        %>
+      - ["0", "0", <%= hide_for_gpu %>]
+      - ["1", "1", <%= hide_for_non_gpu %>]
+      - ["2", "2", <%= hide_for_non_gpu %>]

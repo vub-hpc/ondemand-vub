@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -26,12 +24,15 @@ attributes:
     unchecked_value: "no"
     help: |
       Note: user preferences take priority over this option.
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
   - toolchain
   - global_num_cores
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
   - global_working_dir
   - global_prerun
