@@ -5,5 +5,4 @@ batch_connect:
 
 script:
   native:
-    - "--cpus-per-task=<%= global_num_cores.to_i %>"
-    - "--gpus-per-node=<%= global_bc_num_gpu_slots.blank? ? 0 : global_bc_num_gpu_slots.to_i %>"
+<%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>

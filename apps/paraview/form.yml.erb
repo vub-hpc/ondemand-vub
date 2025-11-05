@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -26,15 +24,18 @@ attributes:
     options:
       - ["2024a: ParaView/5.13.2", "2024a"]
       - ["2023a: ParaView/5.11.2", "2023a"]
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
   - toolchain
   - bc_vnc_idle
   - resolution
   - global_num_cores
   - bc_num_slots
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
   - global_prerun
   - bc_email_on_started
