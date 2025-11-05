@@ -5,10 +5,4 @@ batch_connect:
 
 script:
   native:
-    - "--cpus-per-task=<%= global_num_cores.to_i %>"
-<% if dynamic_num_gpu_slots.to_i != 0 %>
-    - "--gpus-per-node=<%= dynamic_num_gpu_slots.to_i %>"
-<% end %>
-<% if global_bc_num_shards.to_i != 0  %>
-    - "--gres=shard:<%= global_bc_num_shards.to_i %>"
-<% end %>
+<%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>

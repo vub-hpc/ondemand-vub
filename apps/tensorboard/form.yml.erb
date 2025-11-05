@@ -21,7 +21,7 @@ attributes:
       - The default is your <i>data</i> directory (<code>$VSC_DATA</code>) when left empty.
     widget: "path_selector"
     show_files: false
-<%= ERB.new(File.read(File.join(File.dirname(__FILE__), "../common_files/_extra_attributes.yml.erb")), eoutvar: "@cluster").result(binding) %>
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
   - cluster

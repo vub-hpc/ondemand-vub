@@ -24,7 +24,7 @@ attributes:
     options:
       - ["2024a: ParaView/5.13.2", "2024a"]
       - ["2023a: ParaView/5.11.2", "2023a"]
-<%= ERB.new(File.read(File.join(File.dirname(__FILE__), "../common_files/_extra_attributes.yml.erb")), eoutvar: "@cluster").result(binding) %>
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
   - cluster
