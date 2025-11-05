@@ -2,10 +2,11 @@ global_bc_form_items:
   global_num_cores:
     widget: "number_field"
     label: "Number of cores"
+    help: 'Specify the total number of CPU cores per node for the job.'
     value: 1
     required: true
     min: 1
-    max: 128
+    max: 32
     step: 1
   global_bc_num_shards:
     label: "Fraction of GPU to use"
@@ -30,6 +31,14 @@ global_bc_form_items:
       - The default is your <i>data</i> directory (<code>$VSC_DATA</code>) when left empty.
     widget: "path_selector"
     show_files: false
+  global_advanced_num_nodes:
+    widget: "number_field"
+    label: "Number of nodes"
+    value: 1
+    required: false
+    min: 1
+    max: 4
+    step: 1
   global_advanced:
     widget: 'check_box'
     label: "Show advanced options"
@@ -39,3 +48,4 @@ global_bc_form_items:
         hide-advanced-cleanup-login-when-unchecked: true
         hide-advanced-font-size-when-unchecked: true
         hide-advanced-tmux-config-when-unchecked: true
+        hide-global-advanced-num-nodes-when-unchecked: true
