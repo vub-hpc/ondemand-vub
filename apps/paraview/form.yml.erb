@@ -11,13 +11,13 @@ attributes:
   bc_vnc_idle: 0
   bc_vnc_resolution:
     required: true
+  desktop: "xfce"
   resolution:
     widget: "select"
     label: "Screen resolution"
     options:
       - ["FullHD (1920x1080)", "1920x1080"]
       - ["HD (1280x720)", "1280x720"]
-  desktop: "minimal"
   toolchain:
     label: "Toolchain and ParaView version"
     widget: "select"
@@ -29,14 +29,15 @@ attributes:
 form:
   - cluster
   - auto_queues
+  - desktop
   - toolchain
-  - bc_vnc_idle
   - resolution
+  - bc_vnc_idle
   - global_num_cores
   - bc_num_slots
   - dynamic_num_gpu_slots
   - global_bc_num_shards
   - bc_num_hours
+  - global_working_dir
   - global_prerun
   - bc_email_on_started
-  - desktop

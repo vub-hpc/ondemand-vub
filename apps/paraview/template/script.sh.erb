@@ -22,33 +22,19 @@ case "${TOOLCHAIN}" in
     ;;
 esac
 
-echo "Loading ${modules_to_load[@]}"
-module load "${modules_to_load[@]}"
-
-if [ ${SLURM_GPUS_ON_NODE:-0} -gt 0 ]; then
-  gpu_bus_id=$(nvidia-smi --query-gpu=gpu_bus_id --format=csv,noheader)
-  # to lowercase
-  gpu_bus_id=${gpu_bus_id,,}
-  # Need to strip off first 4 zeros
-  dri_device=$(ls -d /sys/bus/pci/devices/${gpu_bus_id:4}/drm/card*)
-  export VGL_DISPLAY=/dev/dri/${dri_device##*/}
-  export VGL_LOGO=1 # for testing
-  echo "Setting VGL_DISPLAY to $VGL_DISPLAY"
-else
-  export VGL_DISPLAY=$DISPLAY
-fi
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
+cat >$OOD_SESSION_STAGED_ROOT/autostart.sh <<EOF
+bash -c 'echo Starting ParaView ... && module load ${modules_to_load[@]} && vglrun paraview'
+EOF
+
 # Start up desktop
 echo "Launching desktop '<%= context.desktop %>'..."
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
-
-# Launch ParaView
-echo "Launching: $(which paraview)"
-
-vglrun paraview
 
 echo "Desktop '<%= context.desktop %>' ended with $? status..."
