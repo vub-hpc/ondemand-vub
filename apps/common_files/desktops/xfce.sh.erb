@@ -1,0 +1,243 @@
+if [ "${OOD_CONTEXT_DEBUG:-0}" -gt 0 ]; then
+    set -x
+fi
+
+CONFIG_DIR=${XDG_CONFIG_HOME:-~/.config}
+
+# Remove any preconfigured monitors
+if [ -f "$CONFIG_DIR/monitors.xml" ]; then
+    mv "$CONFIG_DIR/monitors.xml" "$CONFIG_DIR/monitors.xml.bak"
+fi
+
+# Copy over default panel if doesn't exist, otherwise it will prompt the user
+PANEL_CONFIG="$CONFIG_DIR/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+if [ ! -e "$PANEL_CONFIG" ]; then
+    mkdir -p "$(dirname "$PANEL_CONFIG")"
+    cp "/etc/xdg/xfce4/panel/default.xml" "$PANEL_CONFIG"
+fi
+
+# Handle dbus stuff
+# prep to create new dbus handler
+ps axfu | grep dbus-daemon | grep -v grep
+unset DBUS_SESSION_BUS_ADDRESS
+# start it ourself, don't rely on the login autolauncher
+# no  --exit-with-session, it's cleaned up by scheduler anyway
+dbus_envs=$(dbus-launch --sh-syntax)
+eval $(echo "$dbus_envs")
+echo "dbus-launch rc $? set envs $dbus_envs"
+ps axfu | grep dbus-daemon | grep -v grep
+
+# Disable startup services
+xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
+xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
+
+AUTOSTART="$CONFIG_DIR/autostart"
+# Disable useless services on autostart
+rm -rf "$AUTOSTART"    # clean up previous autostarts
+mkdir -p "$AUTOSTART"
+for service in "pulseaudio" "rhsm-icon" "spice-vdagent" "tracker-extract" "tracker-miner-apps" "tracker-miner-user-guides" "xfce4-power-manager" "xfce-polkit"; do
+    echo -e "[Desktop Entry]\nHidden=true" > "$AUTOSTART/$service.desktop"
+done
+
+# Run Xfce4 Terminal as login shell (sets proper TERM)
+TERM_CONFIG="$CONFIG_DIR/xfce4/terminal/terminalrc"
+if [ -e "$TERM_CONFIG" ]; then
+    sed -i \
+    '/^CommandLoginShell=/{h;s/=.*/=TRUE/};${x;/^$/{s//CommandLoginShell=TRUE/;H};x}' \
+    "$TERM_CONFIG"
+else
+    mkdir -p "$(dirname "$TERM_CONFIG")"
+
+    sed 's/^ \{4\}//' > "$TERM_CONFIG" << EOL
+    [Configuration]
+    CommandLoginShell=TRUE
+EOL
+fi
+
+# Set xfce terminal as default
+XFCE4_HELPERS="$CONFIG_DIR/xfce4/helpers.rc"
+if [ -e "$XFCE4_HELPERS" ]; then
+    sed -i \
+        '/^TerminalEmulator=/{h;s/=.*/=xfce4-terminal/};${x;/^$/{s//TerminalEmulator=xfce4-terminal/;H};x}' \
+        "$XFCE4_HELPERS"
+else
+    mkdir -p "$(dirname "$XFCE4_HELPERS")"
+    sed 's/^ \{4\}//' > "$XFCE4_HELPERS" << EOL
+    WebBrowser=firefox
+    TerminalEmulator=xfce4-terminal
+EOL
+fi
+
+# per job settings
+#   we add this to XDG_CONFIG_DIRS, however, anything in the XDG_CONFIG_HOME still has precedence
+export XFCE_JOB_CONFIG=$OOD_SESSION_STAGED_ROOT/xfce_config
+mkdir -p $XFCE_JOB_CONFIG
+export XDG_CONFIG_DIRS=$XFCE_JOB_CONFIG:/etc/xdg
+#   we add this to XDG_DATA_DIRS, however, anything in the XDG_DATA_HOME still has precedence
+export XFCE_JOB_DATA=$OOD_SESSION_STAGED_ROOT/xfce_data
+mkdir -p $XFCE_JOB_DATA
+export XDG_DATA_DIRS=$XFCE_JOB_DATA:/usr/local/share/:/usr/share/
+
+export XFCE_APPLICATIONS=$XFCE_JOB_DATA/applications
+mkdir -p $XFCE_APPLICATIONS
+export XFCE_DIRECTORIES=$XFCE_JOB_DATA/desktop-directories
+mkdir -p $XFCE_DIRECTORIES
+export XFCE_MERGED=$XFCE_JOB_CONFIG/menus/applications-merged
+mkdir -p $XFCE_MERGED
+
+# Add a menu with OODApplications and VSCFileManager, and adds the <DefaultDirectoryDirs>
+cat > $XFCE_MERGED/ood.menu <<EOF
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<Menu>
+  <Name>OOD</Name>
+  <Menu>
+    <Name>VSC Portal tools</Name>
+    <Include>
+      <Category>OODApplication</Category>
+    </Include>
+  </Menu>
+  <Menu>
+    <Name>VSC Directories</Name>
+    <Include>
+      <Category>VSCFileManager</Category>
+    </Include>
+  </Menu>
+</Menu>
+EOF
+
+AUTOSTART_XFCE_DESKTOP=$XFCE_JOB_CONFIG/autostart
+mkdir $AUTOSTART_XFCE_DESKTOP
+
+
+# Only set running apps as icon (0=no icons; 1=running apps; 2=restore usual home etc icons)
+AUTOSTART_HIDE_ICONS=$OOD_SESSION_STAGED_ROOT/hide_icons.desktop
+
+cat > $AUTOSTART_HIDE_ICONS <<EOF
+xfconf-query -c xfce4-desktop -p /desktop-icons/style -n -t int -s 1
+for dontshow in home filesystem trash removable; do
+    xfconf-query -c  xfce4-desktop -p /desktop-icons/file-icons/show-$dontshow -n -t bool -s false
+done
+EOF
+
+chmod +x $AUTOSTART_HIDE_ICONS
+cat > "$AUTOSTART_XFCE_DESKTOP/hide_icons.desktop" << EOL
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Script
+Type=Application
+Exec=$AUTOSTART_HIDE_ICONS
+Terminal=false
+StartupNotify=false
+Hidden=false
+EOL
+
+
+
+AUTOSTART_SCRIPT=$OOD_SESSION_STAGED_ROOT/autostart.sh
+
+if [ -e "$AUTOSTART_SCRIPT" ]; then
+    chmod +x $AUTOSTART_SCRIPT
+    sed 's/^ \{4\}//' > "$AUTOSTART_XFCE_DESKTOP/ood_autostart.desktop" << EOL
+    [Desktop Entry]
+    Version=1.0
+    Encoding=UTF-8
+    Name=Script
+    Type=Application
+    Exec=$AUTOSTART_SCRIPT
+    Terminal=${OOD_APP_USE_TERMINAL:-false}
+    StartupNotify=true
+    Hidden=false
+EOL
+
+    # Also make an application so you can restart it
+    realname=${OOD_APP_NAME:-OOD App}
+    sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/ood_app.desktop" << EOL
+    [Desktop Entry]
+    Encoding=UTF-8
+    Name=$realname
+    Name[en_GB]=$realname
+    Comment[en_GB]=(re-)start the $realname application
+    GenericName=$realname
+    GenericName[en_GB]=$realname
+
+    Exec=$AUTOSTART_SCRIPT
+    Icon=${OOD_APP_ICON:-org.xfce.session}
+    Terminal=${OOD_APP_USE_TERMINAL:-false}
+    StartupNotify=true
+    Type=Application
+    Categories=X-Xfce-Toplevel;OODApplication;
+EOL
+
+fi
+
+# Create desktop path icons
+
+function make_desktop_path {
+    local path name whitespace_name
+    name="$1"
+    whitespace_name="$(echo "$name" | sed "s/_/ /g")"
+
+    path="$2"
+
+    sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/${name}.desktop" << EOL
+    [Desktop Entry]
+    Encoding=UTF-8
+    Name=$whitespace_name
+    GenericName=$whitespace_name
+
+    Exec=Thunar $path
+    Icon=org.xfce.filemanager
+    Terminal=false
+    StartupNotify=true
+    Type=Application
+    Categories=VSCFileManager;
+EOL
+}
+
+
+function make_desktop_env {
+    local name
+    name="$1"
+    if [ -n "${!name}" ]; then
+        make_desktop_path "$name" "${!name}"
+    fi
+}
+
+# # keep in sync with config vscood.rb VscOodPaths
+# if [ -d /dodrio/scratch ]; then
+#     # This is tier1
+#     PROJECTS="$HOME/.projects"
+#     if [ -e "$PROJECTS" ]; then
+#         for projdata in $(cat $PROJECTS | jq  -r '.projects[] | "\(.path):\(.slurm_account)"'); do
+#             # slurm_account as title
+#             read -r path title <<<$(echo $projdata | tr ':' ' ')
+#             make_desktop_path "project_$title" "$path"
+#         done
+#     fi
+#     for env_var in HOME VSC_HOME VSC_DATA; do
+#         make_desktop_env $env_var
+#     done
+# else
+
+#     COURSES="/data/brussel/courses/.members/$USER"
+#     if [ -e "$COURSES" ]; then
+#         for coursedata in $(cat $COURSES | jq  -r '.courses[] | "\(.path):\(.code):\(.year):\(.nickname)"'); do
+#             read -r path code year nick <<<$(echo $coursedata | tr ':' ' ')
+#             make_desktop_path "course_${nick}_${code}_${year}" "$path"
+#         done
+#     fi
+
+for env_var in VSC_HOME VSC_DATA VSC_SCRATCH VSC_DATA_VO_USER VSC_SCRATCH_VO_USER VSC_DATA_VO VSC_SCRATCH_VO; do
+    make_desktop_env $env_var
+done
+
+
+CUSTOM="$(dirname "${BASH_SOURCE[0]}")/custom.sh"
+if [ -f "$CUSTOM" ]; then
+    source $CUSTOM
+fi
+
+# Start up xfce desktop (block until user logs out of desktop)
+xfce4-session

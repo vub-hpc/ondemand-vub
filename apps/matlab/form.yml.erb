@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -17,12 +15,15 @@ attributes:
       - ["MATLAB/2024a-r6", "2024a-r6"]
       - ["MATLAB/2023a-r6", "2023a-r6"]
       - ["MATLAB/2022a-r5", "2022a-r5"]
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
   - matlab_version
   - global_num_cores
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
   - global_working_dir
   - global_prerun

@@ -1,6 +1,4 @@
 ---
-cluster: "*"
-
 # app-specific attributes
 attributes:
   bc_num_hours:
@@ -13,30 +11,34 @@ attributes:
   bc_vnc_idle: 0
   bc_vnc_resolution:
     required: true
+  desktop: "xfce"
   resolution:
     widget: "select"
     label: "Screen resolution"
     options:
       - ["FullHD (1920x1080)", "1920x1080"]
       - ["HD (1280x720)", "1280x720"]
-  desktop: "minimal"
   toolchain:
     label: "Toolchain and ParaView version"
     widget: "select"
     options:
       - ["2024a: ParaView/5.13.2", "2024a"]
       - ["2023a: ParaView/5.11.2", "2023a"]
+<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
+  - cluster
   - auto_queues
+  - desktop
   - toolchain
-  - bc_vnc_idle
   - resolution
+  - bc_vnc_idle
   - global_num_cores
-  - global_bc_num_gpu_slots
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
   - bc_num_hours
+  - global_working_dir
   - global_prerun
   - bc_email_on_started
-  - desktop
   - global_advanced
   - global_advanced_num_nodes

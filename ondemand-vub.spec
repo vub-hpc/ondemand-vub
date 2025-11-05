@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.02
+Version: 2.03
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Oct 30 2025 Jarne Renders <jarne.thijs.renders@vub.be>
+- Update forms for requesting shards on anansi
 * Thu Oct 16 2025 Samuel Moors <samuel.moors@vub.be>
 - Add ParaView app
 * Mon Sep 29 2025 Samuel Moors <samuel.moors@vub.be>

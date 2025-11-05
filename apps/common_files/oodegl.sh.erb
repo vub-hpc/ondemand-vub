@@ -1,0 +1,60 @@
+if [ "${OOD_CONTEXT_DEBUG:-0}" -gt 0 ]; then
+    set -x
+fi
+
+# build the drirender map
+declare -A card_dri
+
+for fullpcicard in $(ls /dev/dri/by-path/*-card); do
+    card=$(readlink -e $fullpcicard)
+    pcicard=$(basename $fullpcicard)
+    render=${pcicard%-card}-render;
+    if dri=$(readlink -e /dev/dri/by-path/$render); then
+        #echo "found dri $dri for render $render for pcicard $pcicard card $card"
+        card_dri[$card]=$dri
+    fi
+done
+
+if [ -f /opt/VirtualGL/bin/eglinfo ]; then
+    eglinfo=/opt/VirtualGL/bin/eglinfo
+else
+    if [ -f /usr/bin/veglinfo ]; then
+        eglinfo=/usr/bin/veglinfo
+    else
+        echo "ERROR: no eglinfo binary found"
+    fi
+fi
+
+# Try to guess the best egl device
+shopt -s nocasematch
+declare -A -x OOD_EGL
+export OOD_EGL  # does not work? even with -x
+for line in $($eglinfo -e 2>/dev/null | sed -nr 's#^.*ID:[ ]*(egl[0-9]+)( or egl)?(.*path: (/dev/dri/card[0-9]+))?$#\1;\4#p'); do
+    read -r egl card <<<$(echo $line | tr ';' ' ')
+    read -r vendor renderer <<<$($eglinfo $egl -B 2>/dev/null| sed -nr 's/.* (vendor|renderer) string: //p;' | sed 's/ /_/g' | tr "\n" " ")
+
+    # card score
+    cscore=0
+    if [ -z "$card" ]; then
+        cscore=0
+    else
+        # Augment with card score, so identical cards have different scores
+        cscore=$((1 + ${card##*card}))
+    fi
+
+    # score must be 3rd field
+    txtcard=${card:-NOCARD}
+    OOD_EGL[$egl]="${vendor:-NOVENDOR} ${renderer:-NORENDERER} $cscore $txtcard ${card_dri[$txtcard]:-NODRI}"
+done
+shopt -u nocasematch
+
+for egl in "${!OOD_EGL[@]}"; do
+    echo "OOD_EGL $egl ${OOD_EGL[$egl]}"
+done
+
+# sort on score (4th field, egl included), then take first one
+export VGL_DISPLAY=$(for egl in "${!OOD_EGL[@]}"; do
+    echo "$egl ${OOD_EGL[$egl]}"
+done | sort -rn -k4 | head -1 | cut -d ' ' -f 1)
+
+echo "Setting VGL_DISPLAY to $VGL_DISPLAY"
