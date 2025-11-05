@@ -6,7 +6,7 @@ global_bc_form_items:
     value: 1
     required: true
     min: 1
-    max: 16
+    max: 32
     step: 1
   global_bc_num_shards:
     label: "Fraction of GPU to use"
@@ -37,7 +37,7 @@ global_bc_form_items:
     value: 1
     required: false
     min: 1
-    max: 8
+    max: 4
     step: 1
   global_advanced:
     widget: 'check_box'
