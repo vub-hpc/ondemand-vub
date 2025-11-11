@@ -1,0 +1,41 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+VERSION=<%= context.slicer_version %>
+
+modules_to_load=()
+
+case "${VERSION}" in
+  5.8.1 )
+    modules_to_load+=("Slicer/5.8.1-linux-amd64")
+    export NNI_SVR_VER=20250404.1
+    ;;
+  * )
+    echo "ERROR: Unsupported version selected"
+    exit 1
+    ;;
+esac
+
+export MODULES_TO_LOAD="${modules_to_load[@]}"
+
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Substitute envionment variables into autostart.sh script
+envsubst '$MODULES_TO_LOAD,$NNI_SVR_VER' \
+  <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
+  >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
+
+# Start up desktop
+echo "Launching desktop '<%= context.desktop %>'..."
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
+echo "Desktop '<%= context.desktop %>' ended with $? status..."
