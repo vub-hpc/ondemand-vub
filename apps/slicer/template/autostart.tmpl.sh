@@ -12,7 +12,7 @@ ip link set lo up
 
 if nvidia-smi &>/dev/null ;then
     echo 'Starting nninteractive-slicer-server ...'
-    apptainer run --nv $server_image python /opt/server/main.py --host 0.0.0.0 --port $app_port &
+    apptainer run --nv $server_image python /opt/server/main.py --host 0.0.0.0 --port $app_port &>> "$OOD_SESSION_STAGED_ROOT/slicer-server.log" &
     server_pid=\$!
 else
     echo 'Skipping nninteractive-slicer-server: no GPU available'

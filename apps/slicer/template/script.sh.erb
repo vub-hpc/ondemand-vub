@@ -30,7 +30,7 @@ export MODULES_TO_LOAD="${modules_to_load[@]}"
 <%- end -%>
 
 # Substitute envionment variables into autostart.sh script
-envsubst '$MODULES_TO_LOAD,$NNI_SVR_VER' \
+envsubst '$MODULES_TO_LOAD,$NNI_SVR_VER,$OOD_SESSION_STAGED_ROOT' \
   <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
   >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
 
