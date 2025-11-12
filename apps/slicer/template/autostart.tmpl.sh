@@ -1,4 +1,4 @@
-app_port=13579
+app_port=1527
 server_name="nninteractive-slicer-server"
 server_image="/apps/brussel/containers/$server_name/$NNI_SVR_VER/$server_name-$NNI_SVR_VER.sif"
 
