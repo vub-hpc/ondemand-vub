@@ -1,0 +1,11 @@
+---
+name: 3D Slicer
+category: Interactive Apps
+subcategory: Visualization
+role: batch_connect
+description: |
+    Launch [3D Slicer] with [NNInteractive] extension + server on the compute nodes.
+    <div>Note: the NNInteractive server requires a GPU.</div>
+
+    [3D Slicer]: https://www.slicer.org/
+    [NNInteractive]: https://github.com/coendevente/SlicerNNInteractive
