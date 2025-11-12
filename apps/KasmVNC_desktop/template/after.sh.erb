@@ -1,0 +1,26 @@
+# Wait for the Cluster desktop v2 to start
+echo "Waiting for Cluster desktop v2  server to open port ${port}..."
+echo "TIMING - Starting after wait at: $(date)"
+
+if [[ 0 -gt 0 ]]; then
+    echo "Processes at after wait >>>"
+    ps axfu
+    echo "<<< Processes at after wait"
+fi
+
+if wait_until_port_used "${host}:${port}" 60; then
+  echo "Discovered Cluster desktop v2 listening on port ${port}!"
+  echo "TIMING - Wait after ended at: $(date)"
+else
+  echo "Timed out waiting for Cluster desktop v2 to open port ${port}!"
+  echo "TIMING - Wait after ended at: $(date)"
+  if [[ 0 -gt 0 ]]; then
+    echo "Processes pkill ${SCRIPT_PID} after wait  >>>"
+    ps axfu | grep -C 5 ${SCRIPT_PID}
+    echo "<<< Processes pkill ${SCRIPT_PID} after wait"
+  fi
+  pkill -P ${SCRIPT_PID}
+  clean_up 1
+fi
+
+sleep 2
