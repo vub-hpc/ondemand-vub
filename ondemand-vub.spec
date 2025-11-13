@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.05
+Version: 2.06
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Nov 13 2025 Ward Poelmans <ward.poelmans@vub.be>
+- Create bookmarks for VSC directories
 * Tue Nov 11 2025 Samuel Moors <samuel.moors@vub.be>
 - Add 3D Slicer app
 * Wed Nov 05 2025 Alex Domingo <alex.domingo.toro@vub.be>
