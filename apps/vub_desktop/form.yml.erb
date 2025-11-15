@@ -13,12 +13,11 @@ attributes:
     required: true
   desktop: "xfce"
   resolution:
-    widget: select
-    label: "screen resolution"
-    help: "This defines the resolution of your screen."
+    widget: "select"
+    label: "Screen resolution"
     options:
-      - ["FullHD", "1920x1080"]
-      - ["HD", "1280x720"]
+      - ["FullHD (1920x1080)", "1920x1080"]
+      - ["HD (1280x720)", "1280x720"]
 <%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
