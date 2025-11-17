@@ -10,7 +10,7 @@ export PASSWORD=$password
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
 
-vncdir=$PWD/vnc
+vncdir=$OOD_SESSION_STAGED_ROOT/vnc
 mkdir -p $vncdir
 
 # /tmp with jobcontainer is already namespace'd
@@ -18,7 +18,7 @@ httpd=$(mktemp -d -p /tmp kasmvnchttpd.XXXX)
 
 echo "Setting VNC password..."
 
-pwdfile=$PWD/vnc/kasmpasswd
+pwdfile=$OOD_SESSION_STAGED_ROOT/vnc/kasmpasswd
 touch $pwdfile
 chmod 700 $pwdfile
 
