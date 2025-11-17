@@ -1,0 +1,91 @@
+<%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/work_directory.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/sha1_password.sh.erb'), eoutvar: 'child').result(binding) %>
+
+export OOD_APP_NAME="KasmVNC Desktop"
+
+export PASSWORD=$password
+
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+
+vncdir=$OOD_SESSION_STAGED_ROOT/vnc
+mkdir -p $vncdir
+
+# /tmp with jobcontainer is already namespace'd
+httpd=$(mktemp -d -p /tmp kasmvnchttpd.XXXX)
+
+echo "Setting VNC password..."
+
+pwdfile=$OOD_SESSION_STAGED_ROOT/vnc/kasmpasswd
+touch $pwdfile
+chmod 700 $pwdfile
+
+password=$(create_passwd "24")
+# # this is the view-only password
+# spassword=${spassword:-$(create_passwd "24")}
+echo -e "${password}\n${password}\n" | vncpasswd -u owner -wo $pwdfile
+# echo -e "${spassword}\n${spassword}\n" | vncpasswd -u readonly -r $pwdfile
+
+
+realhome=$(readlink -f $HOME)
+realhttpd=$(readlink -f $httpd)
+
+mkdir -p /tmp/.X11-unix /tmp/.ICE-unix
+
+# with /node 
+relurl="/node/$host/$port/$password"
+
+# something is wrong with the proxy'ing and handling of wss upgrades       
+#  the relpath websockify is passed, but not properly translated by the proxy?
+# anyway, it's a setting in the kasm client, so we can preset it to the correct path
+# what we need to do is to hack it in the js code
+#   will this be cached? it's url specific
+# IF you modify the setting in the kasm client settings in the browser, the value is stored in local storage,
+#   and thus not overridden on redownload. you need to clean this yourself
+
+# no trailing /
+wwwsrc=/usr/share/kasmvnc/www
+
+# look for something like 'o.initSetting("path","websockify")' and inject relative path of the frontend
+
+# on kasmvnc 1.3X, this is 800kB, keep it local
+bundlesrcname=main.bundle.js
+
+# on kasmvnc 1.4, this is in an asset ui-hash.js
+absuiasset=$(ls $wwwsrc/assets/ui-*js | sort |head -1)
+uiasset=${absuiasset#$wwwsrc/}  # no trailing / on wwwsrc!
+
+not=""
+bundlesrc=$bundlesrcname
+if [ ! -f "$wwwsrc/$bundlesrc" ]; then
+    not="$not $bundlesrc"
+    bundlesrc=dist/$bundlesrcname
+    if [ ! -f "$wwwsrc/$bundlesrc" ]; then
+        not="$not $bundlesrc"
+        # try 1.4 location
+        bundlesrcname=$uiasset
+        bundlesrc=$bundlesrcname
+        if [ ! -f "$wwwsrc/$bundlesrc" ]; then
+            not="$not $bundlesrc"
+	                echo "ERROR: Failed to find bundlesrc $not"
+        fi
+    fi
+fi
+
+bundledir=$(mktemp -d -p /tmp bundlejs.XXXX)
+bundlemod=$bundledir/$bundlesrcname
+mkdir -p $(dirname $bundlemod)
+
+sed "s#websockify#$relurl/websockify#" $wwwsrc/$bundlesrc > $bundlemod
+
+# usegpu is always 0 since KasmVNC gpu acceleration will not work with NVIDIA drivers
+# https://kasmweb.com/kasmvnc/docs/master/gpu_acceleration.html
+bwrap --bind / / --dev /dev --dev-bind /dev /dev \
+    --bind $vncdir $realhome/.vnc \
+    --bind $pwdfile $realhome/.kasmpasswd \
+    --bind $wwwsrc "$realhttpd/$relurl" \
+    --bind $bundlemod "$realhttpd/$relurl/$bundlesrc" \
+    $OOD_SESSION_STAGED_ROOT/kasmvnc.sh "$realhttpd" "0"
+

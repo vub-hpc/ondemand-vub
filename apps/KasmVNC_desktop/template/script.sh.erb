@@ -1,0 +1,28 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+
+read DISPLAY VNC_PID <<<$(tail -1 $OOD_SESSION_STAGED_ROOT/vncserver_list )
+export DISPLAY
+echo "Found running Xvnc pid $VNC_PID for display $DISPLAY"
+
+# open port 590X, most vncserver coe uses this to detect other Xvnc to make sure display numbers are unique
+fakeport=$((5900+${DISPLAY##*:}))
+echo "Faking rfbport $fakeport"
+nc -l $fakeport --keep-open >& /dev/null &
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+ 
+# Start up desktop
+echo "Launching desktop '<%= context.desktop %>'..."
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
+echo "Desktop '<%= context.desktop %>' ended with $? status..."

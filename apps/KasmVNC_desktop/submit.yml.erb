@@ -1,0 +1,13 @@
+---
+batch_connect:
+  template: basic
+  script_wrapper: |- 
+    module purge
+    if [ -d /opt/VirtualGL/bin ]; then
+        export PATH="/opt/VirtualGL/bin:$PATH"
+    fi
+    %s
+
+script:
+  native:
+<%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>

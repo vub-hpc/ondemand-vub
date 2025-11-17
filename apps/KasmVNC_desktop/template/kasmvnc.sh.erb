@@ -1,0 +1,70 @@
+#!/usr/bin/bash
+set -u
+
+# args
+#   1st: mandatory httpd dir
+#   2nd optional or empty: add gpu section to yaml
+
+httpd="${1:-/tmp/nohttpdpassed}"
+usegpu="${2:-0}"
+
+
+## ;s#HOMEDIR#$(readlink -f $HOME)#
+hostip=$(dig +short $(hostname -f))
+# 0-100, 30 default
+loglevel=30
+
+gpubool="false"
+dripath=/dev/dri/nogpu
+if [ ${usegpu:-0} -eq 1 ]; then
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+    # there is no DRI with nvidia
+    #   TODO: technically, not with nvidia.ko, perhaps with nouveau or nova?
+    dri=$(echo ${OOD_EGL[$VGL_DISPLAY]} | grep -vi NVIDIA | cut -d ' ' -f 5)
+    echo "Got dri $dri for $VGL_DISPLAY ${OOD_EGL[$VGL_DISPLAY]}"
+    # test with -e, it is not a regular file
+    if [ -e ${dri:-/does/not/exist} ]; then
+        gpubool="true"
+        dripath=$dri
+    fi
+fi
+
+# Configure KasmVNC
+kasmyml=$HOME/.vnc/kasmvnc.yaml
+sed "s/WEBSOCKET_PORT/$port/;s/HOSTIP/$hostip/;s#HTTPD#$httpd#;s/LOGLEVEL/$loglevel/;s/GPUBOOL/$gpubool/;s#DRIPATH#$dripath#" kasmvnc.yml > $kasmyml
+
+echo "detecting other sessions"
+source detect.sh
+
+echo "vncserver to use $(which vncserver)"
+
+# Start up vnc server (if at first you don't succeed, try, try again)
+echo "Starting VNC server..."
+for i in $(seq 1 10); do
+  # Clean up any old VNC sessions that weren't cleaned before
+  vncserver -list | awk '/^:/{system("kill -0 "$2" 2>/dev/null || vncserver -kill "$1)}'
+
+  # Attempt to start VNC server
+  VNC_OUT=$(vncserver -select-de manual -noxstartup -disableBasicAuth 2>&1)
+  VNC_PID=$(pgrep -s 0 Xvnc) # the script above will daemonize the Xvnc process
+  echo "${VNC_OUT}"
+
+  # Sometimes Xvnc hangs if it fails to find working disaply, we
+  # should kill it and try again
+  kill -0 ${VNC_PID} 2>/dev/null && [[ "${VNC_OUT}" =~ "Fatal server error" ]] && kill -TERM ${VNC_PID}
+
+  # Check that Xvnc process is running, if not assume it died and
+  # wait some random period of time before restarting
+  kill -0 ${VNC_PID} 2>/dev/null || sleep 0.$(random_number 1 9)s
+
+  # If running, then all is well and break out of loop
+  kill -0 ${VNC_PID} 2>/dev/null && break
+done
+
+# If we fail to start it after so many tries, then just give up
+kill -0 ${VNC_PID} 2>/dev/null || clean_up 1
+
+vncserver -list >& vncserver_list
+
+echo "vncserver list"
+cat vncserver_list

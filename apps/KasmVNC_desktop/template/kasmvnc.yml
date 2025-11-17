@@ -1,0 +1,19 @@
+---
+desktop:
+  gpu:
+    hw3d: GPUBOOL
+    drinode: DRIPATH
+network:
+  websocket_port: WEBSOCKET_PORT
+  use_ipv6: false
+  ssl:
+    pem_certificate: /dev/null
+    pem_key: /dev/null
+    require_ssl: false
+  udp:
+    public_ip: HOSTIP
+server:
+  http:
+    httpd_directory: HTTPD
+logging:
+  level: LOGLEVEL

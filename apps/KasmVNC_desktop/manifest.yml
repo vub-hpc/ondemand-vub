@@ -1,0 +1,9 @@
+
+---
+name: Desktop_v2
+icon: fa://desktop
+category: Interactive Apps
+subcategory: Testing
+role: batch_connect
+description: |
+  Launch a graphical desktop on the compute nodes using KasmVNC.

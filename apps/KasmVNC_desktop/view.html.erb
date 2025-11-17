@@ -1,0 +1,18 @@
+<%
+  # generate form id, based on host and port
+  require 'digest'
+  form_id = Digest::SHA1.hexdigest("--" + host.to_s + "--" + port.to_s + "--")
+  # the form method must be GET, a POST is seen as an empty GET
+%>
+<form id="<%= form_id %>" action="/node/<%= host %>/<%= port %>/<%= password %>/index.html" method="GET" target="_blank">
+    <button class="btn btn-primary" type="submit">
+      <i class="fa fa-eye"></i> Launch Desktop
+    </button>
+    <details>
+      <summary style="cursor: pointer; padding-left: 10px;">copy-paste help</summary>
+      <ul>
+        <li>Transparent copy/paste should work from Chromium based browsers (like Google Chrome and Edge).</li>
+        <li>Browsers not supporting copy/paste (such as Firefox) can make use of the clipboard textbox in the control panel.</li>
+      </ul>
+     </details>
+</form>
