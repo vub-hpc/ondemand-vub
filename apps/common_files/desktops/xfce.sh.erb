@@ -109,6 +109,10 @@ EOF
 AUTOSTART_XFCE_DESKTOP=$XFCE_JOB_CONFIG/autostart
 mkdir $AUTOSTART_XFCE_DESKTOP
 
+# make sure the gtk bookmark file is present
+BOOKMARKS="$CONFIG_DIR/gtk-3.0/bookmarks"
+mkdir -p "$(dirname "$BOOKMARKS")"
+touch "$BOOKMARKS"
 
 # Only set running apps as icon (0=no icons; 1=running apps; 2=restore usual home etc icons)
 AUTOSTART_HIDE_ICONS=$OOD_SESSION_STAGED_ROOT/hide_icons.desktop
@@ -205,6 +209,24 @@ function make_desktop_env {
     fi
 }
 
+
+function make_bookmark() {
+    local varname="$1"
+    local val="${!varname}"
+
+    # Skip if variable is unset or empty
+    [ -z "$val" ] && return 0
+
+    # Escape spaces for URI
+    local uri="file://${val// /%20}"
+    local label="$varname"
+
+    # Only add if label is not already present
+    if ! grep -q " ${label}$" "$BOOKMARKS"; then
+        echo "${uri} ${label}" >> "$BOOKMARKS"
+    fi
+}
+
 # # keep in sync with config vscood.rb VscOodPaths
 # if [ -d /dodrio/scratch ]; then
 #     # This is tier1
@@ -231,6 +253,7 @@ function make_desktop_env {
 
 for env_var in VSC_HOME VSC_DATA VSC_SCRATCH VSC_DATA_VO_USER VSC_SCRATCH_VO_USER VSC_DATA_VO VSC_SCRATCH_VO; do
     make_desktop_env $env_var
+    make_bookmark $env_var
 done
 
 

@@ -3,7 +3,11 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
+<<<<<<< HEAD
 Version: 2.06
+=======
+Version: 2.08
+>>>>>>> origin/main
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,8 +61,14 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
-* Wed Nov 12 2025 Jarne Renders <jarne.thijs.renders@vub.be>
+* Mon Nov 17 2025 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add KasmVNC desktop app
+* Mon Nov 17 2025 Samuel Moors <samuel.moors@vub.be>
+- Hide copy-paste clutter by default in interactive shell cards
+* Sat Nov 15 2025 Samuel Moors <samuel.moors@vub.be>
+- Use common xfce desktop for Desktop app
+* Thu Nov 13 2025 Ward Poelmans <ward.poelmans@vub.be>
+- Create bookmarks for VSC directories
 * Tue Nov 11 2025 Samuel Moors <samuel.moors@vub.be>
 - Add 3D Slicer app
 * Wed Nov 05 2025 Alex Domingo <alex.domingo.toro@vub.be>
