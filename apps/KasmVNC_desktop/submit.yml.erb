@@ -3,9 +3,6 @@ batch_connect:
   template: basic
   script_wrapper: |- 
     module purge
-    if [ -d /bin ]; then
-        export PATH="/bin:$PATH"
-    fi
     if [ -d /opt/VirtualGL/bin ]; then
         export PATH="/opt/VirtualGL/bin:$PATH"
     fi
