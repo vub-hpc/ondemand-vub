@@ -2,8 +2,9 @@
 
 <%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
-# Ensure that the user's configured login shell is used
-export SHELL="$(getent passwd $USER | cut -d: -f7)"
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
 
 <%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 
@@ -15,8 +16,13 @@ echo "Found running Xvnc pid $VNC_PID for display $DISPLAY"
 fakeport=$((5900+${DISPLAY##*:}))
 echo "Faking rfbport $fakeport"
 nc -l $fakeport --keep-open >& /dev/null &
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
  
 # Start up desktop
 echo "Launching desktop '<%= context.desktop %>'..."
-source "<%= session.staged_root.join("desktops", "#{context.desktop}.sh") %>"
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
 echo "Desktop '<%= context.desktop %>' ended with $? status..."
