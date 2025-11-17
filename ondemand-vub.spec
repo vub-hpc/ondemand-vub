@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.09
+Version: 2.10
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Mon Nov 17 2025 Jarne Renders <jarne.thijs.renders@vub.be>
+- Remove tilde from detect.sh in KasmVNC desktop app
 * Mon Nov 17 2025 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add KasmVNC desktop app
 * Mon Nov 17 2025 Samuel Moors <samuel.moors@vub.be>
