@@ -8,4 +8,3 @@ for socket in $(ss -l -H --unix src '@/tmp/.X11*' | sed "s/ \+/ /g" | cut -d ' '
     echo "Found abstract socket $socket" > "$socket"
     chmod 400 "$socket"
 done
-~
