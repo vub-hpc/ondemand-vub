@@ -16,9 +16,7 @@ attributes:
       - ["2022a: tensorboard/2.10.0-foss-2022a", "2022a"]
   working_dir:
     label: TensorBoard log directory
-    help: |
-      - Optionally select your TensorBoard log directory.
-      - The default is your <i>data</i> directory (<code>$VSC_DATA</code>) when left empty.
+    help: "Optionally select your TensorBoard log directory (default: <code>$VSC_DATA</code>)."
     widget: "path_selector"
     show_files: false
 <%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
