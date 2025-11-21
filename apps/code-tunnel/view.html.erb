@@ -12,16 +12,7 @@
   <button class="btn btn-primary" type="submit">
     <i class="fa fa-eye"></i> Connect to VS Code Tunnel
   </button>
+
+<%= ERB.new(File.read('../common_files/copy_paste_help.sh.erb'), eoutvar: 'child').result(binding) %>
+
 </form>
-<ul>
-	<li>Select &amp; Copy to Clipboard</li>
-    <ul>
-        <li>Line: <b>Shift+Left Click &amp; Drag</b></li>
-        <li>Block: <b>Shift+Alt+Left Click &amp; Drag</b></li>
-    </ul>
-	<li>Paste From Clipboard</li>
-    <ul>
-    	<li><b>Shift+Insert</b></li>
-        <li><b>Ctrl+Shift+V</b></li>
-    </ul>
-</ul>

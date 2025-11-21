@@ -26,9 +26,7 @@ global_bc_form_items:
     help: "Bash commands to be executed before starting the app"
   global_working_dir:
     label: Working Directory
-    help: |
-      - Optionally select your working directory.
-      - The default is your <i>data</i> directory (<code>$VSC_DATA</code>) when left empty.
+    help: "Optionally select your working directory (default: <code>$VSC_DATA</code>)."
     widget: "path_selector"
     show_files: false
   global_advanced_num_nodes:
