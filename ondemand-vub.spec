@@ -58,7 +58,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 
 %changelog
 * Wed Dec 02 2025 Alex Domingo <alex.domingo.toro@vub.be>
-- Adjust maximum number of hours to max walltime in Anansi
+- Adjust maximum number of hours based on selected cluster
 * Fri Nov 21 2025 Samuel Moors <samuel.moors@vub.be>
 - Miscellaneous small improvements
 * Thu Nov 20 2025 Samuel Moors <samuel.moors@vub.be>
