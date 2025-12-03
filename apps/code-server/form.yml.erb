@@ -6,7 +6,6 @@ attributes:
     widget: "number_field"
     value: 4
     min: 1
-    max: 12
     step: 1
 <%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
