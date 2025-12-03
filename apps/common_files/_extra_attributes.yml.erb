@@ -12,13 +12,15 @@
           data = data.merge(
             "data-hide-dynamic-num-gpu-slots" => true,
             "data-set-dynamic-num-gpu-slots" => "",
-            "data-set-global-bc-num-shards" => "0"
+            "data-set-global-bc-num-shards" => "0",
+            "data-max-bc-num-hours" => "12"
           )
         else
           data = data.merge(
             "data-hide-global-bc-num-shards" => true,
             "data-set-global-bc-num-shards" => "",
-            "data-set-dynamic-num-gpu-slots" => "1"
+            "data-set-dynamic-num-gpu-slots" => "1",
+            "data-max-bc-num-hours" => "120"
           )
         end
 
@@ -27,7 +29,7 @@
     %><%= cluster_opts.to_json %>
   dynamic_num_gpu_slots:
     label: "Number of GPUs"
-    help: 'Specify the total number of GPUs for the job.'
+    help: "Specify the total number of GPUs for the job."
     widget: "select"
     options: <%
         # Get all partitions of all clusters
@@ -48,7 +50,6 @@
           q = q.to_s.gsub('_', '-')
           "data-option-for-auto-queues-#{q}: false,"
         end.join("\n")
-
 
         %>
       - ["0", "0", <%= hide_for_gpu %>]
