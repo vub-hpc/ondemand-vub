@@ -1,0 +1,11 @@
+---
+name: Open WebUI
+category: Interactive Apps
+subcategory: Servers
+role: batch_connect
+description: |
+    Launch [Open Webui] with [ollama] server on the compute nodes.
+    <div>Note: our OnDemand setup of ollama server requires a GPU.</div>
+
+    [Open Webui]: https://openwebui.com/
+    [ollama]: https://ollama.com/

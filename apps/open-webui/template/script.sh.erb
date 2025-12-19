@@ -1,0 +1,61 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+VERSION=<%= context.ollama_version%>
+
+modules_to_load=()
+
+case "${VERSION}" in
+  0.5.12 )
+    modules_to_load+=("ollama/0.5.12-GCCcore-13.3.0-CUDA-12.6.0")
+    ;;
+  0.11.10 )
+    modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
+    ;;
+  * )
+    echo "ERROR: Unsupported version selected"
+    exit 1
+    ;;
+esac
+
+export MODULES_TO_LOAD="${modules_to_load[@]}"
+
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Check if user set OLLAMA_MODELS directory
+if [[ -z "${OLLAMA_MODELS}" ]]; then
+  export OLLAMA_MODELS="/databases/ollama"
+else
+  export OLLAMA_MODELS="$OLLAMA_MODELS"
+fi
+
+# Check if user set OPEN_WEBUI_DATA directory
+if [[ -z "${OPEN_WEBUI_DATA}" ]]; then
+  export OPEN_WEBUI_DATA="$VSC_HOME/.openwebui"
+else
+  export OPEN_WEBUI_DATA="$OPEN_WEBUI_DATA"
+fi
+
+# Substitute envionment variables into autostart.sh script
+envsubst '$MODULES_TO_LOAD,$OLLAMA_MODELS,$OPEN_WEBUI_DATA,$SLURM_JOB_ID,$OOD_SESSION_STAGED_ROOT' \
+  <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
+  >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
+
+# Start up desktop unless no GPU was requested
+if nvidia-smi &>/dev/null ;then
+  echo "Launching desktop '<%= context.desktop %>'..."
+  <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
+  echo "Desktop '<%= context.desktop %>' ended with $? status..."
+else
+  echo "Not starting Open WebUI since there was no GPU requested. Try loading Open WebUI again with a GPU or fraction of a GPU."
+fi
