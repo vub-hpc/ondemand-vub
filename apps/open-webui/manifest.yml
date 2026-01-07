@@ -1,11 +1,12 @@
 ---
 name: Open WebUI
 category: Interactive Apps
-subcategory: Servers
+subcategory: Testing
 role: batch_connect
 description: |
     Launch [Open Webui] with [Ollama] server on the compute nodes.
-    <div>Note: our OnDemand setup of Ollama server requires a GPU.</div>
+    <div>Note 1: Open WebUI and Ollama run in a private network namespace, hence there will be no connection to the internet.</div>
+    <div>Note 2: our OnDemand setup of Ollama server requires a GPU.</div>
 
     [Open Webui]: https://openwebui.com/
     [Ollama]: https://ollama.com/
