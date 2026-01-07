@@ -36,7 +36,6 @@ webui_pid=\$!
 
 echo "Waiting for Open WebUI to start..."
 until curl --output /dev/null --silent --head --fail http://localhost:$webui_port; do
-    printf '.'
     sleep 1
 done
 echo "Open WebUI is up."
