@@ -4,9 +4,8 @@ attributes:
   bc_num_hours:
     label: "Number of hours"
     widget: "number_field"
-    value: 12
+    value: 4
     min: 1
-    max: 120
     step: 1
   bc_vnc_idle: 0
   bc_vnc_resolution:
@@ -18,7 +17,7 @@ attributes:
     options:
       - ["FullHD (1920x1080)", "1920x1080"]
       - ["HD (1280x720)", "1280x720"]
-  ollama_version: # Allow non-gpu version?
+  ollama_version: # We only load CUDA versions
     label: "ollama version"
     widget: "select"
     options:
