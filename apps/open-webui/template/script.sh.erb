@@ -57,5 +57,6 @@ if nvidia-smi &>/dev/null ;then
 
   echo "Desktop '<%= context.desktop %>' ended with $? status..."
 else
-  echo "Not starting Open WebUI since there was no GPU requested. Try loading Open WebUI again with a GPU or fraction of a GPU."
+  echo "Not starting Open WebUI since there was no GPU requested. Try launching Open WebUI again with a GPU or fraction of a GPU."
+  exit 1
 fi
