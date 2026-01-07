@@ -4,8 +4,8 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-    Launch [Open Webui] with [ollama] server on the compute nodes.
-    <div>Note: our OnDemand setup of ollama server requires a GPU.</div>
+    Launch [Open Webui] with [Ollama] server on the compute nodes.
+    <div>Note: our OnDemand setup of Ollama server requires a GPU.</div>
 
     [Open Webui]: https://openwebui.com/
-    [ollama]: https://ollama.com/
+    [Ollama]: https://ollama.com/
