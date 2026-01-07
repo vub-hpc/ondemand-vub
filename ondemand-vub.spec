@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.10
+Version: 2.13
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,12 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Wed Dec 02 2025 Alex Domingo <alex.domingo.toro@vub.be>
+- Adjust maximum number of hours based on selected cluster
+* Fri Nov 21 2025 Samuel Moors <samuel.moors@vub.be>
+- Miscellaneous small improvements
+* Thu Nov 20 2025 Samuel Moors <samuel.moors@vub.be>
+- Use full desktop for GaussView app
 * Mon Nov 17 2025 Jarne Renders <jarne.thijs.renders@vub.be>
 - Remove tilde from detect.sh in KasmVNC desktop app
 * Mon Nov 17 2025 Jarne Renders <jarne.thijs.renders@vub.be>
@@ -70,7 +76,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 * Tue Nov 11 2025 Samuel Moors <samuel.moors@vub.be>
 - Add 3D Slicer app
 * Wed Nov 05 2025 Alex Domingo <alex.domingo.toro@vub.be>
-- make custom nodes option in advanced section
+- Make custom nodes option in advanced section
 * Thu Oct 30 2025 Jarne Renders <jarne.thijs.renders@vub.be>
 - Update forms for requesting shards on anansi
 * Thu Oct 16 2025 Samuel Moors <samuel.moors@vub.be>
