@@ -1,11 +1,12 @@
 ---
 # app-specific attributes
 attributes:
-  bc_num_hours:
+  bc_num_hours_local:
     label: "Number of hours"
     widget: "number_field"
     value: 4
     min: 1
+    max: 4
     step: 1
   bc_vnc_idle: 0
   bc_vnc_resolution:
@@ -24,6 +25,15 @@ attributes:
       - ["2025a: ollama/0.11.10", "0.11.10"]
       - ["2024a: ollama/0.5.12", "0.5.12"]
 <%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+  cluster: 
+    widget: "select"
+    help: "Open WebUI can only be run on Anansi at the moment."
+    options: 
+      - [
+          'anansi', 'anansi',
+          data-hide-dynamic-num-gpu-slots: true,
+          data-set-dynamic-num-gpu-slots: "",
+        ]
 
 form:
   - cluster
@@ -35,7 +45,7 @@ form:
   - global_num_cores
   - dynamic_num_gpu_slots
   - global_bc_num_shards
-  - bc_num_hours
+  - bc_num_hours_local
   - global_working_dir
   - global_prerun
   - bc_email_on_started
