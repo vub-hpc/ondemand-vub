@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.15
+Version: 2.16
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,6 +57,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Jan 08 2026 Samuel Moors <samuel.moors@vub.be>
+- Increase size of Open WebUI icon
 * Thu Jan 08 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix Open WebUI Number of hours form item
 * Wed Jan 07 2026 Jarne Renders <jarne.thijs.renders@vub.be>
