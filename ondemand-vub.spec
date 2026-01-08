@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.14
+Version: 2.15
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -57,8 +57,10 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Thu Jan 08 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Fix Open WebUI Number of hours form item
 * Wed Jan 07 2026 Jarne Renders <jarne.thijs.renders@vub.be>
-- Add Open Webui with ollama app
+- Add Open WebUI with ollama app
 * Wed Dec 02 2025 Alex Domingo <alex.domingo.toro@vub.be>
 - Adjust maximum number of hours based on selected cluster
 * Fri Nov 21 2025 Samuel Moors <samuel.moors@vub.be>

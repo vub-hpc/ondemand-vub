@@ -6,3 +6,4 @@ batch_connect:
 script:
   native:
 <%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>
+    - "--time=<%= bc_num_hours_local.to_i %>:00:00"
