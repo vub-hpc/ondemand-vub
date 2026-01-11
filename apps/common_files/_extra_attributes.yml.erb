@@ -4,7 +4,7 @@
       cluster_options = SmartAttributes::AttributeFactory.send(:cluster_options)
 
       # Hide gpu item on anansi, hide shard item elsewhere
-      # When swapping to anansi, set shard to 25%
+      # When swapping to anansi, set shards to 0%
       # When swapping to other cluster, set gpus to 1
       # (might get overwritten by partition selection)
       cluster_opts = cluster_options.map do |label, value, data|
