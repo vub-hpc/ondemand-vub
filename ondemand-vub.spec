@@ -57,6 +57,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+- Make Open WebUI icon square to avoid deformation
 * Thu Jan 08 2026 Samuel Moors <samuel.moors@vub.be>
 - Increase size of Open WebUI icon
 * Thu Jan 08 2026 Jarne Renders <jarne.thijs.renders@vub.be>
