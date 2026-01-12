@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.16
+Version: 2.17
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -45,6 +45,9 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/locales
 %{__install} -pm644 locales/* %{buildroot}%{_sysconfdir}/ood/config/locales/
 
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views
+%{__cp} -pr widgets %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views/
+
 %files
 %defattr(-,root,root,-)
 /etc/ood/config/apps/myjobs/templates
@@ -57,6 +60,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Sun Jan 11 2026 Samuel Moors <samuel.moors@vub.be>
+- Add recent news to dashboard
 * Thu Jan 08 2026 Samuel Moors <samuel.moors@vub.be>
 - Increase size of Open WebUI icon
 * Thu Jan 08 2026 Jarne Renders <jarne.thijs.renders@vub.be>
