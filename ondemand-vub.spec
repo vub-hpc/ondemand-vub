@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.17
+Version: 2.18
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -60,6 +60,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Jan 13 2026 Samuel Moors <samuel.moors@vub.be>
+- Make Open WebUI icon square to avoid deformation
 * Sun Jan 11 2026 Samuel Moors <samuel.moors@vub.be>
 - Add recent news to dashboard
 * Thu Jan 08 2026 Samuel Moors <samuel.moors@vub.be>
