@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.18
+Version: 2.19
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -52,6 +52,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %defattr(-,root,root,-)
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
+/etc/ood/config/apps/dashboard/views/widgets/_news.html
 /etc/ood/config/locales/en.yml
 /etc/ood/config/ondemand.d/general_options.yml
 /etc/ood/config/ondemand.d/global_bc_items.yml
@@ -60,6 +61,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Jan 13 2026 Samuel Moors <samuel.moors@vub.be>
+- Add _news.html to %files
 * Tue Jan 13 2026 Samuel Moors <samuel.moors@vub.be>
 - Make Open WebUI icon square to avoid deformation
 * Sun Jan 11 2026 Samuel Moors <samuel.moors@vub.be>
