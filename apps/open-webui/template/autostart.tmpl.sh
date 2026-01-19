@@ -30,6 +30,9 @@ apptainer run \
   --env ENABLE_WEB_SEARCH=False \
   --env OLLAMA_BASE_URL=http://127.0.0.1:$ollama_port \
   --env WEBUI_SECRET_KEY=$WEBUI_SECRET_KEY \
+  --env RAG_EMBEDDING_ENGINE="ollama" \
+  --env RAG_EMBEDDING_MODEL=$DEFAULT_EMBEDDING_MODEL \
+  --env RAG_OLLAMA_BASE_URL=http://127.0.0.1:$ollama_port \
   --bind $OPEN_WEBUI_DATA:/app/backend/data \
   $server_image  bash /app/backend/start.sh &>> "$OOD_SESSION_STAGED_ROOT/open-webui.log" &
 webui_pid=\$!
