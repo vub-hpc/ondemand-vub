@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.21
+Version: 2.22
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -61,6 +61,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Mon Jan 19 2026 Samuel Moors <samuel.moors@vub.be>
+- Small tweaks
 * Mon Jan 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add a default embedding model for uploading documents
 * Tue Jan 13 2026 Samuel Moors <samuel.moors@vub.be>
