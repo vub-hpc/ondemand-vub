@@ -108,7 +108,8 @@ h2, h3 {
    background-color: var(--defaultbg);
 }
 
-/* increase VUB logo size */
+/* increase VUB logo size and center */
 .py-2 {
   height: 5rem;
+  margin-left: 16.6%;
 }

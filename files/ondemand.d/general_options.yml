@@ -9,11 +9,13 @@ dashboard_header_img_logo: /public/vub-logo-long.svg
 dashboard_layout:
   rows:
   - columns:
-    - widgets:
+    - width: 2
+    - width: 8
+      widgets:
       - pinned_apps
       - recently_used_apps
       - news
-      width: 8
+    - width: 2
 files_enable_shell_button: true
 help_bar:
 - help
