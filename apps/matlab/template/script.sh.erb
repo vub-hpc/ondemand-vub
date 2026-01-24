@@ -29,8 +29,11 @@ case "${MATLAB_VERSION}" in
   2024a* )
     modules_to_load+=("matlab-proxy/0.25.1-GCCcore-13.3.0")
     ;;
+  2025b* )
+    modules_to_load+=("matlab-proxy/0.30.1-GCCcore-14.2.0")
+    ;;
   * )
-    echo "ERROR: Unsupported toolchain selected"
+    echo "ERROR: Unsupported MATLAB version selected: $MATLAB_VERSION"
     exit 1
     ;;
 esac

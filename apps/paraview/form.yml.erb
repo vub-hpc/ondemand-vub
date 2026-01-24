@@ -21,6 +21,7 @@ attributes:
     label: "Toolchain and ParaView version"
     widget: "select"
     options:
+      - ["2025a: ParaView/6.0.1", "2025a"]
       - ["2024a: ParaView/5.13.2", "2024a"]
       - ["2023a: ParaView/5.11.2", "2023a"]
 <%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
