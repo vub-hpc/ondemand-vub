@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.23
+Version: 2.24
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -61,6 +61,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Feb 03 2026 Samuel Moors <samuel.moors@vub.be>
+- Set default cache dir
 * Thu Jan 22 2026 Samuel Moors <samuel.moors@vub.be>
 - Add 2025a toolchain apps
 * Mon Jan 19 2026 Samuel Moors <samuel.moors@vub.be>

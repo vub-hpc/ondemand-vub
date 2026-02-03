@@ -1,5 +1,8 @@
 # export the module function if it exists
 [[ $(type -t module) == "function" ]] && export -f module
 
+# set temporary cache dir to avoid filling up $HOME
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-"$(mktemp -d -t cache.XXXXXXXXXX)"}
+
 echo "Job ID: $SLURM_JOB_ID"
 echo "Job Node: $HOSTNAME"
