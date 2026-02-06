@@ -62,6 +62,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 
 %changelog
 * Fri Feb 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Explicitly set ntasks when not given before and limit max cores on anansi
+* Fri Feb 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Allow overriding of xfce.sh desktop icon setting in script.sh
 * Tue Feb 03 2026 Samuel Moors <samuel.moors@vub.be>
 - Set default cache dir
