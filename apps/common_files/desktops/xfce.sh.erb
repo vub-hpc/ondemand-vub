@@ -114,14 +114,20 @@ BOOKMARKS="$CONFIG_DIR/gtk-3.0/bookmarks"
 mkdir -p "$(dirname "$BOOKMARKS")"
 touch "$BOOKMARKS"
 
-# Only set running apps as icon (0=no icons; 1=running apps; 2=restore usual home etc icons)
+# Only set running apps as icon by default (0=no icons; 1=running apps; 2=restore usual home etc icons)
+# Allow this to be overwritten
+ICON_SETTING=${ICON_SETTING:-1}
 AUTOSTART_HIDE_ICONS=$OOD_SESSION_STAGED_ROOT/hide_icons.desktop
 
 cat > $AUTOSTART_HIDE_ICONS <<EOF
-xfconf-query -c xfce4-desktop -p /desktop-icons/style -n -t int -s 1
+# Sets icons to hide/show
+xfconf-query -c xfce4-desktop -p /desktop-icons/style -n -t int -s $ICON_SETTING
+# Hides home filesystem trash removable
 for dontshow in home filesystem trash removable; do
-    xfconf-query -c  xfce4-desktop -p /desktop-icons/file-icons/show-$dontshow -n -t bool -s false
+    xfconf-query -c  xfce4-desktop -p /desktop-icons/file-icons/show-\$dontshow -n -t bool -s false
 done
+# Rearrange the desktop icons (so the visible ones are in the top left)
+xfdesktop -A
 EOF
 
 chmod +x $AUTOSTART_HIDE_ICONS
