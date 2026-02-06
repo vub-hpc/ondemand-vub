@@ -116,9 +116,7 @@ touch "$BOOKMARKS"
 
 # Only set running apps as icon by default (0=no icons; 1=running apps; 2=restore usual home etc icons)
 # Allow this to be overwritten
-if [ ! -v ICON_SETTING ]; then
-  ICON_SETTING=1
-fi
+ICON_SETTING=${ICON_SETTING:-1}
 AUTOSTART_HIDE_ICONS=$OOD_SESSION_STAGED_ROOT/hide_icons.desktop
 
 cat > $AUTOSTART_HIDE_ICONS <<EOF
