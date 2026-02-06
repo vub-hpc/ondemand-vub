@@ -3,6 +3,7 @@
     - "--ntasks=<%= global_num_cores.to_i %>"
 <% else %>
     - "--cpus-per-task=<%= global_num_cores.to_i %>"
+    - "--ntasks=1"
 <% end %>
 <% if dynamic_num_gpu_slots.to_i > 0 %>
     - "--gpus-per-node=<%= dynamic_num_gpu_slots.to_i %>"
