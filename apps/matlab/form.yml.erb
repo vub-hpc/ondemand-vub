@@ -15,7 +15,7 @@ attributes:
       - ["MATLAB/2024a-r6", "2024a-r6"]
       - ["MATLAB/2023a-r6", "2023a-r6"]
       - ["MATLAB/2022a-r5", "2022a-r5"]
-<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+<%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
   - cluster
