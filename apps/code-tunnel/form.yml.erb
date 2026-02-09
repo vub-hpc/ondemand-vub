@@ -33,7 +33,7 @@ attributes:
         - Ensure your config file is compatible with Tmux 3.1b!
     widget: check_box
     value: "1"
-<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+<%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
   - cluster

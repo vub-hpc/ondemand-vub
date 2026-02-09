@@ -8,7 +8,7 @@ attributes:
     min: 1
     step: 1
   desktop: "xfce"
-<%= ERB.new(File.read(File.expand_path("../common_files/_extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+<%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
   - cluster
