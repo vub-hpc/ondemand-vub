@@ -31,7 +31,7 @@
     %><%= cluster_opts.to_json %>
   dynamic_num_gpu_slots:
     label: "Number of GPUs"
-    help: "Specify the total number of GPUs for the job."
+    help: "Select the total number of GPUs for the job."
     widget: "select"
     options: <%
         # Get all partitions of all clusters
@@ -61,4 +61,5 @@
     label: "Partition"
     include_blank: "automatic (recommended)"
     widget: "select"
-    help: "Select <code>$automatic</code> request any eligible partition."
+    help: "Select <code>automatic</code> request any eligible partition."
+    value: ""

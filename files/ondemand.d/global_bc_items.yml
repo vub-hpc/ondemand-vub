@@ -2,7 +2,7 @@ global_bc_form_items:
   global_num_cores:
     widget: "number_field"
     label: "Number of cores"
-    help: 'Specify the total number of CPU cores per node for the job.'
+    help: 'Select the total number of CPU cores per node for the job.'
     value: 1
     required: true
     min: 1
@@ -10,7 +10,7 @@ global_bc_form_items:
     step: 1
   global_bc_num_shards:
     label: "Fraction of GPU to use"
-    help: 'Specify how much of a GPU to use for the job.'
+    help: 'Select how much of a GPU to use for the job.'
     widget: "select"
     value: "0"
     options:

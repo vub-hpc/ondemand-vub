@@ -11,3 +11,6 @@
 <% if global_bc_num_shards.to_i > 0  %>
     - "--gres=shard:<%= global_bc_num_shards.to_i %>"
 <% end %>
+<% if auto_queues.to_s.strip.empty? %>
+  queue_name:
+<% end %>
