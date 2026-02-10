@@ -40,9 +40,10 @@ global_bc_form_items:
   global_advanced:
     widget: 'check_box'
     label: "Show advanced options"
-    cacheable: false
+    cacheable: true
     html_options:
       data:
+        hide-auto-queues-when-unchecked: true
         hide-advanced-cleanup-login-when-unchecked: true
         hide-advanced-font-size-when-unchecked: true
         hide-advanced-tmux-config-when-unchecked: true
