@@ -5,7 +5,7 @@
 
       # Hide gpu item on anansi, hide shard item elsewhere
       # When swapping to anansi, set shards to 0%
-      # When swapping to other cluster, set gpus to 1
+      # When swapping to other cluster, set gpus to 0
       # (might get overwritten by partition selection)
       cluster_opts = cluster_options.map do |label, value, data|
         if label.to_s == "anansi"

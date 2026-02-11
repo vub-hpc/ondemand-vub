@@ -5,6 +5,8 @@ bc_dynamic_js: true
 cancel_session_enabled: true
 custom_css_files:
 - custom_styles.css
+custom_javascript_files:
+- global_form.js
 dashboard_header_img_logo: /public/vub-logo-long.svg
 dashboard_layout:
   rows:
