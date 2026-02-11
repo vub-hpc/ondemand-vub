@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.27
+Version: 2.28
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -61,6 +61,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Tue Feb 10 2026 Samuel Moors <samuel.moors@vub.be>
+- Add automatic partition option and move to advanced section
 * Mon Feb 09 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix underscore in naming of extra_attributes file
 * Fri Feb 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>

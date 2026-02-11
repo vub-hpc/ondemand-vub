@@ -5,7 +5,7 @@
 
       # Hide gpu item on anansi, hide shard item elsewhere
       # When swapping to anansi, set shards to 0%
-      # When swapping to other cluster, set gpus to 1
+      # When swapping to other cluster, set gpus to 0
       # (might get overwritten by partition selection)
       cluster_opts = cluster_options.map do |label, value, data|
         if label.to_s == "anansi"
@@ -20,7 +20,7 @@
           data = data.merge(
             "data-hide-global-bc-num-shards" => true,
             "data-set-global-bc-num-shards" => "",
-            "data-set-dynamic-num-gpu-slots" => "1",
+            "data-set-dynamic-num-gpu-slots" => "0",
             "data-max-bc-num-hours" => "120",
             "data-max-global-num-cores" => "32"
           )
@@ -31,7 +31,7 @@
     %><%= cluster_opts.to_json %>
   dynamic_num_gpu_slots:
     label: "Number of GPUs"
-    help: "Specify the total number of GPUs for the job."
+    help: "Select the total number of GPUs for the job."
     widget: "select"
     options: <%
         # Get all partitions of all clusters
@@ -57,3 +57,9 @@
       - ["0", "0", <%= hide_for_gpu %>]
       - ["1", "1", <%= hide_for_non_gpu %>]
       - ["2", "2", <%= hide_for_non_gpu %>]
+  auto_queues:
+    label: "Partition"
+    include_blank: "automatic (recommended)"
+    widget: "select"
+    help: "Select <code>automatic</code> to request any eligible partition."
+    value: ""
