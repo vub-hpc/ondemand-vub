@@ -1,0 +1,8 @@
+---
+name: Bioimage ANalysis Desktop
+category: Interactive Apps
+subcategory: Testing
+role: batch_connect
+description: |
+  Run a desktop for Bioimage Analysis, similar to the EMBL Bioimage ANalysis Desktop (BAND) Platform.
+
