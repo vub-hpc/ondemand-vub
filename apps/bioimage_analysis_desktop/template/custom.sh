@@ -63,7 +63,7 @@ EOL
 function make_band_desktop_path_module () {
     local module exec_command name version
     module=$1
-    exec_command="bash -c 'module load $module && $2'"
+    exec_command="bash -c 'module load $module && vglrun $2'"
 
     name="$(echo "$module" | cut -d '/' -f 1)"
     version="$(echo "$module" | cut -d '/' -f 2 | cut -d '-' -f 1)"
@@ -93,7 +93,7 @@ done
 
 # Declare bioimage containers
 declare -a containers=(
-    #
+    # Can probably be made into a module with next version (5.0.0)
     "/apps/brussel/containers/cellprofiler/CellProfiler-4.2.8.sif"
 )
 
@@ -109,7 +109,7 @@ declare -a container_commands=(
 function make_band_desktop_path_container () {
     local container exec_command local_filename name version
     container=$1
-    exec_command="apptainer exec $container $2"
+    exec_command="apptainer exec --nv $container $2"
 
     # Remove everything up to final /
     local_filename="$(echo "$container" | rev |cut -d '/' -f 1 | rev)"
