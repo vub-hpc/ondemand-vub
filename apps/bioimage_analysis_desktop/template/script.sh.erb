@@ -1,0 +1,31 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Makes icons visible on desktop or uses user default
+ICON_SETTING=${ICON_SETTING:-2}
+
+# Put config files in session-only dir
+# Let the desktop be located in $XFCE_APPLICATIONS/band instead of ~/Desktop
+# (xfdesktop only reads XDG_DESKTOP_DIR from the $XDG_CONFIG_HOME/user-dirs.dirs file)
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$OOD_SESSION_STAGED_ROOT/.config}
+mkdir -p $XDG_CONFIG_HOME
+cat > $XDG_CONFIG_HOME/user-dirs.dirs <<EOF
+XDG_DESKTOP_DIR="$OOD_SESSION_STAGED_ROOT/xfce_data/applications/band"
+EOF
+
+# Start up desktop
+echo "Launching desktop '<%= context.desktop %>'..."
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
+echo "Desktop '<%= context.desktop %>' ended with $? status..."
