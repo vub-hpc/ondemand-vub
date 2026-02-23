@@ -7,6 +7,16 @@ if [ -n "$BASHDEBUG" ]; then
     env | sort
 fi
 
+# Check if XDG_CONFIG_HOME was set as custom config dir
+# If not, it was set to be inside $OOD_SESSION_STAGED_ROOT
+# We will use BAND_CFG_HOME as the config directory for apps
+# using user_config_dir
+if [[ $XDG_CONFIG_HOME == $OOD_SESSION_STAGED_ROOT* ]]; then
+    export BAND_CFG_HOME=$HOME/.config
+else
+    export BAND_CFG_HOME=$XDG_CONFIG_HOME
+fi
+
 # Store band desktop files in separate folder
 mkdir -p "$XFCE_APPLICATIONS/band"
 
@@ -15,7 +25,7 @@ mkdir -p "$HOME"/.fiji_plugins
 
 # Create settings file for napari
 # This hash will always be the same (computed in Python as hashlib.sha1("3.13.1-GCCcore-14.2.0".encode()).hexdigest())
-napari_cfg_dir="$OOD_SESSION_STAGED_ROOT/.config/napari/3.13.1-GCCcore-14.2.0_9d358b0655101f06a4539dec4955b9d31693a995"
+napari_cfg_dir="$BAND_CFG_HOME/napari/3.13.1-GCCcore-14.2.0_9d358b0655101f06a4539dec4955b9d31693a995"
 mkdir -p "$napari_cfg_dir"
 touch "$napari_cfg_dir/settings.yaml"
 
@@ -70,7 +80,7 @@ function make_band_desktop_path_module () {
     local module exec_command name version
     module=$1
     name="$(echo "$module" | cut -d '/' -f 1)"
-    exec_command="bash -c 'echo \\\"Starting $name, please wait...\\\"; module load $module && vglrun $2'"
+    exec_command="bash -c 'export XDG_CONFIG_HOME=$BAND_CFG_HOME; echo \\\"Starting $name, please wait...\\\"; module load $module && vglrun $2'"
     version="$(echo "$module" | cut -d '/' -f 2 | cut -d '-' -f 1)"
 
     make_band_desktop_path "$name" "$version" "$exec_command"
@@ -119,7 +129,7 @@ function make_band_desktop_path_container () {
     local_filename="$(echo "$container" | rev |cut -d '/' -f 1 | rev)"
     # Assume container is named "<name>-<version>[-<suffix>].sif"
     name="$(echo "$local_filename" | cut -d '-' -f 1)"
-    exec_command="bash -c 'echo \\\"Starting $name, please wait...\\\"; apptainer exec --nv $container $2'"
+    exec_command="bash -c 'export XDG_CONFIG_HOME=$BAND_CFG_HOME; echo \\\"Starting $name, please wait...\\\"; apptainer exec --nv $container $2'"
 
 
 
