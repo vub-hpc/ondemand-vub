@@ -12,13 +12,13 @@ fi
 # We will use BAND_CFG_HOME as the config directory for apps
 # using user_config_dir
 if [[ $XDG_CONFIG_HOME == $OOD_SESSION_STAGED_ROOT* ]]; then
-    export BAND_CFG_HOME=$HOME/.config
+    export BAND_CFG_HOME=$VSC_HOME/.config
 else
     export BAND_CFG_HOME=$XDG_CONFIG_HOME
 fi
 
-# Store band desktop files in separate folder
-mkdir -p "$XFCE_APPLICATIONS/band"
+# Store band desktop files in $XDG_DESKTOP_DIR folder
+mkdir -p "$XDG_DESKTOP_DIR"
 
 # Create plugin dir for Fiji
 mkdir -p "$HOME"/.fiji_plugins
@@ -54,21 +54,23 @@ function make_band_desktop_path () {
     version=$2
     exec_command=$3   
 
-    sed 's/^ \{4\}//' > "$XFCE_APPLICATIONS/band/${name}.desktop" << EOL
-    [Desktop Entry]
-    Encoding=UTF-8
-    Name=$name $version
-    GenericName=$name $version
-
-    Exec="$exec_command"
-    Icon=$ICONDIR/${name,,}.png
-    Terminal=true
-    StartupNotify=true
-    Type=Application
-    Categories=BANDApplication;
-EOL
     local f
-    f="$XFCE_APPLICATIONS/band/${name}.desktop"
+    f="$XDG_DESKTOP_DIR/${name}.desktop"
+    if [ ! -e "$f" ]; then
+      sed 's/^ \{4\}//' > "$f" << EOL
+      [Desktop Entry]
+      Encoding=UTF-8
+      Name=$name $version
+      GenericName=$name $version
+
+      Exec="$exec_command"
+      Icon=$ICONDIR/${name,,}.png
+      Terminal=true
+      StartupNotify=true
+      Type=Application
+      Categories=BANDApplication;
+EOL
+    fi
     gio set -t string "$f" metadata::xfce-exe-checksum "$(sha256sum "$f" | awk '{print $1}')"
     chmod +x "$f"
 }

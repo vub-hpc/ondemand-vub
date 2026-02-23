@@ -16,12 +16,13 @@ echo "TIMING - Starting main script at: $(date)"
 ICON_SETTING=${ICON_SETTING:-2}
 
 # Put config files in session-only dir
-# Let the desktop be located in $XFCE_APPLICATIONS/band instead of ~/Desktop
+# Let the desktop be located in XDG_DESKTOP_DIR or $XFCE_APPLICATIONS/band instead of ~/Desktop
 # (xfdesktop only reads XDG_DESKTOP_DIR from the $XDG_CONFIG_HOME/user-dirs.dirs file)
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$OOD_SESSION_STAGED_ROOT/.config}
+export XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR:-"$OOD_SESSION_STAGED_ROOT/xfce_data/applications/band"}
 mkdir -p $XDG_CONFIG_HOME
 cat > $XDG_CONFIG_HOME/user-dirs.dirs <<EOF
-XDG_DESKTOP_DIR="$OOD_SESSION_STAGED_ROOT/xfce_data/applications/band"
+XDG_DESKTOP_DIR="$XDG_DESKTOP_DIR"
 EOF
 
 # Start up desktop
