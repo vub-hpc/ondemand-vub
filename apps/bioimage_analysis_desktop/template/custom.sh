@@ -63,9 +63,8 @@ EOL
 function make_band_desktop_path_module () {
     local module exec_command name version
     module=$1
-    exec_command="bash -c 'module load $module && vglrun $2'"
-
     name="$(echo "$module" | cut -d '/' -f 1)"
+    exec_command="bash -c 'echo "Starting $name, please wait..."; module load $module && vglrun $2'"
     version="$(echo "$module" | cut -d '/' -f 2 | cut -d '-' -f 1)"
 
     make_band_desktop_path "$name" "$version" "$exec_command"
@@ -109,12 +108,15 @@ declare -a container_commands=(
 function make_band_desktop_path_container () {
     local container exec_command local_filename name version
     container=$1
-    exec_command="apptainer exec --nv $container $2"
 
     # Remove everything up to final /
     local_filename="$(echo "$container" | rev |cut -d '/' -f 1 | rev)"
     # Assume container is named "<name>-<version>[-<suffix>].sif"
     name="$(echo "$local_filename" | cut -d '-' -f 1)"
+    exec_command="echo Starting $name, please wait...; apptainer exec --nv $container $2"
+
+
+
     version="$(echo "$local_filename" | cut -d '-' -f 2)"
     version="${version/.sif/""}"
 
