@@ -13,6 +13,12 @@ mkdir -p "$XFCE_APPLICATIONS/band"
 # Create plugin dir for Fiji
 mkdir -p "$HOME"/.fiji_plugins
 
+# Create settings file for napari
+# This hash will always be the same (computed in Python as hashlib.sha1("3.13.1-GCCcore-14.2.0".encode()).hexdigest())
+napari_cfg_dir="$OOD_SESSION_STAGED_ROOT/.config/napari/3.13.1-GCCcore-14.2.0_9d358b0655101f06a4539dec4955b9d31693a995"
+mkdir -p "$napari_cfg_dir"
+touch "$napari_cfg_dir/settings.yaml"
+
 # Make band group for applications list
 cat > "$XFCE_MERGED/band.menu" <<EOF
 <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
