@@ -61,7 +61,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
-* Thu 12 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Thu Feb 12 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add BioImage ANalysis app
 * Tue Feb 10 2026 Samuel Moors <samuel.moors@vub.be>
 - Add automatic partition option and move to advanced section
