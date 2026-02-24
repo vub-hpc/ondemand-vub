@@ -16,6 +16,7 @@ echo 'Starting ollama...'
 export OLLAMA_HOST=0.0.0.0:$ollama_port
 export OLLAMA_MODELS="$OLLAMA_MODELS"
 export OLLAMA_NOPRUNE="true"
+export OLLAMA_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
 ollama serve &>> "$OOD_SESSION_STAGED_ROOT/ollama-server.log" &
 ollama_pid=\$!
 

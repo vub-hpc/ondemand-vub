@@ -22,6 +22,7 @@ attributes:
     label: "Ollama version"
     widget: "select"
     options:
+      - ["2025a: ollama/0.15.6", "0.15.6"]
       - ["2025a: ollama/0.11.10", "0.11.10"]
       - ["2024a: ollama/0.5.12", "0.5.12"]
 <%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
@@ -34,6 +35,18 @@ attributes:
           data-hide-dynamic-num-gpu-slots: true,
           data-set-dynamic-num-gpu-slots: "",
         ]
+  # Block users from fetching 0 shards. Should not give any issues with gpu/shard item switching
+  # since Open WebUI cannot be run on Hydra.
+  bc_num_shards_no_0:
+    label: "Fraction of GPU to use"
+    help: 'Select how much of a GPU to use for the job.'
+    widget: "select"
+    value: "1"
+    options:
+      - ["25%", "1"]
+      - ["50%", "2"]
+      - ["75%", "3"]
+      - ["100%", "4"]
 
 form:
   - cluster
@@ -43,7 +56,7 @@ form:
   - bc_vnc_idle
   - global_num_cores
   - dynamic_num_gpu_slots
-  - global_bc_num_shards
+  - bc_num_shards_no_0
   - bc_num_hours_local
   - global_working_dir
   - global_prerun
