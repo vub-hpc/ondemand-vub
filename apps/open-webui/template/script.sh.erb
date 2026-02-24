@@ -16,6 +16,9 @@ case "${VERSION}" in
   0.11.10 )
     modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
     ;;
+  0.15.6 )
+    modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
+    ;;
   * )
     echo "ERROR: Unsupported version selected"
     exit 1
@@ -53,7 +56,9 @@ else
 fi
 
 # Substitute envionment variables into autostart.sh script
-envsubst '$MODULES_TO_LOAD,$OLLAMA_MODELS,$OPEN_WEBUI_DATA,$SLURM_JOB_ID,$OOD_SESSION_STAGED_ROOT,$DEFAULT_EMBEDDING_MODEL' \
+envsubst '$MODULES_TO_LOAD,$OLLAMA_MODELS,$OPEN_WEBUI_DATA,'\
+'$SLURM_JOB_ID,$SLURM_JOB_CPUS_PER_NODE,$OOD_SESSION_STAGED_ROOT,'\
+'$DEFAULT_EMBEDDING_MODEL' \
   <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
   >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
 
