@@ -1,0 +1,36 @@
+---
+# app-specific attributes
+attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 4
+    min: 1
+    step: 1
+  bc_vnc_idle: 0
+  bc_vnc_resolution:
+    required: true
+  desktop: "xfce"
+  resolution:
+    widget: "select"
+    label: "Screen resolution"
+    options:
+      - ["FullHD (1920x1080)", "1920x1080"]
+      - ["HD (1280x720)", "1280x720"]
+<%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+
+form:
+  - cluster
+  - desktop
+  - resolution
+  - bc_vnc_idle
+  - global_num_cores
+  - dynamic_num_gpu_slots
+  - global_bc_num_shards
+  - bc_num_hours
+  - global_working_dir
+  - global_prerun
+  - bc_email_on_started
+  - global_advanced
+  - auto_queues
+  - global_advanced_num_nodes
