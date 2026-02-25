@@ -1,0 +1,34 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+export APP_CHOICE=<%= context.app_choice.to_s %>
+
+export B_TXT_DATA=${B_TXT_DATA:-$VSC_DATA/b-txt-data/$APP_CHOICE}
+
+# In line with the advice from KUL docs we pick the port number
+# based on the VSC account number to ensure likelyhood that the
+# port is not yet in use ($USER looks like vsc11264).
+# If we put webserver with Firefox in namespace, this is not needed.
+export WEBSERVER_PORT=${USER:3}
+
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Substitute envionment variables into autostart.sh script
+envsubst '$APP_CHOICE,$B_TXT_DATA,$SLURM_JOB_ID,$WEBSERVER_PORT,$OOD_SESSION_STAGED_ROOT' \
+  <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
+  >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
+
+# Start up desktop
+echo "Launching desktop '<%= context.desktop %>'..."
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+
+echo "Desktop '<%= context.desktop %>' ended with $? status..."
