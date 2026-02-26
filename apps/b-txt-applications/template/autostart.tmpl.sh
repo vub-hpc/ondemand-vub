@@ -22,7 +22,7 @@ case "$APP_CHOICE" in
       --bind $B_TXT_DATA:/app/persisted_data \
       $APP_IMAGE &>> "$OOD_SESSION_STAGED_ROOT/auscriptorium.log" &
     app_pid=\$!
-    URL_SUFFIX="/login/handover?$AUSRIPTORIUM_HANDOVER_TOKEN"
+    URL_SUFFIX="/login/handover?handover_token=$AUSRIPTORIUM_HANDOVER_TOKEN"
     ;;
   label-studio )
     APP_IMAGE="/apps/brussel/containers/label-studio/label-studio.sif"
@@ -33,6 +33,8 @@ case "$APP_CHOICE" in
       --env "LABEL_STUDIO_BASE_DATA_DIR=/data/files" \
       --bind $B_TXT_DATA:/data \
       $APP_IMAGE &>> "$OOD_SESSION_STAGED_ROOT/label-studio.log" &
+    app_pid=\$!
+    URL_SUFFIX=""
     ;;
   * )
     echo "ERROR: Unsupported app chosen: $APP_CHOICE"
