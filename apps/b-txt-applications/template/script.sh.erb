@@ -7,7 +7,7 @@ echo "TIMING - Starting main script at: $(date)"
 
 export APP_CHOICE=<%= context.app_choice.to_s %>
 
-export B_TXT_DATA=${B_TXT_DATA:-$VSC_DATA/b-txt-data/$APP_CHOICE}
+export B_TXT_DATA=$VSC_DATA/b-txt-data/$APP_CHOICE
 
 # In line with the advice from KUL docs we pick the port number
 # based on the VSC account number to ensure likelyhood that the
