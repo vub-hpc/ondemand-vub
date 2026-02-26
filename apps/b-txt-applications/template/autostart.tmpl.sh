@@ -22,7 +22,7 @@ case "$APP_CHOICE" in
       --bind $B_TXT_DATA:/app/persisted_data \
       $APP_IMAGE &>> "$OOD_SESSION_STAGED_ROOT/auscriptorium.log" &
     app_pid=\$!
-    URL_SUFFIX="/login/handover?handover_token=$AUSRIPTORIUM_HANDOVER_TOKEN"
+    URL_SUFFIX="/login/handover?handover_token=$AUSCRIPTORIUM_HANDOVER_TOKEN"
     ;;
   label-studio )
     APP_IMAGE="/apps/brussel/containers/label-studio/label-studio.sif"
