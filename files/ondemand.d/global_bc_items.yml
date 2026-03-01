@@ -1,4 +1,10 @@
 global_bc_form_items:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 4
+    min: 1
+    step: 1
   global_num_cores:
     widget: "number_field"
     label: "Number of cores"
@@ -39,6 +45,9 @@ global_bc_form_items:
     step: 1
   global_advanced:
     widget: 'check_box'
+    header: |
+      ---
+      #### Advanced options
     label: "Show advanced options"
     cacheable: true
     html_options:

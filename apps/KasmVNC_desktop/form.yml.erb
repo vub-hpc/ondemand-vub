@@ -1,12 +1,6 @@
 ---
 # app-specific attributes
 attributes:
-  bc_num_hours:
-    label: "Number of hours"
-    widget: "number_field"
-    value: 4
-    min: 1
-    step: 1
   desktop: "xfce"
 <%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
