@@ -5,21 +5,20 @@
     const f = ev.target;
     const card = f.closest(".card.session-panel");
     const sid  = card && card.dataset ? card.dataset.id : null;
-    const pass = f.dataset.password;
     const path = new URL(f.action, location.origin).pathname;
-    if (!sid || !pass || !path) return false;
     const exdays = 7;
-    const val  = encodeURIComponent(pass);
-    const exp  = new Date(Date.now() + exdays*24*60*60*1000).toUTCString();
-    document.cookie = `_ood_token_${sid}=${val}; Expires=${exp}; Path=${path}; SameSite=Lax; Secure`;
-
+    const cvalue  = f.dataset.password;
+    const expires  = new Date(Date.now() + exdays*24*60*60*1000).toUTCString();
+    
+    if (!sid || !pass || !path) return false;
+    document.cookie = `_ood_token_${sid}=${cvalue}; Expires=${expires}; Path=${path}; SameSite=Lax; Secure`;
     window.open(f.action, "_blank", "noopener");
     return false;
   };
 })();
 </script>
 
-<form id="<%= form_id %>" action="/rnode/<%= host %>/<%= port %>/" method="post" data-password="<%= password %>" target="_blank" onsubmit="return setCookie(event)">
+<form id="<%= form_id %>" action="/rnode/<%= host %>/<%= port %>/" method="post" data-password="<%= password %>" onsubmit="return setCookie(event)">
   <button class="btn btn-primary" type="submit">
     <i class="fa fa-eye"></i> Connect to Tensorboard
   </button>
