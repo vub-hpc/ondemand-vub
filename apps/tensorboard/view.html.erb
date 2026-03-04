@@ -10,7 +10,7 @@
     const cvalue  = f.dataset.password;
     const expires  = new Date(Date.now() + exdays*24*60*60*1000).toUTCString();
     
-    if (!sid || !pass || !path) return false;
+    if (!sid || !cvalue || !path) return false;
     document.cookie = `_ood_token_${sid}=${cvalue}; Expires=${expires}; Path=${path}; SameSite=Lax; Secure`;
     window.open(f.action, "_blank", "noopener");
     return false;
