@@ -1,23 +1,24 @@
-<%-
-  # generate form id, based on host and port
-  form_id = Digest::SHA1.hexdigest("--" + host.to_s + "--" + port.to_s + "--")
--%>
-
 <script>
-function setCookie() {
-    var panelid = document.getElementById("<%= form_id %>").closest(".card").getAttribute("data-id");
-    var cvalue = "<%= password %>";
-    var cname = "_ood_token_" + panelid;
-    var exdays = 7;
-
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/rnode/<%= host %>/<%= port %>; secure";
-}
+(function () {
+  window.setCookie = function (ev) {
+    ev.preventDefault();
+    const f = ev.target;
+    const card = f.closest(".card.session-panel");
+    const sid  = card && card.dataset ? card.dataset.id : null;
+    const path = new URL(f.action, location.origin).pathname;
+    const exdays = 7;
+    const cvalue  = f.dataset.password;
+    const expires  = new Date(Date.now() + exdays*24*60*60*1000).toUTCString();
+    
+    if (!sid || !cvalue || !path) return false;
+    document.cookie = `_ood_token_${sid}=${cvalue}; Expires=${expires}; Path=${path}; SameSite=Lax; Secure`;
+    window.open(f.action, "_blank", "noopener");
+    return false;
+  };
+})();
 </script>
 
-<form id="<%= form_id %>" action="/rnode/<%= host %>/<%= port %>/" method="post" target="_blank" onsubmit="setCookie()">
+<form id="<%= form_id %>" action="/rnode/<%= host %>/<%= port %>/" method="post" data-password="<%= password %>" onsubmit="return setCookie(event)">
   <button class="btn btn-primary" type="submit">
     <i class="fa fa-eye"></i> Connect to Tensorboard
   </button>
