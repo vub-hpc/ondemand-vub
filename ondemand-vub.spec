@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.31
+Version: 2.32
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -61,6 +61,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %changelog
+* Fri Mar 06 2026 Bert Droesbeke <bert.droesbeke@vib.be>
+- Allow multiple Tensorboard jobs to be launched by the same user by fixing setCookie
 * Mon Mar 02 2026 Samuel Moors <samuel.moors@vub.be>
 - Add header to advanced section; move bc_num_hours to global bc items
 * Thu Feb 24 2026 Jarne Renders <jarne.thijs.renders@vub.be>
