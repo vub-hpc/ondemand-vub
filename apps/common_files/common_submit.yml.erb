@@ -12,5 +12,6 @@
     - "--gres=shard:<%= global_bc_num_shards.to_i %>"
 <% end %>
 <% if auto_queues.to_s.strip.empty? %>
+  # WARNING: Don't add sbatch args after this template. When auto_queues is empty, YAML may treat them as queue_name.
   queue_name:
 <% end %>
