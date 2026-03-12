@@ -11,4 +11,5 @@ batch_connect:
 
 script:
   native:
+# This line must always be last in the `native:` section
 <%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>
