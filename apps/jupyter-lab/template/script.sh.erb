@@ -43,11 +43,11 @@ case "${TOOLCHAIN}" in
     [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.4-foss-2024a" "py3Dmol/2.5.0-GCCcore-13.3.0")
     ;;
   2025a )
-    modules_to_load+=("Jupyter-bundle/20250702-GCCcore-14.2.0")
+    modules_to_load+=("Jupyter-bundle/20250702-GCCcore-14.2.0-JupyterLab-4.5.6")
     modules_to_load+=("SciPy-bundle/2025.06-gfbf-2025a")
-    modules_to_load+=("ipympl/0.9.8-gfbf-2025a")
+    modules_to_load+=("ipympl/0.10.0-gfbf-2025a-JupyterLab-4.5.6")
     [[ "${LOAD_DASK}" == 'yes' ]] && modules_to_load+=("dask-labextension/7.0.0-gfbf-2025a" "xarray/2025.7.0-gfbf-2025a" "zarr/3.1.1-gfbf-2025a")
-    [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.4-foss-2025a" "py3Dmol/2.5.3-GCCcore-14.2.0")
+    [[ "${LOAD_MOLECULES}" == 'yes' ]] && modules_to_load+=("nglview/3.1.4-foss-2025a-JupyterLab-4.5.6" "py3Dmol/2.5.3-GCCcore-14.2.0")
     ;;
   * )
     echo "ERROR: Unsupported toolchain selected"
