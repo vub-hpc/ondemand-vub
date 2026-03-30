@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.35
+Version: 2.36
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -63,6 +63,7 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %changelog
 * Mon Mar 30 2026 Samuel Moors <samuel.moors@vub.be>
 - Update JupyterLab in 2025a to v4.5.6
+- Update dask-labextension in 2025a to use JupyterLab v4.5.6
 * Thu Mar 12 2026 Samuel Moors <samuel.moors@vub.be>
 - Add ordering comment to submit.yml.erb files
 * Tue Mar 11 2026 Cintia Willemyns <cintia.willemyns@vub.be>
