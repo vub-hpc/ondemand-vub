@@ -4,7 +4,7 @@ mkdir -p $B_TXT_DATA
 # unshare -rn bash -eu <<EOF
 # ip link set lo up
 
-# APP_IMAGE is the relative path to image from /apps/brussel/containers
+# APP_IMAGE is the path to image (should be in /apps/brussel/containers)
 case "$APP_CHOICE" in
   label-studio )
     APP_IMAGE="/apps/brussel/containers/label-studio/label-studio.sif"
