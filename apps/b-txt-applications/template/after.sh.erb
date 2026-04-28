@@ -1,0 +1,17 @@
+export APP_CHOICE=<%= context.app_choice.to_s %>
+case "$APP_CHOICE" in
+  portal )
+    # Launch directly so do not wait
+    ;;
+  label-studio )
+    # Wait until Firefox has started
+    while ! pgrep -x firefox > /dev/null; do
+        sleep 1
+    done
+    echo "Firefox is up."
+    ;;
+  * )
+    echo "ERROR: Unsupported app chosen: $APP_CHOICE"
+    exit 1
+    ;;
+esac
