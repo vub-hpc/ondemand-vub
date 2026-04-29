@@ -7,12 +7,6 @@ echo "TIMING - Starting main script at: $(date)"
 
 export APP_CHOICE=<%= context.app_choice.to_s %>
 
-# In line with the advice from KUL docs we pick the port number
-# based on the VSC account number to ensure likelyhood that the
-# port is not yet in use ($USER looks like vsc11264).
-# If we put webserver with Firefox in namespace, this is not needed.
-export WEBSERVER_PORT=${USER:3}
-
 # Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
 <%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 
@@ -25,7 +19,7 @@ export B_TXT_DATA=${B_TXT_DATA:-$VSC_DATA/b-txt-data}/$APP_CHOICE
 mkdir -p $B_TXT_DATA
 
 # Substitute envionment variables into autostart.sh script
-envsubst '$APP_CHOICE,$B_TXT_DATA,$SLURM_JOB_ID,$WEBSERVER_PORT,$OOD_SESSION_STAGED_ROOT' \
+envsubst '$APP_CHOICE,$B_TXT_DATA,$SLURM_JOB_ID,$OOD_SESSION_STAGED_ROOT,$port' \
   <"$OOD_SESSION_STAGED_ROOT/autostart.tmpl.sh" \
   >"$OOD_SESSION_STAGED_ROOT/autostart.sh"
 
@@ -37,11 +31,9 @@ case "$APP_CHOICE" in
     APP_IMAGE="/apps/brussel/containers/btxt-portal/btxt-portal.sif"
 
     apptainer run --nv \
-<%- if context.global_bc_num_shards.to_i > 0 -%>
-      --env "LD_LIBRARY_PATH=$EBROOTCUDA:$LD_LIBRARY_PATH" \
-<%- end -%>
       --env="WEBSERVER_PORT=${port}" \
       --env="HOSTNAME=$HOSTNAME" \
+      --contain \
       --bind $B_TXT_DATA:/portal/resources/persisted \
       $APP_IMAGE &>> "$OOD_SESSION_STAGED_ROOT/btxt-portal.log"
     app_pid=\$!
