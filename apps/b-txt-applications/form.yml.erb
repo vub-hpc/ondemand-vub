@@ -1,0 +1,80 @@
+---
+# app-specific attributes
+attributes:
+  bc_num_hours:
+    label: "Number of hours"
+    widget: "number_field"
+    value: 4
+    min: 1
+    step: 1
+  bc_vnc_idle: 0
+  bc_vnc_resolution:
+    required: true
+  desktop: 'xfce'
+  app_choice:
+    widget: 'select'
+    label: "App to launch"
+    options:
+      - [
+          'label-studio', 'label-studio',
+          data-set-global-num-cores: '16',
+          data-set-global-bc-num-shards: '0',
+          data-set-bc-num-hours: '2',
+        ]
+      - [
+          'portal', 'portal',
+          data-set-global-num-cores: '16',
+          data-set-global-bc-num-shards: '0',
+          data-set-bc-num-hours: '2',
+          data-hide-resolution: true
+        ]
+  resolution:
+    widget: "select"
+    label: "Screen resolution"
+    options:
+      - ["FullHD (1920x1080)", "1920x1080"]
+      - ["HD (1280x720)", "1280x720"]
+<%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
+  cluster: 
+    widget: "select"
+    help: "B-TXT Applications can only be run on Anansi."
+    options: 
+      - [
+          'anansi', 'anansi',
+          data-hide-dynamic-num-gpu-slots: true,
+          data-set-dynamic-num-gpu-slots: "",
+        ]
+  global_advanced: # Override
+    widget: 'check_box'
+    label: "Show advanced options"
+    cacheable: true
+    html_options:
+      data:
+        hide-auto-queues-when-unchecked: true
+        hide-advanced-cleanup-login-when-unchecked: true
+        hide-advanced-font-size-when-unchecked: true
+        hide-advanced-tmux-config-when-unchecked: true
+        hide-global-advanced-num-nodes-when-unchecked: true
+        # Hide all fields behind advanced
+        hide-global-num-cores-when-unchecked: true
+        hide-global-bc-num-shards-when-unchecked: true
+        hide-global-working-dir-when-unchecked: true
+        hide-global-prerun-when-unchecked: true
+        hide-resolution-when-unchecked: true
+        hide-bc-num-hours-when-unchecked: true
+
+form:
+  - cluster
+  - desktop
+  - app_choice
+  - bc_vnc_idle
+  - bc_email_on_started
+  - global_advanced
+  - auto_queues
+  - resolution
+  - global_num_cores
+  - global_bc_num_shards
+  - bc_num_hours
+  - global_advanced_num_nodes
+  - global_working_dir
+  - global_prerun

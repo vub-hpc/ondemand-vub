@@ -1,0 +1,43 @@
+<%- if app_choice == "label-studio"  # remote desktop view for label studio -%>
+
+<%# Temporary copy paste from the VNC view, in future versions we should update this to include a reusable template to improve maintainability %>  
+<form role="form" action="/pun/sys/dashboard/noVNC-1.3.0/vnc.html" accept-charset="UTF-8" method="get">
+ <input type="hidden" name="autoconnect" id="autoconnect" value="true" autocomplete="off">
+ <input type="hidden" name="path" id="path" value="rnode/<%= host %>/<%= websocket %>/websockify" autocomplete="off">
+ <input type="hidden" name="resize" id="resize" value="remote" autocomplete="off">
+ <input type="hidden" name="password" id="password" value="<%= password %>" autocomplete="off">
+
+ <div class="row">
+  <div class="col-sm-6">
+   <div class="mb-3"><label class="form-label" for="compression">Compression</label><input class="form-control custom-range" type="range" min="1" max="9" value="6" name="compression" id="compression"><small class="form-text text-muted">1 (low) to 9 (high)</small></div>
+  </div>
+  <div class="col-sm-6">
+   <div class="mb-3"><label class="form-label" for="quality">Image Quality</label><input class="form-control custom-range" type="range" min="0" max="9" value="2" name="quality" id="quality"><small class="form-text text-muted">0 (low) to 9 (high)</small></div>
+  </div>
+ </div>
+
+  <script nonce="">
+//<![CDATA[
+    // Functions defined in batch_connect_sessions.js
+    for(var name of ['compression', 'quality']) {
+      tryUpdateSetting(name);
+      installSettingHandlers(name);
+    }
+
+//]]>
+</script>
+<input type="submit" name="commit" value="Launch <%= app_choice %>" class="btn btn-primary" formtarget="_blank" data-disable-with="Launch <%= app_choice %>">
+<a class="btn btn-light float-end border border-dark" target="_blank" href="/pun/sys/dashboard/noVNC-1.3.0/vnc.html?autoconnect=true&amp;password=<%= spassword %>&amp;path=rnode/<%= host %>/<%= websocket %>/websockify&amp;resize=downscale">View Only (Share-able Link)</a>
+</form>
+
+<%- else  # reverse proxy view -%>
+
+<form action="/node/<%= host %>/<%= port %>/" method="get" target="_blank">
+      <input type="hidden" name="file" value="Index.py"/>
+      <button class="btn btn-primary" type="submit">
+        <i class="fa fa-eye"></i> Connect to <%= app_choice %>
+      </button>
+</form>
+
+
+<%- end -%>

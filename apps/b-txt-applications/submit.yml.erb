@@ -1,0 +1,16 @@
+---
+# app_choice is env var exported in before.sh
+batch_connect:
+<%- if app_choice == 'label-studio' %>
+  template: vnc
+  geometry: "<%= resolution %>"
+<%- else %>
+  template: basic
+<%- end %>
+  conn_params:
+    - app_choice 
+
+script:
+  native:
+  # This line must always be last in the `native:` section
+<%= ERB.new(File.read(File.expand_path("../common_files/common_submit.yml.erb", __dir__)), eoutvar: "@common_submit").result(binding) %>
