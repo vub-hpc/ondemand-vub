@@ -1,13 +1,6 @@
 mkdir -p $B_TXT_DATA
 
-# get free port - taken from https://stackoverflow.com/a/78125240
-local_app_port=15000
-
-while [ -n "$(ss -tan4H "sport = $local_app_port")" ]; do
-  local_app_port=$((port+1))
-done
-
-echo "Usable Port: $local_app_port"
+local_app_port=$(find_port)
 
 # APP_IMAGE is the path to image (should be in /apps/brussel/containers)
 case "$APP_CHOICE" in
