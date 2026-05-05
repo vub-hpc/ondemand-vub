@@ -1,0 +1,5 @@
+echo $$ > $OOD_SESSION_STAGED_ROOT/ns.pid
+code tunnel user login --provider <%= context.tunnel_auth.downcase %>
+code tunnel --accept-server-license-terms --name vsc-$USER-$(hostname -d | sed "s/.os$//") &
+ollama serve > $OOD_SESSION_STAGED_ROOT/ollama.log 2>&1 &
+exec bash

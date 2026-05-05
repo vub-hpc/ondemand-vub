@@ -33,6 +33,29 @@ attributes:
         - Ensure your config file is compatible with Tmux 3.1b!
     widget: check_box
     value: "1"
+  use_ollama:
+    label: "Also serve Ollama in a private network namespace"
+    widget: check_box
+    value: "0"
+    html_options:
+      data:
+        hide-ollama-version-when-unchecked: true
+        hide-tunnel-auth-when-unchecked: true
+  ollama_version: # We only load CUDA versions
+    label: "Ollama version"
+    widget: "select"
+    help: "Needs a GPU otherwise the app terminates immediately."
+    options:
+      - ["2025a: ollama/0.15.6", "0.15.6"]
+      - ["2025a: ollama/0.11.10", "0.11.10"]
+      - ["2024a: ollama/0.5.12", "0.5.12"]
+  # Bit of a hack, TODO figure out how to interactively get this when using send-keys unshare
+  tunnel_auth: 
+    label: "Tunnel authentication method"
+    widget: "select"
+    options:
+      - 'GitHub'
+      - 'Microsoft'
 <%= ERB.new(File.read(File.expand_path("../common_files/extra_attributes.yml.erb", __dir__)), eoutvar: "@common_attrs").result(binding) %>
 
 form:
@@ -44,6 +67,9 @@ form:
   - global_working_dir
   - global_prerun
   - bc_email_on_started
+  - use_ollama
+  - tunnel_auth
+  - ollama_version
   - global_advanced
   - auto_queues
   - global_advanced_num_nodes

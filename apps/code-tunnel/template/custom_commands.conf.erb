@@ -3,4 +3,8 @@ reset
 echo
 echo "Copy the device code, open the url and paste it to create the tunnel vsc-$USER-$(hostname -d | sed 's/.os$//')"
 echo
+<% if context.use_ollama.to_s == '1' %>
+unshare -nr bash $OOD_SESSION_STAGED_ROOT/run_namespace.sh
+<% else %>
 code tunnel --accept-server-license-terms --name vsc-$USER-$(hostname -d | sed "s/.os$//")
+<% end %>
