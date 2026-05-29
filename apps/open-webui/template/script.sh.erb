@@ -19,6 +19,9 @@ case "${VERSION}" in
   0.15.6 )
     modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
     ;;
+  0.24.0 )
+    modules_to_load+=("ollama/0.24.0-GCCcore-14.2.0-CUDA-12.8.0")
+    ;;
   * )
     echo "ERROR: Unsupported version selected"
     exit 1
