@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+<%- gpu = context.dynamic_num_gpu_slots.to_i > 0 || context.global_bc_num_shards.to_i > 0 -%>
+
+# Clean the environment
+module purge
+
+#
+# Launch Xfce Window Manager and Panel
+#
+export SEND_256_COLORS_TO_REMOTE=1
+export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+export XDG_CACHE_HOME="$(mktemp -d)"
+export $(dbus-launch)
+
+module restore
+set -x
+
+#
+# Start Abaqus
+#
+
+# Load the required environment
+module load <%= context.version %>
+
+# Output debug information
+module list
+
+# Workaround for font issue in ABAQUS
+abq_fonts="$OOD_SESSION_STAGED_ROOT/abaqus-fonts"
+xset +fp $abq_fonts
+xset fp rehash
+
+# Launch Abaqus
+set -x
+bwrap_cmd="bwrap --dev-bind / / --tmpfs /var --bind /var/lib /var/lib --ro-bind /apps/brussel/licenses/abaqus /var/DassaultSystemes/Licenses "
+<%- if gpu -%>
+vglrun $bwrap_cmd abaqus cae \
+<%- else -%>
+$bwrap_cmd abaqus cae -mesa \
+<%- end -%>
+  |& tee "<%= session.staged_root.join("abaqus.log") %>"
+ABAQUS_EXIT_CODE=${PIPESTATUS[0]}
+{ set +x; } 2>/dev/null
+
+if [[ ${ABAQUS_EXIT_CODE} -ne 0 ]]; then
+cat | xmessage -file - -center <<- EOL
+ABAQUS/CAE died with the following output:
+
+$(cat "<%= session.staged_root.join("abaqus.log") %>")
+EOL
+fi

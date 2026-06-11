@@ -1,0 +1,10 @@
+---
+name: Abaqus/CAE
+category: Interactive Apps
+subcategory: Testing
+role: batch_connect
+description: |
+  This app will launch an [Abaqus/CAE] GUI. You will be able to interact with
+  the Abaqus/CAE GUI through a VNC session.
+
+  [Abaqus/CAE]: https://www.3ds.com/products-services/simulia/products/abaqus/abaquscae/
