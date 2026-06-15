@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 <%- gpu = context.dynamic_num_gpu_slots.to_i > 0 || context.global_bc_num_shards.to_i > 0 -%>
-
-# Clean the environment
-module purge
-
+#
 #
 # Start Abaqus
 #
