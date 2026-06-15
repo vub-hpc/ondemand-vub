@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.38
+Version: 2.39
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -33,8 +33,8 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
 
-%{__mkdir_p} %{buildroot}/%{_localstatedir}/www/ood/public
-%{__install} -pm644 html/* %{buildroot}/%{_localstatedir}/www/ood/public/
+%{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/public
+%{__install} -pm644 html/* %{buildroot}%{_localstatedir}/www/ood/public/
 
 %{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/apps/sys
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
@@ -60,7 +60,14 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/public
 /var/www/ood/apps/sys
 
+%post
+# 2610114 is the gid for the babaqus group
+chown root:2610114 /var/www/ood/apps/sys/abaqus
+chmod 0750 /var/www/ood/apps/sys/abaqus
+
 %changelog
+* Thu Jun 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add ABAQUS GUI app
 * Fri May 29 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add new Ollama version 0.24.0 to Open WebUI
 * Wed Apr 29 2026 Yoshi Malaise <yoshi.kris.malaise@vub.be>

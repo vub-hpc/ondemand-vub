@@ -1,0 +1,17 @@
+<%= ERB.new(File.read('../common_files/ood_session.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/work_directory.sh.erb'), eoutvar: 'child').result(binding) %>
+<%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
+
+export OOD_APP_NAME="ABAQUS/CAE"
+
+# There is a bug in ABAQUS where when it tries to load those
+# 75 dpi fonts, it incorrectly interprets the character bytes
+# Workaround is to give 100 dpi fonts instead.
+abq_fonts="$OOD_SESSION_STAGED_ROOT/abaqus-fonts"
+mkdir $abq_fonts
+cat << EOF > "$abq_fonts/fonts.alias"
+-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso10646-1   -adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1
+-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso10646-1     -adobe-helvetica-bold-r-normal--11-80-100-100-p-60-iso8859-1
+-adobe-courier-medium-r-normal--12-120-75-75-m-70-iso10646-1     -adobe-courier-medium-r-normal--11-80-100-100-m-60-iso8859-1
+EOF
+echo 0 > "$abq_fonts/fonts.dir"
