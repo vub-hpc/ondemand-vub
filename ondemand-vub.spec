@@ -61,8 +61,9 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /var/www/ood/apps/sys
 
 %post
+# 2610114 is the gid for the babaqus group
 chown root:2610114 /var/www/ood/apps/sys/abaqus
-chmod 0760 /var/www/ood/apps/sys/abaqus
+chmod 0750 /var/www/ood/apps/sys/abaqus
 
 %changelog
 * Thu Jun 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
