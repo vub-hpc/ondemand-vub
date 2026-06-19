@@ -13,8 +13,13 @@ done
 
 if [ -n "$PUNUSER" ]; then
     logger -- "Setting the VSC variables for $PUNUSER"
-    eval "$(runuser -u "${PUNUSER}" -- python3 /usr/bin/vsc_env bash)"
-    export OOD_DATAROOT=${VSC_DATA}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/
+
+    if [ -d "${VSC_DATA}" ]; then
+        export OOD_DATAROOT=${VSC_DATA}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/
+    else
+        export OOD_DATAROOT="${$VSC_SCRATCH}/.ondemand/data/"
+        logger -- "VSC_DATA unavailable for $PUNUSER, using home: $OOD_DATAROOT"
+    fi
 
     runuser -u "${PUNUSER}" bash /etc/profile.d/vscautokey.sh &
 fi
