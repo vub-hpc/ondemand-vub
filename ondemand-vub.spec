@@ -68,8 +68,7 @@ chown root:2610114 /var/www/ood/apps/sys/abaqus
 chmod 0750 /var/www/ood/apps/sys/abaqus
 
 # Sofia-specific overrides
-CLUSTER=$(awk -F'=' '/cluster_name/{gsub(/ /,"",$2); print $2}' /etc/vsc_config.cfg 2>/dev/null)
-if [ "$CLUSTER" = "sofia" ]; then
+if [ "$VSC_INSTITUTE_CLUSTER" = "sofia" ]; then
     mv /etc/ood/config/locales/en.yml_sofia /etc/ood/config/locales/en.yml
     mv /etc/ood/config/ondemand.d/general_options.yml_sofia \
         /etc/ood/config/ondemand.d/general_options.yml
