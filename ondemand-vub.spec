@@ -77,6 +77,7 @@ fi
 %changelog
 * Thu Jun 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Initial sofia changes to global files to make dashboard work
+- Changes OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_CLUSTER
 * Thu Jun 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add ABAQUS GUI app
 * Fri May 29 2026 Jarne Renders <jarne.thijs.renders@vub.be>
