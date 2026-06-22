@@ -82,7 +82,7 @@ done
 %files sofia
 %{_datadir}/ondemand-vub/sofia/
 
-%post -n ondemand-vub-hydra
+%post hydra
 install -pm644 %{_datadir}/ondemand-vub/hydra/locales/en.yml \
     %{_sysconfdir}/ood/config/locales/en.yml
 install -pm644 %{_datadir}/ondemand-vub/hydra/ondemand.d/general_options.yml \
@@ -91,7 +91,7 @@ install -pm644 %{_datadir}/ondemand-vub/hydra/ondemand.d/general_options.yml \
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 
-%post -n ondemand-vub-sofia
+%post sofia
 install -pm644 %{_datadir}/ondemand-vub/sofia/locales/en.yml \
     %{_sysconfdir}/ood/config/locales/en.yml
 install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
