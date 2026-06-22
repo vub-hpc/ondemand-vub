@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.39
+Version: 2.40
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -54,7 +54,9 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /etc/ood/config/apps/dashboard/views/widgets/_news.html
 /etc/ood/config/locales/en.yml
+/etc/ood/config/locales/en.yml_sofia
 /etc/ood/config/ondemand.d/general_options.yml
+/etc/ood/config/ondemand.d/general_options.yml_sofia
 /etc/ood/config/ondemand.d/global_bc_items.yml
 /etc/ood/profile
 /var/www/ood/public
@@ -65,7 +67,17 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 chown root:2610114 /var/www/ood/apps/sys/abaqus
 chmod 0750 /var/www/ood/apps/sys/abaqus
 
+# Sofia-specific overrides
+if [ "$VSC_INSTITUTE_CLUSTER" = "sofia" ]; then
+    mv /etc/ood/config/locales/en.yml_sofia /etc/ood/config/locales/en.yml
+    mv /etc/ood/config/ondemand.d/general_options.yml_sofia \
+        /etc/ood/config/ondemand.d/general_options.yml
+fi
+
 %changelog
+* Thu Jun 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Initial sofia changes to global files to make dashboard work
+- Changes OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_CLUSTER
 * Thu Jun 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add ABAQUS GUI app
 * Fri May 29 2026 Jarne Renders <jarne.thijs.renders@vub.be>
