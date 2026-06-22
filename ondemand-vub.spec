@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.40
+Version: 2.41
 Release: 1
 BuildArch: noarch
 License: GPL
