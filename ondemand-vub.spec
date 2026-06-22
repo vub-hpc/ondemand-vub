@@ -75,6 +75,8 @@ if [ "$VSC_INSTITUTE_CLUSTER" = "sofia" ]; then
 fi
 
 %changelog
+* Thu Jun 22 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Fix profile script
 * Thu Jun 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Initial sofia changes to global files to make dashboard work
 - Changes OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_CLUSTER
