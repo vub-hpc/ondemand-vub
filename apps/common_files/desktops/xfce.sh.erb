@@ -44,7 +44,7 @@ AUTOSTART="$CONFIG_DIR/autostart"
 # Disable useless services on autostart
 rm -rf "$AUTOSTART"    # clean up previous autostarts
 mkdir -p "$AUTOSTART"
-for service in "geoclue-demo-agent" "nm-applet" "pulseaudio" "rhsm-icon" "spice-vdagent" "tracker-extract" "tracker-miner-apps" "tracker-miner-user-guides" "tracker-miner-fs-3" "xfce4-power-manager" "xfce-polkit"; do
+for service in "geoclue-demo-agent" "nm-applet" "pulseaudio" "rhsm-icon" "spice-vdagent" "tracker-extract" "tracker-miner-apps" "tracker-miner-user-guides" "tracker-miner-fs-3" "xfce4-power-manager" "xfce4-screensaver" "xfce-polkit"; do
     echo -e "[Desktop Entry]\nHidden=true" > "$AUTOSTART/$service.desktop"
 done
 

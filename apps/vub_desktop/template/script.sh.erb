@@ -16,7 +16,7 @@ echo "TIMING - Starting main script at: $(date)"
 echo "Launching desktop '<%= context.desktop %>'..."
 xfce_container=/apps/sofia/containers/xfce/xfce.sif
 if [ -e $xfce_container ]; then
-    apptainer exec \
+    apptainer exec --nv \
         --bind /usr:/host/usr \
         --bind /run/user:/run/user \
         $xfce_container \
