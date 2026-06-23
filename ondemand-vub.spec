@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.41
+Version: 2.42
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -99,7 +99,9 @@ install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
-* Thu Jun 22 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Revert $HOME in profile script to $VSC_SCRATCH
+* Mon Jun 22 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix error in profile script and store OOD_DATAROOT in $HOME
 - Build subpackages instead of relying on VSC_INSTITUTE_CLUSTER
 * Thu Jun 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>

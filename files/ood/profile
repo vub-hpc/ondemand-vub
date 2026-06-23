@@ -18,7 +18,7 @@ if [ -n "$PUNUSER" ]; then
     if [ -d "${VSC_DATA}" ]; then
         export OOD_DATAROOT=${VSC_DATA}/.ondemand/${VSC_INSTITUTE_CLUSTER:-data}/
     else
-        export OOD_DATAROOT="${HOME}/.ondemand/${VSC_INSTITUTE_CLUSTER:-data}/"
+        export OOD_DATAROOT="${VSC_SCRATCH}/.ondemand/${VSC_INSTITUTE_CLUSTER:-data}/"
         logger -- "VSC_DATA unavailable for $PUNUSER, using OOD_DATAROOT: $OOD_DATAROOT"
     fi
 
