@@ -9,7 +9,8 @@ TOOLCHAIN=<%= context.toolchain %>
 
 # restrict available modules to those that correspond to the same generation as the loaded JupyterLab
 # modules in other generations will fail to load and pollute the jupyterlmod panel
-MODULES_DIR="/apps/brussel/${VSC_OS_LOCAL}/${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX:-}/modules"
+[[ $VSC_INSTITUTE_CLUSTER = 'sofia'  ]] && appsdir='/apps/sofia' || appsdir='/apps/brussel'
+MODULES_DIR="${appsdir}/${VSC_OS_LOCAL}/${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX:-}/modules"
 MODULES_TOOLCHAIN="${MODULES_DIR}/${TOOLCHAIN}/all"
 MODULES_SYSTEM="${MODULES_DIR}/system/all"
 export MODULEPATH="${MODULES_TOOLCHAIN}:${MODULES_SYSTEM}"
