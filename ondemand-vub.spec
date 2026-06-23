@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.40
+Version: 2.41
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -19,6 +19,20 @@ AutoReqProv: no
 
 %description
 Scripts, customizations and tools for Open OnDemand as used at the VUB.
+
+%package hydra
+Summary: ondemand-vub for Hydra
+Requires: ondemand-vub = %{version}-%{release}
+Conflicts: ondemand-vub-sofia
+%description hydra
+Open OnDemand customizations for Hydra
+
+%package sofia
+Summary: ondemand-vub for sofia
+Requires: ondemand-vub = %{version}-%{release}
+Conflicts: ondemand-vub-hydra
+%description sofia
+Open OnDemand customizations for sofia
 
 %prep
 %setup -q
@@ -40,10 +54,14 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/ondemand.d
-%{__install} -pm644 ondemand.d/* %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
+%{__install} -pm644 ondemand.d/global_bc_items.yml %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
 
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/locales
-%{__install} -pm644 locales/* %{buildroot}%{_sysconfdir}/ood/config/locales/
+for cluster in hydra sofia; do
+    install -Dpm644 locales/en.yml_$cluster \
+        %{buildroot}%{_datadir}/ondemand-vub/$cluster/locales/en.yml
+    install -Dpm644 ondemand.d/general_options.yml_$cluster \
+        %{buildroot}%{_datadir}/ondemand-vub/$cluster/ondemand.d/general_options.yml
+done
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views
 %{__cp} -pr widgets %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views/
@@ -53,28 +71,37 @@ Scripts, customizations and tools for Open OnDemand as used at the VUB.
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /etc/ood/config/apps/dashboard/views/widgets/_news.html
-/etc/ood/config/locales/en.yml
-/etc/ood/config/locales/en.yml_sofia
-/etc/ood/config/ondemand.d/general_options.yml
-/etc/ood/config/ondemand.d/general_options.yml_sofia
 /etc/ood/config/ondemand.d/global_bc_items.yml
 /etc/ood/profile
 /var/www/ood/public
 /var/www/ood/apps/sys
 
-%post
-# 2610114 is the gid for the babaqus group
-chown root:2610114 /var/www/ood/apps/sys/abaqus
-chmod 0750 /var/www/ood/apps/sys/abaqus
+%files hydra
+%{_datadir}/ondemand-vub/hydra/
 
-# Sofia-specific overrides
-if [ "$VSC_INSTITUTE_CLUSTER" = "sofia" ]; then
-    mv /etc/ood/config/locales/en.yml_sofia /etc/ood/config/locales/en.yml
-    mv /etc/ood/config/ondemand.d/general_options.yml_sofia \
-        /etc/ood/config/ondemand.d/general_options.yml
-fi
+%files sofia
+%{_datadir}/ondemand-vub/sofia/
+
+%post hydra
+install -pm644 %{_datadir}/ondemand-vub/hydra/locales/en.yml \
+    %{_sysconfdir}/ood/config/locales/en.yml
+install -pm644 %{_datadir}/ondemand-vub/hydra/ondemand.d/general_options.yml \
+    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+# 2610114 is the gid for the babaqus group
+chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
+chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
+
+%post sofia
+install -pm644 %{_datadir}/ondemand-vub/sofia/locales/en.yml \
+    %{_sysconfdir}/ood/config/locales/en.yml
+install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
+    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Thu Jun 22 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Fix error in profile script and store OOD_DATAROOT in $HOME
+- Build subpackages instead of relying on VSC_INSTITUTE_CLUSTER
 * Thu Jun 19 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Initial sofia changes to global files to make dashboard work
 - Changes OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_CLUSTER
