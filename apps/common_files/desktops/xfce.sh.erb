@@ -48,12 +48,6 @@ for service in "geoclue-demo-agent" "nm-applet" "pulseaudio" "rhsm-icon" "spice-
     echo -e "[Desktop Entry]\nHidden=true" > "$AUTOSTART/$service.desktop"
 done
 
-# Suppress the entire GNOME settings daemon family
-for f in /etc/xdg/autostart/org.gnome.SettingsDaemon.*.desktop; do
-    name=$(basename "$f" .desktop)
-    echo -e "[Desktop Entry]\nHidden=true" > "$AUTOSTART/$name.desktop"
-done
-
 # Run Xfce4 Terminal as login shell (sets proper TERM)
 TERM_CONFIG="$CONFIG_DIR/xfce4/terminal/terminalrc"
 if [ -e "$TERM_CONFIG" ]; then
