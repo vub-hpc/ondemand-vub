@@ -1,3 +1,4 @@
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
   cluster:
     widget: "select"
     options: <%
@@ -59,7 +60,9 @@
       - ["2", "2", <%= hide_for_non_gpu %>]
   auto_queues:
     label: "Partition"
+<% unless is_sofia %>
     include_blank: "automatic (recommended)"
     widget: "select"
     help: "Select <code>automatic</code> to request any eligible partition."
     value: ""
+<% end %>

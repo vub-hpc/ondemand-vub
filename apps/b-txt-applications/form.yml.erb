@@ -1,3 +1,4 @@
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
 ---
 # app-specific attributes
 attributes:
@@ -65,12 +66,18 @@ attributes:
 
 form:
   - cluster
+<% if is_sofia %>
+  - auto_queues
+  - auto_accounts
+<% end %>
   - desktop
   - app_choice
   - bc_vnc_idle
   - bc_email_on_started
   - global_advanced
+<% unless is_sofia %>
   - auto_queues
+<% end %>
   - resolution
   - global_num_cores
   - global_bc_num_shards

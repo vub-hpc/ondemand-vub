@@ -1,3 +1,4 @@
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
 global_bc_form_items:
   bc_num_hours:
     label: "Number of hours"
@@ -32,7 +33,11 @@ global_bc_form_items:
     help: "Bash commands to be executed before starting the app"
   global_working_dir:
     label: Working Directory
+<% if is_sofia %>
+    help: "Optionally select your working directory (default: <code>$HOME</code>)."
+<% else %>
     help: "Optionally select your working directory (default: <code>$VSC_DATA</code>)."
+<% end %>
     widget: "path_selector"
     show_files: false
   global_advanced_num_nodes:
@@ -52,7 +57,9 @@ global_bc_form_items:
     cacheable: true
     html_options:
       data:
+<% unless is_sofia %>
         hide-auto-queues-when-unchecked: true
+<% end %>
         hide-advanced-cleanup-login-when-unchecked: true
         hide-advanced-font-size-when-unchecked: true
         hide-advanced-tmux-config-when-unchecked: true
