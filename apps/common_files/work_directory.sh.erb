@@ -7,7 +7,11 @@
     working_dir = ""
   end
   if working_dir.blank?
-    working_dir = ENV['VSC_DATA']
+    if ENV['VSC_DATA'] && Dir.exist?(ENV['VSC_DATA'])
+      working_dir = ENV['VSC_DATA']
+    else
+      working_dir = ENV['HOME']
+    end
   end
 %>
 

@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.43
+Version: 2.44
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -99,6 +99,8 @@ install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt vub-desktop to work on sofia (with xfce in container)
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Revert OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_LOCAL
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
