@@ -22,5 +22,4 @@ Rails.application.config.after_initialize do
     # Project scratch is given an optional title field
     #"paths.concat projects.map { |p| FavoritePath.new("/fs/scratch/#{p}", title: "Scratch")  }
   end
-
 end
