@@ -1,6 +1,9 @@
 <% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
   cluster:
     widget: "select"
+<% if is_sofia %>
+    hide_by_default: true
+<% end %>
     options: <%
       cluster_options = SmartAttributes::AttributeFactory.send(:cluster_options)
 
