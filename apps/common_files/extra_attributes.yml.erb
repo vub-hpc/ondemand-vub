@@ -32,7 +32,7 @@
     %><%= cluster_opts.to_json %>
   dynamic_num_gpu_slots:
     label: "Number of GPUs"
-    help: "Select the total number of GPUs for the job."
+    help: "Select the total number of GPUs per node for the job."
     widget: "select"
     options: <%
 
@@ -42,7 +42,7 @@
         supported_gpus = ->(partition_name) {
           case partition_name.to_s
           when /gpu$/    then 1..2 # gpu partitions on Hydra
-          when /_vis$/   then 0..2 # viz partition on sofia
+          when /_vis$/   then 0..1 # viz partition on sofia, limit to 1 GPU
           when /_h\d+$/  then 1..8 # gpu partition on sofia
           else                0..0
           end
@@ -58,17 +58,34 @@
           hidden_partitions = {}
           partitions.each do |name, _, _|
             unless supported_gpus.call(name).include?(gpu_count)
-              hidden_partitions["data-option-for-auto-queues-#{name.to_s.gsub('_', '-')}"] = false
+              field = is_sofia ? "sofia-queues" : "auto-queues"
+              hidden_partitions["data-option-for-#{field}-#{name.to_s.gsub('_', '-')}"] = false
             end
           end
           [gpu_count.to_s, gpu_count.to_s, hidden_partitions]
         }
     %><%= gpu_options.to_json %>
+<% if is_sofia %>
+  sofia_queues:
+    label: "Partition"
+    widget: "select"
+    options: <%
+      partition_options = partitions.map do |name, value, data|
+        data = (data || {}).merge("data-set-global-num-cores" => "1")
+        data = data.merge("data-hide-global-num-cores" => true) if name.to_s.match?(/_h\d+$/)
+        if name.to_s.match?(/_vis$/)
+          data = data.merge("data-max-global-advanced-num-nodes" => 1, "data-set-global-advanced-num-nodes" => "1")
+        else
+          data = data.merge("data-max-global-advanced-num-nodes" => 16, "data-set-global-advanced-num-nodes" => "1")
+        end
+        [name, value, data]
+      end
+    %><%= partition_options.to_json %>
+<% else %>
   auto_queues:
     label: "Partition"
-<% unless is_sofia %>
-    include_blank: "automatic (recommended)"
     widget: "select"
+    include_blank: "automatic (recommended)"
     help: "Select <code>automatic</code> to request any eligible partition."
     value: ""
 <% end %>
