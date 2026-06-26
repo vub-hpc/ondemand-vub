@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.44
+Version: 2.45
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -106,6 +106,8 @@ install -pm644 %{_datadir}/ondemand-vub/sofia/html/custom_styles.css \
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Fri Jun 26 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add logos and style config for sofia
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt vub-desktop to work on sofia (with xfce in container)
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
