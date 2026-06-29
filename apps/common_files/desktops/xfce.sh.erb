@@ -152,7 +152,40 @@ StartupNotify=false
 Hidden=false
 EOL
 
+AUTOSTART_SET_WALLPAPER=$OOD_SESSION_STAGED_ROOT/set_wallpaper.desktop
 
+cat > $AUTOSTART_SET_WALLPAPER <<EOF
+SITE_WALLPAPER=(/usr/share/backgrounds/site/*)
+SITE_WALLPAPER="\${SITE_WALLPAPER[0]}"
+if [ -f \$SITE_WALLPAPER ]; then
+    # Wait until xfce4-desktop is initialized on first launch
+    while ! xfconf-query -c xfce4-desktop -l 2>&1 | grep -q "backdrop"; do
+        sleep 1
+    done
+    # If current wallpaper is default one, change it to $SITE_WALLPAPER
+    output=\$(xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image 2>/dev/null)
+    if [[ "\$output" == "/usr/share/backgrounds/xfce/xfce-shapes.svg" ]] || \
+       [[ "\$output" == /usr/share/backgrounds/site/* ]]; then
+        echo "Setting wallpaper to \$SITE_WALLPAPER"
+        xfconf-query -c xfce4-desktop \
+          -p /backdrop/screen0/monitorVNC-0/workspace0/last-image \
+          -s "\$SITE_WALLPAPER"
+    fi
+fi
+EOF
+
+chmod +x $AUTOSTART_SET_WALLPAPER
+cat > "$AUTOSTART_XFCE_DESKTOP/set_wallpaper.desktop" << EOL
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Script
+Type=Application
+Exec=$AUTOSTART_SET_WALLPAPER
+Terminal=false
+StartupNotify=false
+Hidden=false
+EOL
 
 AUTOSTART_SCRIPT=$OOD_SESSION_STAGED_ROOT/autostart.sh
 
