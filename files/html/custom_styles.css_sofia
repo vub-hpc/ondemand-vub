@@ -115,7 +115,7 @@ h2, h3 {
   margin-left: 16.6%;
 }
 
-/* change the colour of the navbar text */
-.nav-link.dropdown-toggle {
+/* Make the top bar text lightblue (except for the username) */
+.nav-link[role="menuitem"]:not(.disabled) {
   color: var(--sofialightblue);
 }
