@@ -1,3 +1,13 @@
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+<% sofia_gpu_partition = is_sofia && sofia_queues.to_s.match?(/_h\d+$/) %>
+<% # On sofia non-GPU partitions: one task per node, cores via --cpus-per-task. %>
+<% # GPU partitions skip CPU args entirely. %>
+<% if is_sofia && !sofia_gpu_partition %>
+    - "--nodes=<%= [global_advanced_num_nodes.to_i, 1].max %>"
+    - "--ntasks-per-node=1"
+    - "--cpus-per-task=<%= global_num_cores.to_i %>"
+<% # On Hydra: multi-node uses --ntasks, single-node uses --cpus-per-task %>
+<% elsif !is_sofia %>
 <% if global_advanced_num_nodes.to_i > 1 %>
     - "--nodes=<%= global_advanced_num_nodes.to_i %>"
     - "--ntasks=<%= global_num_cores.to_i %>"
@@ -5,13 +15,16 @@
     - "--cpus-per-task=<%= global_num_cores.to_i %>"
     - "--ntasks=1"
 <% end %>
+<% end %>
 <% if dynamic_num_gpu_slots.to_i > 0 %>
     - "--gpus-per-node=<%= dynamic_num_gpu_slots.to_i %>"
 <% end %>
 <% if global_bc_num_shards.to_i > 0  %>
     - "--gres=shard:<%= global_bc_num_shards.to_i %>"
 <% end %>
-<% if auto_queues.to_s.strip.empty? %>
+<% if is_sofia %>
+  queue_name: "<%= sofia_queues %>"
+<% elsif auto_queues.to_s.strip.empty? %>
   # WARNING: Don't add sbatch args after this template. When auto_queues is empty, YAML may treat them as queue_name.
   queue_name:
 <% end %>

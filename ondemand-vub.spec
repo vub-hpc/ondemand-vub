@@ -3,7 +3,7 @@
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.45
+Version: 2.46
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -55,7 +55,7 @@ find html -maxdepth 1 -type f ! -name '*_hydra' ! -name '*_sofia' \
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/ondemand.d
-%{__install} -pm644 ondemand.d/global_bc_items.yml %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
+%{__install} -pm644 ondemand.d/global_bc_items.yml.erb %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
 
 for cluster in hydra sofia; do
     install -Dpm644 locales/en.yml_$cluster \
@@ -74,7 +74,7 @@ done
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /etc/ood/config/apps/dashboard/views/widgets/_news.html
-/etc/ood/config/ondemand.d/global_bc_items.yml
+/etc/ood/config/ondemand.d/global_bc_items.yml.erb
 /etc/ood/profile
 /var/www/ood/public
 /var/www/ood/apps/sys
@@ -106,8 +106,11 @@ install -pm644 %{_datadir}/ondemand-vub/sofia/html/custom_styles.css \
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
-* Fri Jun 26 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Mon Jun 29 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add logos and style config for sofia
+- Allow overriding of vub_desktop wallpaper
+* Fri Jun 26 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt common submission and form fields for sofia
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt vub-desktop to work on sofia (with xfce in container)
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
