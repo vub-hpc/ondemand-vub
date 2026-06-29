@@ -1,5 +1,9 @@
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
   cluster:
     widget: "select"
+<% if is_sofia %>
+    hide_by_default: true
+<% end %>
     options: <%
       cluster_options = SmartAttributes::AttributeFactory.send(:cluster_options)
 
@@ -30,36 +34,66 @@
       end
     %><%= cluster_opts.to_json %>
   dynamic_num_gpu_slots:
-    label: "Number of GPUs"
-    help: "Select the total number of GPUs for the job."
+    label: "Number of GPUs per node"
     widget: "select"
     options: <%
-        # Get all partitions of all clusters
-        queues = SmartAttributes::AttributeFactory.send(:queues)
 
-        # Get gpu and non-gpu partitions (assumes gpu partitions end with 'gpu')
-        gpu_queues = queues.select { |label, _, _| label.to_s.end_with?('gpu') }.map { |label, _, _| label }
-        non_gpu_queues = queues.select { |label, _, _| !label.to_s.end_with?('gpu') }.map { |label, _, _| label }
+        # Fetch the partitions of all clusters defined in ood
+        partitions = SmartAttributes::AttributeFactory.send(:queues)
 
-        # Build a string of `data-option-for-auto-queues-*` attributes to hide all gpu partitions
-        hide_for_gpu = gpu_queues.map do |q|
-          q = q.to_s.gsub('_', '-')
-          "data-option-for-auto-queues-#{q}: false,"
-        end.join("\n")
+        supported_gpus = ->(partition_name) {
+          case partition_name.to_s
+          when /gpu$/    then 1..2 # gpu partitions on Hydra
+          when /_vis$/   then 0..1 # viz partition on sofia, limit to 1 GPU
+          when /_h\d+$/  then 1..8 # gpu partition on sofia
+          else                0..0
+          end
+        }
 
-        # Build a string of `data-option-for-auto-queues-*` attributes to hide all non-gpu partitions
-        hide_for_non_gpu = non_gpu_queues.map do |q|
-          q = q.to_s.gsub('_', '-')
-          "data-option-for-auto-queues-#{q}: false,"
-        end.join("\n")
+        # max_gpus will be 8 on sofia and 2 on Hydra
+        max_gpus = partitions.map { |name, _, _| supported_gpus.call(name).max }.max || 2
 
-        %>
-      - ["0", "0", <%= hide_for_gpu %>]
-      - ["1", "1", <%= hide_for_non_gpu %>]
-      - ["2", "2", <%= hide_for_non_gpu %>]
+        # Build select options ["gpu_count", "gpu_count", {hide attrs}] for each gpu_count 0..max_gpus.
+        # Partitions outside their supported range get a data-option-for-auto-queues-<name>: false
+        # attribute, which tells OOD to hide them from the partition dropdown at that gpu_count.
+        gpu_options = (0..max_gpus).map { |gpu_count|
+          hidden_partitions = {}
+          partitions.each do |name, _, _|
+            unless supported_gpus.call(name).include?(gpu_count)
+              field = is_sofia ? "sofia-queues" : "auto-queues"
+              hidden_partitions["data-option-for-#{field}-#{name.to_s.gsub('_', '-')}"] = false
+            end
+          end
+          [gpu_count.to_s, gpu_count.to_s, hidden_partitions]
+        }
+    %><%= gpu_options.to_json %>
+<% if is_sofia %>
+  sofia_queues:
+    label: "Partition"
+    widget: "select"
+    options: <%
+      partition_options = partitions.map do |name, value, data|
+        data = (data || {}).merge("data-set-global-num-cores" => "1")
+        data = data.merge("data-hide-global-num-cores" => true) if name.to_s.match?(/_h\d+$/)
+        max_cores = case name.to_s
+                    when /_dense$/ then 384
+                    when /_himem$/ then 192
+                    when /_vis$/   then 32
+                    end
+        data = data.merge("data-max-global-num-cores" => max_cores) if max_cores
+        if name.to_s.match?(/_vis$/)
+          data = data.merge("data-max-global-advanced-num-nodes" => 1, "data-set-global-advanced-num-nodes" => "1")
+        else
+          data = data.merge("data-max-global-advanced-num-nodes" => 16, "data-set-global-advanced-num-nodes" => "1")
+        end
+        [name, value, data]
+      end
+    %><%= partition_options.to_json %>
+<% else %>
   auto_queues:
     label: "Partition"
-    include_blank: "automatic (recommended)"
     widget: "select"
+    include_blank: "automatic (recommended)"
     help: "Select <code>automatic</code> to request any eligible partition."
     value: ""
+<% end %>
