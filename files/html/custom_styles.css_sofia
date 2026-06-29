@@ -6,6 +6,7 @@
   --headergrey: #212630;
   --sofiayellow: #f5c501;
   --sofiablue: #003399;
+  --sofialightblue: #75b9e5;
   /* dark grey */
   --defaultcol: #505050;
   --defaultbg: #e9ecef;
