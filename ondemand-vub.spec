@@ -5,6 +5,7 @@
 %define install_cluster_files() \
 install -pm644 %{_datadir}/ondemand-vub/%1/ood/profile %{_sysconfdir}/ood/profile ; \
 install -pm644 %{_datadir}/ondemand-vub/%1/locales/en.yml %{_sysconfdir}/ood/config/locales/en.yml ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/html/custom_styles.css %{_localstatedir}/www/ood/public/custom_styles.css ; \
 install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
 
 Summary: Scripts, customizations and tools for Open OnDemand
@@ -53,7 +54,8 @@ Open OnDemand customizations for sofia
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
 
 %{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/public
-%{__install} -pm644 html/* %{buildroot}%{_localstatedir}/www/ood/public/
+find html -maxdepth 1 -type f ! -name '*_hydra' ! -name '*_sofia' \
+    -exec %{__install} -pm644 {} %{buildroot}%{_localstatedir}/www/ood/public/ \;
 
 %{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/apps/sys
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
@@ -66,6 +68,8 @@ for cluster in hydra sofia; do
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/locales/en.yml
     install -Dpm644 ondemand.d/general_options.yml_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/ondemand.d/general_options.yml
+    install -Dpm644 html/custom_styles.css_$cluster \
+        %{buildroot}%{_datadir}/ondemand-vub/$cluster/html/custom_styles.css
     install -Dpm644 ood/profile_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/ood/profile
 done
@@ -101,6 +105,9 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 %changelog
 * Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt jupyterlab app for sofia
+* Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add logos and style config for sofia
+- Allow overriding of vub_desktop wallpaper
 * Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Block sofia users without project, refactor spec
 - Adapt Files app for sofia

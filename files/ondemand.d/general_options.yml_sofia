@@ -7,7 +7,7 @@ custom_css_files:
 - custom_styles.css
 custom_javascript_files:
 - global_form.js
-dashboard_header_img_logo: /public/sofia.png
+dashboard_header_img_logo: /public/sofia-logo-light-no-footer.svg
 dashboard_layout:
   rows:
   - columns:

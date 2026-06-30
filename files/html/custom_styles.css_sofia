@@ -3,10 +3,10 @@
 
 /* define VUB colors as variables */
 :root {
-  --vubblue: #223F7A;
-  --vuborange: #E36539;
+  --headergrey: #212630;
   --sofiayellow: #f5c501;
   --sofiablue: #003399;
+  --sofialightblue: #75b9e5;
   /* dark grey */
   --defaultcol: #505050;
   --defaultbg: #e9ecef;
@@ -102,7 +102,7 @@ h2, h3 {
 
 /* override interactive apps header background-color on interactive sessions page */
 .system-and-shared-apps-header {
-  background-color: var(--vubblue);
+  background-color: var(--headergrey);
 }
 
 /* set background color of the dashboard */
@@ -110,8 +110,13 @@ h2, h3 {
    background-color: var(--defaultbg);
 }
 
-/* increase VUB logo size and center */
+/* increase dashboard logo size and center */
 .py-2 {
   height: 5rem;
   margin-left: 16.6%;
+}
+
+/* Make the top bar text lightblue (except for the username) */
+.nav-link[role="menuitem"]:not(.disabled) {
+  color: var(--sofialightblue);
 }
