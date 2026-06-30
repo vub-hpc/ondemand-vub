@@ -14,6 +14,17 @@ echo "TIMING - Starting main script at: $(date)"
 
 # Start up desktop
 echo "Launching desktop '<%= context.desktop %>'..."
+xfce_container=/apps/sofia/containers/xfce/xfce.sif
+if [ -e $xfce_container ]; then
+    apptainer exec --nv \
+        --bind /usr:/host/usr \
+        --bind /run/user:/run/user \
+        $xfce_container \
+        bash -s << 'END'
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+END
+else
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+fi
 
 echo "Desktop '<%= context.desktop %>' ended with $? status..."

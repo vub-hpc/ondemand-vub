@@ -1,9 +1,15 @@
 # Disable debuginfo as it causes issues with bundled gems that build libraries
 %global debug_package %{nil}
 
+# Install steps needed in %post which are identical to each cluster
+%define install_cluster_files() \
+install -pm644 %{_datadir}/ondemand-vub/%1/ood/profile %{_sysconfdir}/ood/profile ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/locales/en.yml %{_sysconfdir}/ood/config/locales/en.yml ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.43
+Version: 2.46
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -42,7 +48,6 @@ Open OnDemand customizations for sofia
 %install
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers
 %{__install} -pm644 ood.rb %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers/
-%{__install} -pm644 ood/profile %{buildroot}%{_sysconfdir}/ood/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
@@ -54,13 +59,15 @@ Open OnDemand customizations for sofia
 %{__cp} -pr apps/* %{buildroot}%{_localstatedir}/www/ood/apps/sys/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/ondemand.d
-%{__install} -pm644 ondemand.d/global_bc_items.yml %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
+%{__install} -pm644 ondemand.d/global_bc_items.yml.erb %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
 
 for cluster in hydra sofia; do
     install -Dpm644 locales/en.yml_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/locales/en.yml
     install -Dpm644 ondemand.d/general_options.yml_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/ondemand.d/general_options.yml
+    install -Dpm644 ood/profile_$cluster \
+        %{buildroot}%{_datadir}/ondemand-vub/$cluster/ood/profile
 done
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views
@@ -71,8 +78,7 @@ done
 /etc/ood/config/apps/myjobs/templates
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /etc/ood/config/apps/dashboard/views/widgets/_news.html
-/etc/ood/config/ondemand.d/global_bc_items.yml
-/etc/ood/profile
+/etc/ood/config/ondemand.d/global_bc_items.yml.erb
 /var/www/ood/public
 /var/www/ood/apps/sys
 
@@ -83,22 +89,23 @@ done
 %{_datadir}/ondemand-vub/sofia/
 
 %post hydra
-install -pm644 %{_datadir}/ondemand-vub/hydra/locales/en.yml \
-    %{_sysconfdir}/ood/config/locales/en.yml
-install -pm644 %{_datadir}/ondemand-vub/hydra/ondemand.d/general_options.yml \
-    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+%install_cluster_files hydra
 # 2610114 is the gid for the babaqus group
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %post sofia
-install -pm644 %{_datadir}/ondemand-vub/sofia/locales/en.yml \
-    %{_sysconfdir}/ood/config/locales/en.yml
-install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
-    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+%install_cluster_files sofia
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Block sofia users without project, refactor spec
+- Adapt Files app for sofia
+* Fri Jun 26 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt common submission and form fields for sofia
+* Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt vub-desktop to work on sofia (with xfce in container)
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Revert OOD_DATAROOT to .ondemand/$VSC_INSTITUTE_LOCAL
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
