@@ -5,10 +5,11 @@ Rails.application.config.after_initialize do
     paths.clear()
 
     # add VSC paths
-    envs = ["VSC_DATA", "VSC_SCRATCH", "VSC_DATA_VO_USER", "VSC_SCRATCH_VO_USER", "VSC_DATA_VO", "VSC_SCRATCH_VO"]
+    envs = ["VSC_DATA", "VSC_SCRATCH", "VSC_DATA_VO_USER", "VSC_SCRATCH_VO_USER", "VSC_DATA_VO", "VSC_SCRATCH_VO", "VSC_SCRATCH_PROJECTS_BASE"]
 
+    # If path exists and is not the same as $HOME, add it
     envs.each do |env|
-      if (ENV.has_key?(env))
+      if (ENV.has_key?(env) && ENV[env] != ENV["HOME"])
         paths << FavoritePath.new(Pathname.new(ENV[env]), title: "#{env}")
       end
     end
