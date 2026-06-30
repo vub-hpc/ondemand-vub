@@ -1,5 +1,5 @@
 #!/usr/bin/bash -l
-
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
 <%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # Benchmark info
@@ -9,7 +9,7 @@ TOOLCHAIN=<%= context.toolchain %>
 
 # restrict available modules to those that correspond to the same generation as the loaded JupyterLab
 # modules in other generations will fail to load and pollute the jupyterlmod panel
-MODULES_DIR="/apps/brussel/${VSC_OS_LOCAL}/${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX:-}/modules"
+MODULES_DIR="<%= is_sofia ? '/apps/sofia' : '/apps/brussel' %>/${VSC_OS_LOCAL}/${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX:-}/modules"
 MODULES_TOOLCHAIN="${MODULES_DIR}/${TOOLCHAIN}/all"
 MODULES_SYSTEM="${MODULES_DIR}/system/all"
 export MODULEPATH="${MODULES_TOOLCHAIN}:${MODULES_SYSTEM}"
