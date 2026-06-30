@@ -1,6 +1,13 @@
 # Disable debuginfo as it causes issues with bundled gems that build libraries
 %global debug_package %{nil}
 
+# Install steps needed in %post which are identical to each cluster
+%define install_cluster_files() \
+install -pm644 %{_datadir}/ondemand-vub/%1/ood/profile %{_sysconfdir}/ood/profile ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/locales/en.yml %{_sysconfdir}/ood/config/locales/en.yml ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/html/custom_styles.css %{_localstatedir}/www/ood/public/custom_styles.css ; \
+install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
 Version: 2.46
@@ -42,7 +49,6 @@ Open OnDemand customizations for sofia
 %install
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers
 %{__install} -pm644 ood.rb %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/initializers/
-%{__install} -pm644 ood/profile %{buildroot}%{_sysconfdir}/ood/
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
@@ -64,6 +70,8 @@ for cluster in hydra sofia; do
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/ondemand.d/general_options.yml
     install -Dpm644 html/custom_styles.css_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/html/custom_styles.css
+    install -Dpm644 ood/profile_$cluster \
+        %{buildroot}%{_datadir}/ondemand-vub/$cluster/ood/profile
 done
 
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/apps/dashboard/views
@@ -75,7 +83,6 @@ done
 /etc/ood/config/apps/dashboard/initializers/ood.rb
 /etc/ood/config/apps/dashboard/views/widgets/_news.html
 /etc/ood/config/ondemand.d/global_bc_items.yml.erb
-/etc/ood/profile
 /var/www/ood/public
 /var/www/ood/apps/sys
 
@@ -86,29 +93,22 @@ done
 %{_datadir}/ondemand-vub/sofia/
 
 %post hydra
-install -pm644 %{_datadir}/ondemand-vub/hydra/locales/en.yml \
-    %{_sysconfdir}/ood/config/locales/en.yml
-install -pm644 %{_datadir}/ondemand-vub/hydra/ondemand.d/general_options.yml \
-    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
-install -pm644 %{_datadir}/ondemand-vub/hydra/html/custom_styles.css \
-    %{_localstatedir}/www/ood/public/custom_styles.css
+%install_cluster_files hydra
 # 2610114 is the gid for the babaqus group
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %post sofia
-install -pm644 %{_datadir}/ondemand-vub/sofia/locales/en.yml \
-    %{_sysconfdir}/ood/config/locales/en.yml
-install -pm644 %{_datadir}/ondemand-vub/sofia/ondemand.d/general_options.yml \
-    %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
-install -pm644 %{_datadir}/ondemand-vub/sofia/html/custom_styles.css \
-    %{_localstatedir}/www/ood/public/custom_styles.css
+%install_cluster_files sofia
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
-* Mon Jun 29 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add logos and style config for sofia
 - Allow overriding of vub_desktop wallpaper
+* Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Block sofia users without project, refactor spec
+- Adapt Files app for sofia
 * Fri Jun 26 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt common submission and form fields for sofia
 * Tue Jun 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>

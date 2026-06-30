@@ -1,0 +1,30 @@
+PUNUSER=""
+
+for ((i = 1; i <= $#; i++)); do
+  arg="${!i}"
+
+  # Check if the argument is "-u" followed by a username
+  if [[ "$arg" == "-u" ]]; then
+    next_index=$((i + 1))
+    PUNUSER="${!next_index}"
+    break
+  fi
+done
+
+if [ -n "$PUNUSER" ]; then
+    # This only stops pun startup. Pre-existing puns should be cleaned in <2 hours via cron.
+    logger -- "Checking whether $PUNUSER is in bsofia_projects and pun should be started"
+    if [[ "$1" == "pun" ]] && ! id -Gn "$PUNUSER" 2>/dev/null | grep -qw 'bsofia_projects'; then
+        echo "Access denied: $PUNUSER is not authorized to use this system." >&2
+        echo "User $PUNUSER is not part of the bsofia_projects group." >&2
+        echo "Please contact the support team (support@vscentrum.be) if you believe this is an error." >&2
+        exit 1
+    fi
+
+    logger -- "Setting the VSC variables for $PUNUSER"
+    eval "$(runuser -u "${PUNUSER}" -- python3 /usr/bin/vsc_env bash)"
+
+    export OOD_DATAROOT="${VSC_SCRATCH}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/"
+
+    runuser -u "${PUNUSER}" bash /etc/profile.d/vscautokey.sh &
+fi
