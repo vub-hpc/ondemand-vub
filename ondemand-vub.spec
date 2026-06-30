@@ -9,7 +9,7 @@ install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sys
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.46
+Version: 2.48
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -99,6 +99,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt jupyterlab app for sofia
 * Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Block sofia users without project, refactor spec
 - Adapt Files app for sofia
