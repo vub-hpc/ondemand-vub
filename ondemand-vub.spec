@@ -10,7 +10,7 @@ install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sys
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.48
+Version: 2.49
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,9 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Wed Jul 01 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add fallback for missing site wallpaper
+- Use vsc account on zen5_vis
 * Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt jupyterlab app for sofia
 * Tue Jun 30 2026 Jarne Renders <jarne.thijs.renders@vub.be>
