@@ -17,8 +17,10 @@ echo "Launching desktop '<%= context.desktop %>'..."
 xfce_container=/apps/sofia/containers/xfce/xfce.sif
 if [ -e $xfce_container ]; then
     apptainer exec --nv \
-        --bind /usr:/host/usr \
         --bind /run/user:/run/user \
+        --bind /apps/sofia/containers/xfce/site:/usr/share/backgrounds/site/ \
+        --bind /var/spool/slurmd \
+        --bind /run/munge \
         $xfce_container \
         bash -s << 'END'
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
