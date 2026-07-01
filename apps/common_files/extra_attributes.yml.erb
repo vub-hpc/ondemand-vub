@@ -82,7 +82,8 @@
                     end
         data = data.merge("data-max-global-num-cores" => max_cores) if max_cores
         if name.to_s.match?(/_vis$/)
-          data = data.merge("data-max-global-advanced-num-nodes" => 1, "data-set-global-advanced-num-nodes" => "1")
+          data = data.merge("data-max-global-advanced-num-nodes" => 1, "data-set-global-advanced-num-nodes" => "1",
+                            "data-hide-auto-accounts" => true, "data-set-auto-accounts" => "vsc")
         else
           data = data.merge("data-max-global-advanced-num-nodes" => 16, "data-set-global-advanced-num-nodes" => "1")
         end

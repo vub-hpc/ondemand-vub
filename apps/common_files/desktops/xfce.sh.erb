@@ -157,20 +157,23 @@ AUTOSTART_SET_WALLPAPER=$OOD_SESSION_STAGED_ROOT/set_wallpaper.desktop
 cat > $AUTOSTART_SET_WALLPAPER <<EOF
 SITE_WALLPAPER=(/usr/share/backgrounds/site/*)
 SITE_WALLPAPER="\${SITE_WALLPAPER[0]}"
-if [ -f \$SITE_WALLPAPER ]; then
-    # Wait until xfce4-desktop is initialized on first launch
-    while ! xfconf-query -c xfce4-desktop -l 2>&1 | grep -q "backdrop"; do
-        sleep 1
-    done
-    # If current wallpaper is default one, change it to $SITE_WALLPAPER
-    output=\$(xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image 2>/dev/null)
-    if [[ "\$output" == "/usr/share/backgrounds/xfce/xfce-shapes.svg" ]] || \
+XFCE_DEFAULT="/usr/share/backgrounds/xfce/xfce-shapes.svg"
+# Wait until xfce4-desktop is initialized on first launch
+while ! xfconf-query -c xfce4-desktop -l 2>&1 | grep -q "backdrop"; do
+    sleep 1
+done
+output=\$(xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image 2>/dev/null)
+if [ -f "\$SITE_WALLPAPER" ]; then
+    if [[ "\$output" == "\$XFCE_DEFAULT" ]] || \
        [[ "\$output" == /usr/share/backgrounds/site/* ]]; then
-        echo "Setting wallpaper to \$SITE_WALLPAPER"
         xfconf-query -c xfce4-desktop \
           -p /backdrop/screen0/monitorVNC-0/workspace0/last-image \
           -s "\$SITE_WALLPAPER"
     fi
+elif [[ "\$output" == /usr/share/backgrounds/site/* ]]; then
+    xfconf-query -c xfce4-desktop \
+      -p /backdrop/screen0/monitorVNC-0/workspace0/last-image \
+      -s "\$XFCE_DEFAULT"
 fi
 EOF
 
