@@ -3,14 +3,14 @@
 
 # Install steps needed in %post which are identical to each cluster
 %define install_cluster_files() \
-install -pm644 %{_datadir}/ondemand-vub/%1/ood/profile %{_sysconfdir}/ood/profile ; \
-install -pm644 %{_datadir}/ondemand-vub/%1/locales/en.yml %{_sysconfdir}/ood/config/locales/en.yml ; \
-install -pm644 %{_datadir}/ondemand-vub/%1/html/custom_styles.css %{_localstatedir}/www/ood/public/custom_styles.css ; \
-install -pm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
+install -Dpm644 %{_datadir}/ondemand-vub/%1/ood/profile %{_sysconfdir}/ood/profile ; \
+install -Dpm644 %{_datadir}/ondemand-vub/%1/locales/en.yml %{_sysconfdir}/ood/config/locales/en.yml ; \
+install -Dpm644 %{_datadir}/ondemand-vub/%1/html/custom_styles.css %{_localstatedir}/www/ood/public/custom_styles.css ; \
+install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sysconfdir}/ood/config/ondemand.d/general_options.yml
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.49
+Version: 2.50
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Mon Jul 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add D parameter to install for when directory does not exist
 * Wed Jul 01 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add fallback for missing site wallpaper
 - Use vsc account on zen5_vis
