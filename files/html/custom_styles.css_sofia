@@ -111,7 +111,7 @@ h2, h3 {
 }
 
 /* increase dashboard logo size and center */
-.py-2 {
+img.py-2 {
   height: 5rem;
   margin-left: 16.6%;
 }
