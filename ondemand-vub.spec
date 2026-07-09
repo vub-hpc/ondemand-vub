@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.51
+Version: 2.52
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Thu Jul 09 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Adapt code-tunnel app for sofia
 * Mon Jul 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Restrict py-2 style override to img tags
 * Mon Jul 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>

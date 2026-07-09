@@ -1,10 +1,14 @@
 #!/bin/bash
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+DATA_DIR="<%= is_sofia ? '$HOME' : '$VSC_DATA' %>"
 
 # Make symlinks for ~/.vscode and ~/.vscode-server
 for dir in .vscode .vscode-server; do
     if [[ ! -e ~/"$dir" ]]; then
-        mkdir -v -p "$VSC_DATA/$dir"
-        ln -v -s "$VSC_DATA/$dir" ~/"$dir"
+        mkdir -v -p "$DATA_DIR/$dir"
+<% unless is_sofia %>
+        ln -v -s "$DATA_DIR/$dir" ~/"$dir" # already at $HOME on sofia
+<% end %>
     fi
 done
 
