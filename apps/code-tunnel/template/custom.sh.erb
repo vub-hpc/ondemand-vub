@@ -8,7 +8,28 @@ for dir in .vscode .vscode-server; do
     fi
 done
 
-module load code-cli
+modules_to_load=("code-cli")
+
+if [[ $USE_OLLAMA -eq 1 ]]; then
+    ollama_version=<%= context.ollama_version%>
+    case "${ollama_version}" in
+      0.5.12 )
+        modules_to_load+=("ollama/0.5.12-GCCcore-13.3.0-CUDA-12.6.0")
+        ;;
+      0.11.10 )
+        modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
+        ;;
+      0.15.6 )
+        modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
+        ;;
+      * )
+        echo "ERROR: Unsupported version selected"
+        exit 1
+        ;;
+    esac
+fi
+
+module load "${modules_to_load[@]}"
 
 OOD_CONTEXT_CLEANUP_LOGIN=<%= context.advanced_cleanup_login %>
 

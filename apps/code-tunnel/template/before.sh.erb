@@ -3,3 +3,25 @@
 <%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
 
 export OOD_APP_NAME="VS Code Tunnel"
+
+export USE_OLLAMA=<%= context.use_ollama %>
+
+if [[ $USE_OLLAMA -eq 1 ]]; then
+
+  if ! nvidia-smi >/dev/null 2>&1; then
+    echo No GPU detected, but Ollama option checked.
+    exit 1
+  fi
+
+  export OLLAMA_MODELS=${OLLAMA_MODELS:-"/databases/ollama"}
+
+  # slirp4netns complains about log socket names, so can't use session.staged_root
+  export SLIRP_SOCKET="$(mktemp)"
+
+
+  export OLLAMA_HOST=0.0.0.0:11434
+  export OLLAMA_MODELS=${OLLAMA_MODELS}
+  export OLLAMA_NOPRUNE="true"
+  export OLLAMA_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
+
+fi
