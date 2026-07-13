@@ -5,9 +5,6 @@
 # Benchmark info
 echo "TIMING - Starting main script at: $(date)"
 
-# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
-<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
-
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
@@ -23,9 +20,13 @@ if [ -e $xfce_container ]; then
         --bind /run/munge \
         $xfce_container \
         bash -s << 'END'
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
 END
 else
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
 fi
 
