@@ -2,6 +2,12 @@
 <% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
 DATA_DIR="<%= is_sofia ? '$HOME' : '$VSC_DATA' %>"
 
+<% if is_sofia %>
+export TUNNEL_DOMAIN="sofia"
+<% else %>
+export TUNNEL_DOMAIN="$(hostname -d | sed 's/.os$//')"
+<% end %>
+
 # Make symlinks for ~/.vscode and ~/.vscode-server
 for dir in .vscode .vscode-server; do
     if [[ ! -e ~/"$dir" ]]; then
