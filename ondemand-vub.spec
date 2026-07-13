@@ -104,7 +104,8 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
 * Mon Jul 13 2026 Jarne Renders <jarne.thijs.renders@vub.be>
-- Adapt code-tunnel app for sofia
+- Adapt rstudio, code-tunnel and code-server apps for sofia
+- Add better logging for code-tunnel
 * Mon Jul 13 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Load oodegl.sh inside VNC container on sofia
 * Mon Jul 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
