@@ -1,4 +1,6 @@
 #!/usr/bin/bash -l
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+DATA_DIR="<%= is_sofia ? '$HOME' : '$VSC_DATA' %>"
 
 <%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
@@ -8,15 +10,17 @@ echo "TIMING - Starting main script at: $(date)"
 # Make symlinks for ~/.vscode and ~/.vscode-server
 for dir in .vscode .vscode-server; do
     if [[ ! -e ~/"$dir" ]]; then
-        mkdir -v -p "$VSC_DATA/$dir"
-        ln -v -s "$VSC_DATA/$dir" ~/"$dir"
+        mkdir -v -p "$DATA_DIR/$dir"
+<% unless is_sofia %>
+        ln -v -s "$DATA_DIR/$dir" ~/"$dir" # already at $HOME on sofia
+<% end %>
     fi
 done
 
 module load code-server
 
-extensions_dir="${VSC_DATA}/.config/code-server/extensions"
-data_dir="${VSC_DATA}/.config/code-server/data"
+extensions_dir="${DATA_DIR}/.config/code-server/extensions"
+data_dir="${DATA_DIR}/.config/code-server/data"
 
 mkdir -p "$extensions_dir"
 mkdir -p "$data_dir"
