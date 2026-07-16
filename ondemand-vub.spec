@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.53
+Version: 2.54
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Thu Jul 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Improve sofia access denied message with VSC hub instructions
 * Mon Jul 13 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt rstudio, code-tunnel and code-server apps for sofia
 - Add better logging for code-tunnel
