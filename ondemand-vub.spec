@@ -103,7 +103,7 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
-* Thu Jul 63 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Thu Jul 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Adapt slicer app for sofia
 * Thu Jul 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Improve sofia access denied message with VSC hub instructions
