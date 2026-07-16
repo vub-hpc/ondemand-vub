@@ -15,8 +15,9 @@ if [ -n "$PUNUSER" ]; then
     # This only stops pun startup. Pre-existing puns should be cleaned in <2 hours via cron.
     logger -- "Checking whether $PUNUSER is in bsofia_projects and pun should be started"
     if [[ "$1" == "pun" ]] && ! id -Gn "$PUNUSER" 2>/dev/null | grep -qw 'bsofia_projects'; then
-        echo "Access denied: $PUNUSER is not authorized to use this system." >&2
-        echo "User $PUNUSER is not part of the bsofia_projects group." >&2
+        echo "Access denied: $PUNUSER is not a member of an active Tier-1 compute project on sofia." >&2
+        echo "Note that access to sofia is managed through the VSC hub, not the account.vscentrum.be account page." >&2
+        echo "See https://docs.vscentrum.be/brussel/tier1_sofia.html#getting-access for how to request or join a project." >&2
         echo "Please contact the support team (support@vscentrum.be) if you believe this is an error." >&2
         exit 1
     fi
