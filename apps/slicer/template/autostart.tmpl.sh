@@ -1,6 +1,6 @@
 app_port=1527
 server_name="nninteractive-slicer-server"
-server_image="/apps/brussel/containers/$server_name/$NNI_SVR_VER/$server_name-$NNI_SVR_VER.sif"
+server_image="$APPS_DIR/containers/$server_name/$NNI_SVR_VER/$server_name-$NNI_SVR_VER.sif"
 
 [[ -z $APPTAINERENV_HF_HUB_OFFLINE ]] && export APPTAINERENV_HF_HUB_OFFLINE=1
 [[ -z $NNINTERACTIVE_WEIGHTS ]] && export NNINTERACTIVE_WEIGHTS="/databases/bio/nninteractive-slicer-server/$NNI_SVR_VER/weights"
