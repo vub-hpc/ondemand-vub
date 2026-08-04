@@ -14,12 +14,11 @@ Rails.application.config.after_initialize do
       end
     end
 
-    # add an entry for each T1 project the user belongs to, e.g.
-    # VSC_T1_PROJECTS=2026_055:2026_056 -> "#{VSC_SCRATCH_PROJECTS_BASE}/2026_055", "#{VSC_SCRATCH_PROJECTS_BASE}/2026_056"
-    if ENV.has_key?("VSC_SCRATCH_PROJECTS_BASE") && ENV.has_key?("VSC_T1_PROJECTS")
-      projects_base = ENV["VSC_SCRATCH_PROJECTS_BASE"]
+    # add an entry for each Tier-1 project the user belongs to on sofia, e.g.
+    # VSC_T1_PROJECTS=2026_055:2026_056 -> "/sofia/projects/2026_055", "/sofia/projects/2026_056"
+    if ENV.has_key?("VSC_T1_PROJECTS")
       ENV["VSC_T1_PROJECTS"].split(":").each do |project|
-        paths << FavoritePath.new(Pathname.new("#{projects_base}/#{project}"), title: "Project #{project}")
+        paths << FavoritePath.new(Pathname.new("/sofia/projects/#{project}"), title: "Project #{project}")
       end
     end
 

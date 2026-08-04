@@ -28,4 +28,25 @@ if [ -n "$PUNUSER" ]; then
     export OOD_DATAROOT="${VSC_SCRATCH}/.ondemand/${VSC_INSTITUTE_LOCAL:-data}/"
 
     runuser -u "${PUNUSER}" bash /etc/profile.d/vscautokey.sh &
+
+    # Single source of truth for the naming scheme:
+    VSC_T1_GROUP_PREFIX=bsofia_proj_
+
+    # id -nG lists all group names of the current user, space separated.
+    # sed -n 's/^prefix//p' both filters and strips in one pass.
+    # paste joins with ':'.
+    VSC_T1_PROJECTS=$(id -nG ${PUNUSER} \
+        | tr ' ' '\n' \
+        | sed -n "s/^${VSC_T1_GROUP_PREFIX}//p" \
+        | sort \
+        | paste -sd: -)
+
+    # Only export when the user actually has Tier-1 projects, so scripts can
+    # test with [ -n "$VSC_T1_PROJECTS" ] instead of distinguishing empty vs unset.
+    if [ -n "$VSC_T1_PROJECTS" ]; then
+        export VSC_T1_PROJECTS
+    else
+        unset VSC_T1_PROJECTS
+    fi
+    unset VSC_T1_GROUP_PREFIX
 fi
