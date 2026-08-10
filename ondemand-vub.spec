@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.56
+Version: 2.57
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Mon Aug 10 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Limit max hours to 72 on sofia
 * Mon Aug 03 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Export VSC_T1_PROJECTS in sofia profile and add per-project favorite paths in Files app
 * Thu Jul 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
