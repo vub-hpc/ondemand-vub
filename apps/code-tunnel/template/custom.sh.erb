@@ -12,13 +12,36 @@ for dir in .vscode .vscode-server; do
     fi
 done
 
-module load code-cli
+modules_to_load=("code-cli")
+
+<% unless is_sofia %>
+if [[ $USE_OLLAMA -eq 1 ]]; then
+    ollama_version=<%= context.ollama_version%>
+    case "${ollama_version}" in
+      0.5.12 )
+        modules_to_load+=("ollama/0.5.12-GCCcore-13.3.0-CUDA-12.6.0")
+        ;;
+      0.11.10 )
+        modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
+        ;;
+      0.15.6 )
+        modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
+        ;;
+      * )
+        echo "ERROR: Unsupported version selected"
+        exit 1
+        ;;
+    esac
+fi
+<% end %>
+
+module load "${modules_to_load[@]}"
 
 OOD_CONTEXT_CLEANUP_LOGIN=<%= context.advanced_cleanup_login %>
 
 if [[ "$OOD_CONTEXT_CLEANUP_LOGIN" -eq 1 ]]; then
     tokfn=~/.vscode/cli/token.json
-    echo "Cleaning up local token file $fn"
+    echo "Cleaning up local token file $tokfn"
     rm -f "$tokfn"
 fi
 
@@ -28,22 +51,22 @@ confdir=$(dirname "$TCONF_BUNDLE")
 export TCONF="$confdir/custom_final.conf"
 
 custom="$confdir/custom.conf"
-cat > $custom<<EOF
+cat > "$custom"<<EOF
 new-session -d -s $TSES
 set -g status off #NOTE: this will disable the status bar (green text in the bottom)
 pipe-pane -o -t $TSES 'cat >> $OOD_SESSION_STAGED_ROOT/tunnel_session.log'
 EOF
 
-IFS=$'\n' # set the Internal Field Separator to newline
-for line in $(cat "$confdir/custom_commands.conf"); do
+while IFS=$'\n' read -r line; do
+    [ -z "$line" ] && continue
     if [ "$line" == "reset" ]; then
         export TMUX_WAITFOR=CUSTOMCHANNEL
         # must release the lock from within, so must be run as command in shell
         # so not : echo "wait-for -S $TMUX_WAITFOR" >> $custom
-        echo "send-keys -t $TSES \"tmux -S $TSOCK wait-for -S $TMUX_WAITFOR\" C-m" >> $custom
+        echo "send-keys -t $TSES \"tmux -S $TSOCK wait-for -S $TMUX_WAITFOR\" C-m" >> "$custom"
     fi
-    cmd=$(echo "$line" | sed 's/"/\\\"/g')
-    echo "send-keys -t $TSES \"$cmd\" C-m" >> $custom
-done
+    cmd=${line//\"/\\\"}
+    echo "send-keys -t $TSES \"$cmd\" C-m" >> "$custom"
+done < "$confdir/custom_commands.conf"
 
 cat "$TCONF_BUNDLE" "$custom" > "$TCONF"

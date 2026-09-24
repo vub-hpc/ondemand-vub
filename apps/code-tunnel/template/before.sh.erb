@@ -3,3 +3,27 @@
 <%= ERB.new(File.read('../common_files/job_environment.sh.erb'), eoutvar: 'child').result(binding) %>
 
 export OOD_APP_NAME="VS Code Tunnel"
+
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+# ollama not on sofia yet
+export USE_OLLAMA=<%= is_sofia ? '0' : context.use_ollama %>
+export OLLAMA_GPU_MISSING=0
+
+if (( USE_OLLAMA )); then
+
+  if ! nvidia-smi >/dev/null 2>&1; then
+    # GPU missing -> custom_commands gives hard error
+    export OLLAMA_GPU_MISSING=1
+  else
+    export OLLAMA_MODELS=${OLLAMA_MODELS:-"/databases/ollama"}
+
+    # slirp4netns complains about log socket names, so can't use session.staged_root
+    SLIRP_SOCKET="$(mktemp)"
+    export SLIRP_SOCKET
+
+    export OLLAMA_HOST=0.0.0.0:11434
+    export OLLAMA_NOPRUNE="true"
+    export OLLAMA_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
+  fi
+
+fi
