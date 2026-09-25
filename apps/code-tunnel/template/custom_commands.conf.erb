@@ -18,7 +18,7 @@
 export VSCODE_CLI_USE_FILE_KEYCHAIN=1
 reset
 stty -echo
-echo; echo "Copy the device code, open the url and paste it to create the tunnel vsc-$USER-$(hostname -d | sed 's/.os$//')"; echo
+echo; echo "Copy the device code, open the url and paste it to create the tunnel vsc-$USER-$VSC_INSTITUTE_CLUSTER"; echo
 
 <% # Without ollama, directly start up the code tunnel
 # With ollama, hard error without GPU, otherwise run run_namespace.sh
@@ -28,5 +28,5 @@ echo; echo "Copy the device code, open the url and paste it to create the tunnel
 if (( OLLAMA_GPU_MISSING )); then <%= gpu_missing_cmds.join('; ') %>; else <%= gpu_ok_cmds.join('; ') %>; fi
 <% else %>
 stty echo
-code tunnel --accept-server-license-terms --name "vsc-$USER-$(hostname -d | sed 's/.os$//')"
+code tunnel --accept-server-license-terms --name "vsc-$USER-$VSC_INSTITUTE_CLUSTER"
 <% end %>

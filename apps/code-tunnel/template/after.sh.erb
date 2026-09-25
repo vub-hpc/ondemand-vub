@@ -9,7 +9,7 @@ if (( USE_OLLAMA && !OLLAMA_GPU_MISSING )); then
   SECONDS=0
   while [ ! -s "$OOD_SESSION_STAGED_ROOT/ns.pid" ] && [ "$SECONDS" -lt 15 ]; do sleep .5; done
   [ -s "$OOD_SESSION_STAGED_ROOT/ns.pid" ] || echo "WARNING: timed out waiting for unshare, proceeding anyway"
-  UNSHARE_PID="$(cat "$OOD_SESSION_STAGED_ROOT/ns.pid")"
+  UNSHARE_PID="$(< "$OOD_SESSION_STAGED_ROOT/ns.pid")"
 
   echo "Starting network interface"
 

@@ -6,4 +6,4 @@ while [ ! -s "$OOD_SESSION_STAGED_ROOT/slirp_ready" ] && [ "$SECONDS" -lt 15 ]; 
 [ -s "$OOD_SESSION_STAGED_ROOT/slirp_ready" ] || echo "WARNING: timed out waiting for network readiness signal from slirp4netns, proceeding anyway"
 
 ollama serve > "$OOD_SESSION_STAGED_ROOT/ollama.log" 2>&1 &
-code tunnel --accept-server-license-terms --name "vsc-$USER-$(hostname -d | sed 's/.os$//')"
+code tunnel --accept-server-license-terms --name "vsc-$USER-$VSC_INSTITUTE_CLUSTER"
