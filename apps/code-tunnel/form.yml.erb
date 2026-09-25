@@ -60,12 +60,10 @@ form:
   - global_working_dir
   - global_prerun
   - bc_email_on_started
+  - global_advanced
 <% unless is_sofia %>
   - use_ollama
   - ollama_version
-<% end %>
-  - global_advanced
-<% unless is_sofia %>
   - auto_queues
 <% end %>
   - global_advanced_num_nodes
