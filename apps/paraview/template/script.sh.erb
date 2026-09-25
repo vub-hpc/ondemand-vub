@@ -1,5 +1,7 @@
 #!/usr/bin/bash -l
 
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+
 <%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
 
 # Benchmark info
@@ -10,12 +12,14 @@ TOOLCHAIN=<%= context.toolchain %>
 modules_to_load=()
 
 case "${TOOLCHAIN}" in
+<% if is_sofia %>
   2023a )
     modules_to_load+=("ParaView/5.11.2-foss-2023a")
     ;;
   2024a )
     modules_to_load+=("ParaView/5.13.2-foss-2024a")
     ;;
+<% end %>
   2025a )
     modules_to_load+=("ParaView/6.0.1-foss-2025a")
     ;;
@@ -25,19 +29,35 @@ case "${TOOLCHAIN}" in
     ;;
 esac
 
-# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
-<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
-
 <%- unless context.global_prerun.empty? -%>
 <%= context.global_prerun.gsub("\r", "") %>
 <%- end -%>
 
-cat >$OOD_SESSION_STAGED_ROOT/autostart.sh <<EOF
+cat > "$OOD_SESSION_STAGED_ROOT/autostart.sh" <<EOF
 bash -c 'echo Starting ParaView ... && module load ${modules_to_load[@]} && vglrun paraview'
 EOF
 
 # Start up desktop
 echo "Launching desktop '<%= context.desktop %>'..."
+xfce_container=/apps/sofia/containers/xfce/xfce.sif
+if [ -e "$xfce_container" ]; then
+    echo "as a container."
+    apptainer exec --nv \
+        --bind /run/user:/run/user \
+        --bind /apps/sofia/containers/xfce/site:/usr/share/backgrounds/site/ \
+        --bind /var/spool/slurmd \
+        --bind /run/munge \
+        "$xfce_container" \
+        bash -s << 'END'
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
 <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+END
+else
+    echo "on host."
+    # Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+    <%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>
+    <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'child').result(binding) %>
+fi
 
 echo "Desktop '<%= context.desktop %>' ended with $? status..."
