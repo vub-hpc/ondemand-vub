@@ -20,6 +20,6 @@ if (( USE_OLLAMA && !OLLAMA_GPU_MISSING )); then
     --ready-fd=3 \
     --api-socket "$SLIRP_SOCKET" \
     "$UNSHARE_PID" \
-    tap0 3>"$OOD_SESSION_STAGED_ROOT/slirp_ready" > "$OOD_SESSION_STAGED_ROOT/network.log" &
+    tap0 3>"$OOD_SESSION_STAGED_ROOT/slirp_ready" &> "$OOD_SESSION_STAGED_ROOT/network.log" &
 fi
 
