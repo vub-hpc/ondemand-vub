@@ -12,7 +12,7 @@ TOOLCHAIN=<%= context.toolchain %>
 modules_to_load=()
 
 case "${TOOLCHAIN}" in
-<% if is_sofia %>
+<% unless is_sofia %>
   2023a )
     modules_to_load+=("ParaView/5.11.2-foss-2023a")
     ;;
