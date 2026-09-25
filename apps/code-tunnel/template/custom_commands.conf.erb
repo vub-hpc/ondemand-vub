@@ -1,0 +1,32 @@
+<%
+  gpu_missing_cmds = [
+    'stty echo',
+    'echo',
+    'echo "################################################################"',
+    'echo "# ERROR: Ollama was requested but no (fraction of) GPU was     #"',
+    'echo "# allocated to this job, so Ollama cannot run.                 #"',
+    'echo "# Cancel this session and resubmit with (fraction of) GPU > 0. #"',
+    'echo "################################################################"',
+    'echo',
+  ]
+  gpu_ok_cmds = [
+    'stty echo',
+    'unshare -nr bash $OOD_SESSION_STAGED_ROOT/run_namespace.sh',
+  ]
+%>
+
+export VSCODE_CLI_USE_FILE_KEYCHAIN=1
+reset
+stty -echo
+echo; echo "Copy the device code, open the url and paste it to create the tunnel vsc-$USER-$VSC_INSTITUTE_CLUSTER"; echo
+
+<% # Without ollama, directly start up the code tunnel
+# With ollama, hard error without GPU, otherwise run run_namespace.sh
+# Which starts unshare namespace, ollama server in bg and then code tunnel %>
+<% is_sofia = OodAppkit.clusters.any? { |c| c.id.to_s == "sofia" } %>
+<% if !is_sofia && context.use_ollama.to_s == '1' %>
+if (( OLLAMA_GPU_MISSING )); then <%= gpu_missing_cmds.join('; ') %>; else <%= gpu_ok_cmds.join('; ') %>; fi
+<% else %>
+stty echo
+code tunnel --accept-server-license-terms --name "vsc-$USER-$VSC_INSTITUTE_CLUSTER"
+<% end %>
