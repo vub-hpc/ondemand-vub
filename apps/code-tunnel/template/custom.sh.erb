@@ -15,26 +15,21 @@ done
 modules_to_load=("code-cli")
 
 <% unless is_sofia %>
-if [[ $USE_OLLAMA -eq 1 ]]; then
-    ollama_version=<%= context.ollama_version%>
-    case "${ollama_version}" in
-      0.5.12 )
-        modules_to_load+=("ollama/0.5.12-GCCcore-13.3.0-CUDA-12.6.0")
-        ;;
-      0.11.10 )
-        modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
-        ;;
-      0.15.6 )
-        modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
-        ;;
-      * )
-        echo "ERROR: Unsupported version selected"
-        exit 1
-        ;;
-    esac
+<%
+  ollama_versions = YAML.load(ERB.new(File.read(session.app.root.join("ollama_versions.yml.erb")), eoutvar: "@ollama_versions_erb").result(binding))
+  ollama_module = ollama_versions.find { |v| v['version'] == context.ollama_version.to_s }
+%>
+if (( USE_OLLAMA )); then
+<% if ollama_module %>
+    modules_to_load+=("<%= ollama_module['module'] %>")
+<% else %>
+    echo "ERROR: Unsupported Ollama version selected: <%= context.ollama_version %>"
+    exit 1
+<% end %>
 fi
 <% end %>
 
+echo "Modules to load: ${modules_to_load[*]}"
 module load "${modules_to_load[@]}"
 
 OOD_CONTEXT_CLEANUP_LOGIN=<%= context.advanced_cleanup_login %>
