@@ -103,8 +103,9 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
-* Mon Sep 25 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+* Mon Oct 02 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Deploy ParaView on sofia
+- Extract desktop launch logic to file
 * Mon Sep 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix multinode submission in common_submit
 * Mon Aug 10 2026 Jarne Renders <jarne.thijs.renders@vub.be>
