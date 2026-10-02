@@ -1,0 +1,31 @@
+# This file extracts the common logic to launch desktops
+# as this is duplicated code across multiple apps.
+
+# This file is pulled in via eoutvar: 'child'.
+# Any ERB.new here needs an eoutvar different from 'child'.
+
+# Start up desktop
+echo "Launching desktop '<%= context.desktop %>'..."
+xfce_container=/apps/sofia/containers/xfce/xfce.sif
+if [ -e "$xfce_container" ]; then
+    echo "Launched as a container."
+    apptainer exec --nv \
+        --bind /run/user:/run/user \
+        --bind /apps/sofia/containers/xfce/site:/usr/share/backgrounds/site/ \
+        --bind /var/spool/slurmd \
+        --bind /run/munge \
+        --bind /databases \
+        "$xfce_container" \
+        bash -s << 'END'
+# Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+<%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'nested').result(binding) %>
+<%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'nested').result(binding) %>
+END
+else
+    echo "Launched on host."
+    # Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
+    <%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'nested').result(binding) %>
+    <%= ERB.new(File.read("../common_files/desktops/#{context.desktop}.sh.erb"), eoutvar: 'nested').result(binding) %>
+fi
+
+echo "Desktop '<%= context.desktop %>' ended with $? status..."
