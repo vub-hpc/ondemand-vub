@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.59
+Version: 2.60
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -103,6 +103,9 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Mon Oct 02 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Deploy ParaView on sofia
+- Extract desktop launch logic to file
 * Mon Sep 24 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add Ollama option to code-tunnel
 * Mon Sep 11 2026 Jarne Renders <jarne.thijs.renders@vub.be>
