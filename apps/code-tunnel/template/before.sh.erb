@@ -24,6 +24,10 @@ if (( USE_OLLAMA )); then
     export OLLAMA_HOST=0.0.0.0:11434
     export OLLAMA_NOPRUNE="true"
     export OLLAMA_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
+    # increase keep alive from 5 to 15 min
+    export OLLAMA_KEEP_ALIVE=15m
+    # increase timeout from 30s to 300s
+    export OLLAMA_REQUEST_TIMEOUT=300s
   fi
 
 fi
