@@ -1,0 +1,7 @@
+---
+name: Spark Job Submission
+category: Interactive Apps
+subcategory: Servers
+role: batch_connect
+description: |
+  Submit a Spark job jar to the course's running Spark master on gulon.

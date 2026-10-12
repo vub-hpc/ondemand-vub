@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+# Do not source user profile (no -l); source /etc/profile instead
+source /etc/profile
+
+# Temporary: could make this a symlink to datasets on Hydra?
+cp ~/otto-tiny.jsonl /tmp
+
+# Use <session_dir>/results as working dir
+mkdir -p "$OOD_SESSION_STAGED_ROOT/results"
+cd "$OOD_SESSION_STAGED_ROOT/results"
+
+# --- TEMPORARY TESTING PLACEHOLDER ---
+# Remove/replace this MODULEPATH override once Spark is installed
+# system-wide for gulon. (Probably a module in new 2026.1 toolchain.)
+export MODULEPATH=/scratch/brussel/vo/000/bvo00005/vsc11353/easybuild/install/zen5/modules/all:/apps/brussel/RL9/zen2/modules/system/all:/apps/brussel/RL9/zen2/modules/2025a/all/
+module load Spark
+
+# Run in background not in tmux (since that reruns upon every reconnect)
+spark-submit \
+  --master spark://10.67.20.10:7077 \
+  --deploy-mode client \
+  --conf spark.driver.host=134.184.143.149 \  # Public IP of node070
+  --conf spark.driver.port=37000 \  # Workers communicate to node070 through these two ports
+  --conf spark.driver.blockManager.port=37001 \
+  --class "<%= context.main_class %>" \
+  "<%= context.jar_path %>" "<%= context.dataset %>" > spark-submit.log 2>&1 &
+export SPARK_SUBMIT_PID=$!
+
+(
+<%= ERB.new(File.read('../common_files/launch_ttyd_tmux.sh.erb'), eoutvar: 'child').result(binding) %>
+) &
+
+# End when spark job finished
+wait "$SPARK_SUBMIT_PID"
+echo "Your results are saved in the 'results' folder for this session. To open it, go to the \"My Interactive Sessions\" page in Open OnDemand, click the Session ID link for this job and click results." >> spark-submit.log
+echo "The current session ID is: $(basename "$OOD_SESSION_STAGED_ROOT")" >> spark-submit.log
+sleep 5

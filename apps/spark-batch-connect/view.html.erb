@@ -1,0 +1,16 @@
+<%
+  # generate form id, based on host and port
+  require 'digest'
+  form_id = Digest::SHA1.hexdigest("--" + host.to_s + "--" + port.to_s + "--")
+%>
+<script type="text/javascript">
+  function get_<%= form_id %>_action(form) {
+      form.action = "https://" + window.location.host + "/node/<%= host %>/<%= port %>/?arg=<%= password %>"
+  }
+</script>
+<form id="<%= form_id %>" method="post" target="_blank" onsubmit="get_<%= form_id %>_action(this)">
+  <button class="btn btn-primary" type="submit">
+    <i class="fa fa-eye"></i> View Spark Job
+  </button>
+
+</form>
