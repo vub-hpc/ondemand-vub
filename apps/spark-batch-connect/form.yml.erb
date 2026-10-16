@@ -1,0 +1,38 @@
+---
+attributes:
+  advanced_font_size: 16
+  advanced_tmux_config: "1"
+  global_prerun: ""
+
+  cluster:
+    widget: "select"
+    help: "Spark Job Submission can only be run on Gulon."
+    options:
+      - ['gulon', 'gulon']
+
+  jar_path:
+    widget: "path_selector"
+    label: "Jar file"
+    help: "Upload your jar via the Files app first, then select it here."
+    show_files: true
+    file_pattern: "\\.jar$"
+
+  dataset:
+    widget: "select"
+    label: "Dataset"
+    options:
+      - ["otto-tiny", "/tmp/otto-tiny.jsonl"]
+
+  main_class:
+    widget: "text_field"
+    label: "Main class"
+    placeholder: "example.Hello"
+
+form:
+  - cluster
+  - jar_path
+  - dataset
+  - main_class
+  - advanced_font_size
+  - advanced_tmux_config
+  - global_prerun
