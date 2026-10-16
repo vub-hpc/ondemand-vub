@@ -97,12 +97,18 @@ done
 # 2610114 is the gid for the babaqus group
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
+# 2610399 is the gid for the bbigdata2627 group
+chown root:2610399 %{_localstatedir}/www/ood/apps/sys/spark-batch-connect
+chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark-batch-connect
 
 %post sofia
 %install_cluster_files sofia
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Fri Oct 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add Spark submit job for big data course (only visible
+  to bbigdata2627 group)
 * Mon Oct 02 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Deploy ParaView on sofia
 - Extract desktop launch logic to file
