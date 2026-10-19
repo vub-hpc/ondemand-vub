@@ -98,8 +98,8 @@ done
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
 # 2610399 is the gid for the bbigdata2627 group
-chown root:2610399 %{_localstatedir}/www/ood/apps/sys/spark-batch-connect
-chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark-batch-connect
+chown root:2610399 %{_localstatedir}/www/ood/apps/sys/spark
+chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark
 
 %post sofia
 %install_cluster_files sofia
