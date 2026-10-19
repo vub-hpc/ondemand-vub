@@ -1,0 +1,4 @@
+<%= ERB.new(File.read('../common_files/wait_server_start.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# wait for tmux socket and optional release of wait-for
+$OOD_SESSION_STAGED_ROOT/waitfor_tmux.sh

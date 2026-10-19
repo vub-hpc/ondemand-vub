@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.60
+Version: 2.61
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -97,12 +97,18 @@ done
 # 2610114 is the gid for the babaqus group
 chown root:2610114 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0750 %{_localstatedir}/www/ood/apps/sys/abaqus
+# 2610399 is the gid for the bbigdata2627 group
+chown root:2610399 %{_localstatedir}/www/ood/apps/sys/spark
+chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark
 
 %post sofia
 %install_cluster_files sofia
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Fri Oct 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add Spark submit job for big data course (only visible
+  to bbigdata2627 group)
 * Mon Oct 02 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Deploy ParaView on sofia
 - Extract desktop launch logic to file

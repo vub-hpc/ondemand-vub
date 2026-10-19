@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Merge custom config with bundled one. The tmux session will just tail the spark-submit log
+# With remain-on-exit=off the session closes if the tail ends
+# So users cannot execute commands in the tmux shell
+confdir=$(dirname "$TCONF_BUNDLE")
+
+export TCONF="$confdir/custom_final.conf"
+
+# custom_commands.conf.erb is expected to contain exactly one line - the
+# single command to run as the pane's process.
+viewer_cmd=$(cat "$confdir/custom_commands.conf")
+
+custom="$confdir/custom.conf"
+cat > "$custom"<<EOF
+new-session -d -s $TSES "$viewer_cmd"
+set -g status off #NOTE: this will disable the status bar (green text in the bottom)
+EOF
+
+cat "$TCONF_BUNDLE" "$custom" > "$TCONF"
