@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.60
+Version: 2.61
 Release: 1
 BuildArch: noarch
 License: GPL
