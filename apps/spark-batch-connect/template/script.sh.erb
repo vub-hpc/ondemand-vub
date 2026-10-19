@@ -2,6 +2,9 @@
 # Do not source user profile (no -l); source /etc/profile instead
 source /etc/profile
 
+# Temporary: could make this a symlink to datasets on Hydra?
+cp ~/otto-tiny.jsonl /tmp
+
 # Use <session_dir>/results as working dir
 mkdir -p "$OOD_SESSION_STAGED_ROOT/results"
 cd "$OOD_SESSION_STAGED_ROOT/results"
