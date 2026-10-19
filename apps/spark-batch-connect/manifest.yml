@@ -1,7 +1,7 @@
 ---
 name: Spark Job Submission
-category: Big Data Course
-subcategory: Servers
+category: Interactive Apps
+subcategory: Big Data Course
 role: batch_connect
 description: |
   Submit a Spark job jar to the course's big data cluster.
