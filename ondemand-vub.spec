@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.61
+Version: 2.62
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -106,6 +106,8 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 
 %changelog
+* Fri Oct 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Add two more datasets to the Spark submit form
 * Fri Oct 16 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Add Spark submit job for big data course (only visible
   to bbigdata2627 group)
