@@ -1,0 +1,16 @@
+#!/usr/bin/bash -l
+
+<%= ERB.new(File.read('../common_files/work_directory_change.sh.erb'), eoutvar: 'child').result(binding) %>
+
+# Benchmark info
+echo "TIMING - Starting main script at: $(date)"
+
+<%- unless context.global_prerun.empty? -%>
+<%= context.global_prerun.gsub("\r", "") %>
+<%- end -%>
+
+# Load the course environment in every terminal opened inside the desktop
+chmod +x "$OOD_SESSION_STAGED_ROOT/cfd_shell.sh"
+export SHELL="$OOD_SESSION_STAGED_ROOT/cfd_shell.sh"
+
+<%= ERB.new(File.read('../common_files/desktops/desktop_launch.sh.erb'), eoutvar: 'child').result(binding) %>

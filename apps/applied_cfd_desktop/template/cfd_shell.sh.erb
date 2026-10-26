@@ -1,0 +1,10 @@
+#!/bin/bash
+# Used as $SHELL inside the desktop, so that xfce4-terminal starts every
+# terminal (window or tab) with the course environment loaded
+
+# Non-interactive use (e.g. `$SHELL -c cmd`): behave like plain bash
+if [ $# -gt 0 ]; then
+    exec /bin/bash "$@"
+fi
+
+exec /bin/bash --rcfile "<%= session.staged_root %>/cfd_bashrc.sh" -i

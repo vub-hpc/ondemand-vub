@@ -1,0 +1,9 @@
+---
+name: Applied CFD 2026-2027
+icon: fa://desktop
+category: Interactive Apps
+subcategory: Courses
+role: batch_connect
+description: |
+  Launch a graphical desktop for the Applied CFD course. Every terminal
+  opened in the desktop has OpenFOAM, SciPy-bundle and matplotlib loaded.
