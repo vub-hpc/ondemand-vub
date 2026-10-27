@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.63
+Version: 2.64
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -105,8 +105,12 @@ chmod 0750 %{_localstatedir}/www/ood/apps/sys/spark
 %install_cluster_files sofia
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
 
 %changelog
+* Tue Oct 27 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Submit Spark jobs with the gulon_ood QoS
+- Hide Spark app on sofia
 * Mon Oct 26 2026 Samuel Moors <samuel.moors@vub.be>
 - Add Applied CFD 2026-2027 desktop app under new Courses section
   (hidden on sofia)
