@@ -1,0 +1,13 @@
+# Emulate a login shell (as xfce4-terminal is configured to start one)
+[ -f /etc/profile ] && source /etc/profile
+for profile in ~/.bash_profile ~/.bash_login ~/.profile; do
+    if [ -f "$profile" ]; then
+        source "$profile"
+        break
+    fi
+done
+unset profile
+
+# Load the course environment
+echo "Preparing CFD environment, please wait..."
+source "<%= session.staged_root %>/start-cfd.sh"
