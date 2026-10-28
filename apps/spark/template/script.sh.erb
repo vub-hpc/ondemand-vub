@@ -16,6 +16,9 @@ module load Spark/4.2.0-gfbf-2026.1-Java-21
 spark-submit \
   --master spark://10.67.20.10:7077 \
   --deploy-mode client \
+  --executor-cores 4 \
+  --executor-memory 16g \
+  --conf spark.cores.max=32 \
   --conf spark.driver.host=134.184.143.149 \
   --conf spark.driver.port=37000 \
   --conf spark.driver.blockManager.port=37001 \

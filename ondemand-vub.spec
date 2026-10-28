@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.64
+Version: 2.65
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -108,6 +108,8 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
 
 %changelog
+* Wed Oct 28 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Set Spark executor resources (4 cores, 16g) and cap total cores at 32
 * Tue Oct 27 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Submit Spark jobs with the gulon_ood QoS
 - Hide Spark app on sofia
