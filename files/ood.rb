@@ -16,9 +16,10 @@ Rails.application.config.after_initialize do
 
     # add an entry for each Tier-1 project the user belongs to on sofia, e.g.
     # VSC_T1_PROJECTS=2026_055:2026_056 -> "/sofia/projects/2026_055", "/sofia/projects/2026_056"
+    # Directories are lower case, whereas the project name might not be
     if ENV.has_key?("VSC_T1_PROJECTS")
       ENV["VSC_T1_PROJECTS"].split(":").each do |project|
-        paths << FavoritePath.new(Pathname.new("/sofia/projects/#{project}"), title: "Project #{project}")
+        paths << FavoritePath.new(Pathname.new("/sofia/projects/#{project.downcase}"), title: "Project #{project}")
       end
     end
 
