@@ -108,6 +108,8 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
 
 %changelog
+* Tue Nov 10 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Fix second issue with - and _ in file exlorer
 * Fri Nov 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix issue in file explorer for new sofia projects
 * Wed Oct 28 2026 Jarne Renders <jarne.thijs.renders@vub.be>
