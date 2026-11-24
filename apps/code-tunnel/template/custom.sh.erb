@@ -14,18 +14,22 @@ done
 
 modules_to_load=("code-cli")
 
-<% unless is_sofia %>
-<%
-  ollama_versions = YAML.load(ERB.new(File.read(session.app.root.join("ollama_versions.yml.erb")), eoutvar: "@ollama_versions_erb").result(binding))
-  ollama_module = ollama_versions.find { |v| v['version'] == context.ollama_version.to_s }
-%>
-if (( USE_OLLAMA )); then
-<% if ollama_module %>
-    modules_to_load+=("<%= ollama_module['module'] %>")
-<% else %>
-    echo "ERROR: Unsupported Ollama version selected: <%= context.ollama_version %>"
-    exit 1
-<% end %>
+# Optionally load ollama on Hydra
+<% if !is_sofia and context.use_ollama.to_s == '1' %>
+ollama_cuda_versions=$(module -t avail ollama/ 2>/dev/null | grep "^ollama/.*CUDA")
+
+# Drop CUDA versions > 12 for pascal
+if [[ $VSC_ARCH_LOCAL == "broadwell" ]]; then
+  ollama_cuda_versions=$(echo "$ollama_cuda_versions" | \
+    awk -F'CUDA-' '{ split($2, version, "[.]"); if (version[1] <= 12) print }')
+fi
+
+# Pick latest version
+if [[ -n $ollama_cuda_versions ]]; then
+  modules_to_load+=( "$(echo "$ollama_cuda_versions" | sort -V | tail -1)" )
+else
+  echo "ERROR: No supported versions"
+  exit 1
 fi
 <% end %>
 
@@ -40,7 +44,7 @@ if [[ "$OOD_CONTEXT_CLEANUP_LOGIN" -eq 1 ]]; then
     rm -f "$tokfn"
 fi
 
-# Merge custom confi with bundled config
+# Merge custom config with bundled config
 confdir=$(dirname "$TCONF_BUNDLE")
 
 export TCONF="$confdir/custom_final.conf"

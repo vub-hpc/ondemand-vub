@@ -5,30 +5,23 @@
 # Benchmark info
 echo "TIMING - Starting main script at: $(date)"
 
-VERSION=<%= context.ollama_version%>
+ollama_cuda_versions=$(module -t avail ollama/ 2>/dev/null | grep "^ollama/.*CUDA")
 
-modules_to_load=()
+# Drop CUDA versions > 12 for pascal
+if [[ $VSC_ARCH_LOCAL == "broadwell" ]]; then
+  ollama_cuda_versions=$(echo "$ollama_cuda_versions" | \
+    awk -F'CUDA-' '{ split($2, version, "[.]"); if (version[1] <= 12) print }')
+fi
 
-case "${VERSION}" in
-  0.5.12 )
-    modules_to_load+=("ollama/0.5.12-GCCcore-13.3.0-CUDA-12.6.0")
-    ;;
-  0.11.10 )
-    modules_to_load+=("ollama/0.11.10-GCCcore-14.2.0-CUDA-12.8.0")
-    ;;
-  0.15.6 )
-    modules_to_load+=("ollama/0.15.6-GCCcore-14.2.0-CUDA-12.8.0")
-    ;;
-  0.24.0 )
-    modules_to_load+=("ollama/0.24.0-GCCcore-14.2.0-CUDA-12.8.0")
-    ;;
-  * )
-    echo "ERROR: Unsupported version selected"
-    exit 1
-    ;;
-esac
+# Pick latest version
+if [[ -n $ollama_cuda_versions ]]; then
+  modules_to_load=( "$(echo "$ollama_cuda_versions" | sort -V | tail -1)" )
+else
+  echo "ERROR: No supported versions"
+  exit 1
+fi
 
-export MODULES_TO_LOAD="${modules_to_load[@]}"
+export MODULES_TO_LOAD="${modules_to_load[*]}"
 
 # Set VGL_DISPLAY to a GPU card if available, otherwise to Mesa llvmpipe
 <%= ERB.new(File.read('../common_files/oodegl.sh.erb'), eoutvar: 'child').result(binding) %>

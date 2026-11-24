@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.67
+Version: 2.68
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -108,6 +108,8 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
 
 %changelog
+* Tue Nov 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
+- Always load latest compatible Ollama w CUDA module
 * Tue Nov 10 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Fix second issue with - and _ in file exlorer
 * Fri Nov 06 2026 Jarne Renders <jarne.thijs.renders@vub.be>

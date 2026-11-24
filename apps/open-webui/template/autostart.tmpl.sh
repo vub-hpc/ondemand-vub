@@ -3,8 +3,9 @@ webui_port=8080
 server_name="ollama"
 server_image="/apps/brussel/containers/$server_name/web-api.sif"
 
+echo "Loading $MODULES_TO_LOAD"
 module load "$MODULES_TO_LOAD"
-mkdir -p $OPEN_WEBUI_DATA
+mkdir -p "$OPEN_WEBUI_DATA"
 
 unshare -rn bash -eu <<EOF
 ip link set lo up
