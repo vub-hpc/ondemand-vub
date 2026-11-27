@@ -1,0 +1,10 @@
+---
+en:
+  dashboard:
+    pinned_apps_caption_html: <button class='allapps_button' onclick="window.location.href='%{all_apps_url}'"><span
+      class='fas fa-th' aria-hidden='true' title='All Apps'></span></button>
+    quota_reload_message: Quotas are updated every day
+    recently_used_apps_title: Recently Launched App Sessions
+    welcome_html: '<div style=''display: flex; align-items: center;''>%{logo_img_tag}<div style=''margin-left: 10px;''>
+    <h4 style=''color: var(--primcol); margin: 0;''>SPE OnDemand</h4><p class=''lead'' style=''margin: 0; 
+    color: var(--defaultcol);''>Integrated, single access point to Secure Processing Environment of VUB</p></div></div><br>'

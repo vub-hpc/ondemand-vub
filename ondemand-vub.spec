@@ -10,7 +10,7 @@ install -Dpm644 %{_datadir}/ondemand-vub/%1/ondemand.d/general_options.yml %{_sy
 
 Summary: Scripts, customizations and tools for Open OnDemand
 Name: ondemand-vub
-Version: 2.68
+Version: 2.69
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -41,6 +41,13 @@ Conflicts: ondemand-vub-hydra
 %description sofia
 Open OnDemand customizations for sofia
 
+%package spe
+Summary: ondemand-vub for SPE
+Requires: ondemand-vub = %{version}-%{release}
+Conflicts: ondemand-vub-spe
+%description spe
+Open OnDemand customizations for SPE
+
 %prep
 %setup -q
 
@@ -54,7 +61,7 @@ Open OnDemand customizations for sofia
 %{__cp} -pr templates %{buildroot}%{_sysconfdir}/ood/config/apps/myjobs/
 
 %{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/public
-find html -maxdepth 1 -type f ! -name '*_hydra' ! -name '*_sofia' \
+find html -maxdepth 1 -type f ! -name '*_hydra' ! -name '*_sofia' ! -name '*_spe' \
     -exec %{__install} -pm644 {} %{buildroot}%{_localstatedir}/www/ood/public/ \;
 
 %{__mkdir_p} %{buildroot}%{_localstatedir}/www/ood/apps/sys
@@ -63,7 +70,7 @@ find html -maxdepth 1 -type f ! -name '*_hydra' ! -name '*_sofia' \
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/ood/config/ondemand.d
 %{__install} -pm644 ondemand.d/global_bc_items.yml.erb %{buildroot}%{_sysconfdir}/ood/config/ondemand.d/
 
-for cluster in hydra sofia; do
+for cluster in hydra sofia spe; do
     install -Dpm644 locales/en.yml_$cluster \
         %{buildroot}%{_datadir}/ondemand-vub/$cluster/locales/en.yml
     install -Dpm644 ondemand.d/general_options.yml_$cluster \
@@ -92,6 +99,9 @@ done
 %files sofia
 %{_datadir}/ondemand-vub/sofia/
 
+%files spe
+%{_datadir}/ondemand-vub/spe/
+
 %post hydra
 %install_cluster_files hydra
 # 2610114 is the gid for the babaqus group
@@ -107,7 +117,33 @@ chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
 chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
 
+%post spe
+%install_cluster_files spe
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/abaqus
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/applied_cfd_desktop
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/bc_desktop
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/bioimage_analysis_desktop
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/b-txt-applications
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/code-server
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/code-tunnel
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/file-editor
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/gaussview
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/jupyter-lab
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/KasmVNC_desktop
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/matlab
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/module-browser
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/open-webui
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/paraview
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/projects
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/rstudio
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/slicer
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/spark
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/tensorboard
+chmod 0000 %{_localstatedir}/www/ood/apps/sys/vub_desktop
+
 %changelog
+* Fri Nov 27 2026 Alex Domingo <alex.domingo.toro@vub.be>
+- Add portal configuration for SPE
 * Tue Nov 23 2026 Jarne Renders <jarne.thijs.renders@vub.be>
 - Always load latest compatible Ollama w CUDA module
 * Tue Nov 10 2026 Jarne Renders <jarne.thijs.renders@vub.be>
